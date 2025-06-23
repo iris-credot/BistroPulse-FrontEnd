@@ -1,6 +1,6 @@
 # BistroPulse - Food Delivery Application
 
-![BistroPulse Logo](/icon.png)
+![BistroPulse Logo](./public/icon.png)
 
 A modern food delivery web application built with Next.js, React, and Tailwind CSS.
 
@@ -35,3 +35,49 @@ A modern food delivery web application built with Next.js, React, and Tailwind C
    NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
 4. Run the development server:   
    npm run dev
+5.  Configuration
+To configure the email service:
+
+Sign up for EmailJS
+
+Create a service and template
+
+Add your credentials to the environment variables
+
+6. Available Scripts
+npm run dev - Runs the development server
+
+npm run build - Creates a production build
+
+npm start - Runs the production build
+
+npm run lint - Runs ESLint
+
+7. Dependencies
+next: 13.4+
+
+react: 18.2+
+
+react-icons: 4.8+
+
+emailjs-com: 3.2+
+
+tailwindcss: 3.3+
+
+autoprefixer: 10.4+
+
+postcss: 8.4+
+
+8. Browser Support
+The application supports all modern browsers including:
+
+Chrome
+
+Firefox
+
+Safari
+
+Edge
+
+9. License
+This project is licensed under the MIT License.
