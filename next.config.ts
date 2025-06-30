@@ -5,9 +5,11 @@ const nextConfig: NextConfig = {
   
   // Image optimization
   images: {
+     
     domains: [
       'images.unsplash.com',
       'localhost',
+      'randomuser.me'
     ],
   },
 
