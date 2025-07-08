@@ -7,7 +7,7 @@ interface Restaurant {
   phoneNumber: string;
   businessLicenseFile?: File | null;
   ownerNIDFile?: File | null;
-  established: string; // "2024-01-01"
+  established: string;
   workingPeriod: string;
   payment: string;
   location: string;
@@ -15,7 +15,7 @@ interface Restaurant {
 }
 
 interface EditRestaurantFormProps {
-  restaurant?: Restaurant; // optional initial data
+  restaurant?: Restaurant;
   onSave: (updatedRestaurant: Restaurant) => void;
 }
 
@@ -77,7 +77,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
     <form onSubmit={handleSubmit} className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md space-y-5">
       <h2 className="text-xl font-semibold">Edit Restaurant</h2>
 
-      {/* Restaurant Image Upload */}
+  
       <div className="border border-dashed border-blue-400 p-4 rounded-md text-center">
         <p className="text-blue-500">+ Update Photo</p>
         <div className="flex justify-center items-center gap-2 mt-2">
@@ -103,7 +103,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
         )}
       </div>
 
-      {/* Text Inputs */}
+
       <div>
         <label htmlFor="restaurantName" className="block text-sm font-medium">Restaurant Name</label>
         <input
@@ -140,7 +140,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
         />
       </div>
 
-      {/* File Uploads */}
+ 
       <FileInput
         id="businessLicense"
         label="Business License"
@@ -154,7 +154,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
         onFileChange={(file) => handleFileChange("ownerNIDFile", file)}
       />
 
-      {/* Date, Time, Payment */}
+   
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
           <label htmlFor="established" className="block text-sm font-medium">Established</label>
@@ -195,7 +195,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
         </div>
       </div>
 
-      {/* Location */}
+    
       <div>
         <label htmlFor="location" className="block text-sm font-medium">Location</label>
         <input
@@ -208,7 +208,6 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
         />
       </div>
 
-      {/* Submit */}
       <button
         type="submit"
         className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"

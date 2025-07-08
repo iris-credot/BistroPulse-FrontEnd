@@ -49,7 +49,7 @@ export default function RestaurantTable() {
       <div className="flex justify-between mb-4">
         <h2 className="text-xl font-semibold">Restaurants</h2>
         <div className="flex gap-2 items-center">
-          {/* Accessible Search Input with Label */}
+        
           <div className="relative">
             <label htmlFor="search" className="sr-only">Search Restaurants</label>
             <input

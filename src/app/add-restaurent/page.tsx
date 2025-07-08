@@ -26,7 +26,7 @@ const AddRestaurantForm: React.FC = () => {
     <form className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md space-y-5">
       <h2 className="text-xl font-semibold">Add Restaurant</h2>
 
-      {/* Image Upload Section */}
+     
       <div className="border border-dashed border-blue-400 p-4 rounded-md text-center">
         <p className="text-blue-500">+ Add Photo</p>
         <div className="flex justify-center items-center gap-2 mt-2">
@@ -46,7 +46,7 @@ const AddRestaurantForm: React.FC = () => {
         </div>
       </div>
 
-      {/* Text Inputs */}
+     
       <div>
         <label htmlFor="restaurantName" className="block text-sm font-medium">Restaurant Name</label>
         <input
@@ -77,7 +77,7 @@ const AddRestaurantForm: React.FC = () => {
         />
       </div>
 
-      {/* File Uploads */}
+     
       <FileInput
         id="businessLicense"
         label="Business License"
@@ -89,7 +89,7 @@ const AddRestaurantForm: React.FC = () => {
        onFileChange={() => (NaN)}
       />
 
-      {/* Date, Time, Payment */}
+   
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
           <label htmlFor="established" className="block text-sm font-medium">Established</label>

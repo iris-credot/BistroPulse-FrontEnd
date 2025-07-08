@@ -9,7 +9,7 @@ import React from "react";
 const RestaurantOverview: React.FC = () => {
   return (
     <div className="flex flex-col md:flex-row gap-6 p-6 bg-gray-50 min-h-screen">
-      {/* Left Panel - Restaurant Info */}
+  
       <div className="flex-1 bg-white p-6 rounded-xl shadow-md">
         <div className="flex justify-between items-center mb-4">
           <h2 className="font-semibold text-lg">Restaurant Overview</h2>
@@ -61,7 +61,7 @@ const RestaurantOverview: React.FC = () => {
         </div>
       </div>
 
-      {/* Right Panel - Representative Info */}
+  
       <div className="w-full md:w-[300px] space-y-6">
            <RestaurantAgentOverview />
       
