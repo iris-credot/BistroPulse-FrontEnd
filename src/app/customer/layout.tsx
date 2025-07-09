@@ -1,0 +1,108 @@
+'use client';
+
+import React from 'react';
+import { Home,Utensils, ShoppingCart, Heart, LogOut, MapPin,  Clock,  Bell } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+export default function CustomerLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex flex-col h-screen">
+      {/* Navbar */}
+      <header className="bg-white shadow-sm z-10">
+        <div className="flex items-center justify-between px-6 py-4">
+          <div className="flex justify-center items-center space-x-2">
+            <Image 
+              src="/icon.png" 
+              alt="BistroPulse Logo" 
+              width={32}  
+              height={32} 
+              priority 
+            />
+            <h1 className="text-xl font-bold text-blue-500">BistroPulse</h1>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <button title="Notifications" className="p-2 rounded-full hover:bg-gray-100 relative">
+              <Bell className="w-5 h-5 text-gray-600" />
+              <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+            <button title="Favorites" className="p-2 rounded-full hover:bg-gray-100">
+              <Heart className="w-5 h-5 text-gray-600" />
+            </button>
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">
+                CU
+              </div>
+              <span className="text-sm font-medium">Customer User</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Layout */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar */}
+        <aside className="w-64 bg-white text-gray-500 p-4 flex flex-col border-r border-gray-200">
+          <nav className="mt-4">
+            <ul className="space-y-2">
+              <li>
+                <Link href="/customer/dashboard" className="flex items-center space-x-3 px-3 py-2 rounded hover:bg-gray-100 hover:text-gray-800">
+                  <Home className="w-5 h-5" />
+                  <span>Dashboard</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/customer/restaurents" className="flex items-center space-x-3 px-3 py-2 rounded hover:bg-gray-100 hover:text-gray-800">
+                  <Utensils className="w-5 h-5" />
+                  <span>Restaurants</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/customer/my-orders" className="flex items-center space-x-3 px-3 py-2 rounded hover:bg-gray-100 hover:text-gray-800">
+                  <ShoppingCart className="w-5 h-5" />
+                  <span>My Orders</span>
+                  <span className="ml-auto bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">3</span>
+                </Link>
+              </li>
+             
+              <li>
+                <Link href="/customer/my-addresses" className="flex items-center space-x-3 px-3 py-2 rounded hover:bg-gray-100 hover:text-gray-800">
+                  <MapPin className="w-5 h-5" />
+                  <span>My Addresses</span>
+                </Link>
+              </li>
+             
+             
+              <li>
+                <Link href="/customer/order-history" className="flex items-center space-x-3 px-3 py-2 rounded hover:bg-gray-100 hover:text-gray-800">
+                  <Clock className="w-5 h-5" />
+                  <span>Order History</span>
+                </Link>
+              </li>
+             
+            </ul>
+          </nav>
+
+          <div className="border-t border-gray-200 pt-4 mt-auto">
+            <ul className="space-y-2">
+            
+           
+              <li>
+                <Link href="/logout" className="flex items-center space-x-3 px-3 py-2 rounded text-red-400 hover:bg-red-50 hover:text-red-700">
+                  <LogOut className="w-5 h-5" />
+                  <span>Logout</span>
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </aside>
+
+        {/* Main Content */}
+        <main className="flex-1 overflow-auto bg-gray-50 p-6">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+}
