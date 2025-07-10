@@ -219,7 +219,7 @@ const CustomerList: React.FC<CustomerListProps> = ({
           <thead className="bg-gray-50">
             <tr>
               <th className="p-4">
-                <Input
+                <input
                   type="checkbox"
                    title="Search customers by name, email, or phone"
                   checked={selectedCustomers.length > 0 && selectedCustomers.length === currentCustomers.length}

@@ -3,40 +3,34 @@ import { Star } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FaEye } from 'react-icons/fa';
-
-type Restaurant = {
-  name: string;
-  representative: string;
-  location: string;
-  phone: string;
-  rating: number;
-  status: "Open" | "Closed";
-};
+import { Button } from '../../../../components/Button';
+import { Input } from '../../../../components/Input';
+import { Restaurant } from "../../../../types/restaurant";
 
 const restaurants: Restaurant[] = [
   {
-    name: "Sun valley restaurant",
-    representative: "Darrell Steward",
+    restaurantName: "Sun valley restaurant",
+    representativeName: "Darrell Steward",
     location: "Aueduase",
-    phone: "(406) 555-0120",
-    rating: 4.8,
-    status: "Open",
+    phoneNumber: "(406) 555-0120",
+    rating: "4.8",
+   
   },
   {
-    name: "Boutique Hotel",
-    representative: "Auderite Agryt",
+   restaurantName: "Boutique Hotel",
+   representativeName: "Auderite Agryt",
     location: "Kigali",
-    phone: "(406) 555-0120",
-    rating: 2.8,
-    status: "Open",
+    phoneNumber: "(406) 555-0120",
+    rating: "2.8",
+    
   },
   {
-    name: "Five Star Nicko",
-    representative: "Iris Credot",
+   restaurantName: "Five Star Nicko",
+   representativeName: "Iris Credot",
     location: "Kigali",
-    phone: "(250) 555-0120",
-    rating: 3.8,
-    status: "Open",
+    phoneNumber: "(250) 555-0120",
+    rating: "3.8",
+   
   },
 ];
 
@@ -50,14 +44,14 @@ export default function RestaurantTable() {
         <div className="flex gap-2 items-center">
           <div className="relative">
             <label htmlFor="search" className="sr-only">Search Restaurants</label>
-            <input
+            <Input
               id="search"
               type="text"
               placeholder="Search"
               className="border rounded px-3 py-1"
             />
           </div>
-          <button className="border px-3 py-1 rounded">Filter</button>
+          <Button className="border px-3 py-1 rounded">Filter</Button>
         </div>
       </div>
 
@@ -72,7 +66,7 @@ export default function RestaurantTable() {
             <th className="p-2">Location</th>
             <th className="p-2">Phone Number</th>
             <th className="p-2">Ratings</th>
-            <th className="p-2">Status</th>
+           
             <th className="p-2">Action</th>
           </tr>
         </thead>
@@ -80,32 +74,22 @@ export default function RestaurantTable() {
           {restaurants.map((rest, index) => (
             <tr key={index} className="hover:bg-gray-50 border-b">
               <td className="p-2">
-                <input type="checkbox" aria-label={`Select ${rest.name}`} />
+                <input type="checkbox" aria-label={`Select ${rest.restaurantName}`} />
               </td>
-              <td className="p-2">{rest.name}</td>
+              <td className="p-2">{rest.restaurantName}</td>
               <td 
                 className="p-2 hover:font-bold cursor-pointer" 
                 onClick={() => {router.push('/admin/view-agentRestau')}}
               >
-                {rest.representative}
+                {rest.representativeName}
               </td>
               <td className="p-2">{rest.location}</td>
-              <td className="p-2">{rest.phone}</td>
+              <td className="p-2">{rest.phoneNumber}</td>
               <td className="p-2 flex items-center gap-1">
                 <Star size={14} className="text-orange-500" />
                 {rest.rating}
               </td>
-              <td className="p-2">
-                <span
-                  className={`px-2 py-1 rounded text-xs font-medium ${
-                    rest.status === 'Open'
-                      ? 'text-green-700 bg-green-100'
-                      : 'text-red-700 bg-red-100'
-                  }`}
-                >
-                  {rest.status}
-                </span>
-              </td>
+            
               <td className="p-2">
                 <Link href="/customer/order-overview">
                   <FaEye 

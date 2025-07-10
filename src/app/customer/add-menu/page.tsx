@@ -3,17 +3,11 @@
 
 import { useState } from 'react';
 import { Search, Plus, Minus, ShoppingCart, Clock, MapPin, ChevronDown } from 'lucide-react';
-import { Button } from '../../../../components/Button';
-import { Card, CardContent, CardFooter } from '../../../../components/CardDashboard'
 
-type MenuItem = {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  image: string;
-};
+import { Card, CardContent, CardFooter } from '../../../../components/CardDashboard'
+import { MenuItem } from '../../../../types/menu';
+import { Button } from '../../../../components/Button';
+
 
 type CartItem = MenuItem & {
   quantity: number;

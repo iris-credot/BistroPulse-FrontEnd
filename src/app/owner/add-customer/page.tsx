@@ -2,19 +2,10 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { Button } from '../../../../components/Button';
+import { Input } from '../../../../components/Input';
+import { Customer } from "../../../../types/customer";
 
-interface Customer {
-  id: number;
-  name: string;
-  phone: string;
-  email: string;
-  location: string;
-  created: string;
-  avatar: string;
-  category?: string;
-  status?: string;
-  orders?: { id: number; details: string; date: string; status: string }[];
-}
 
 interface AddCustomerProps {
   onClose: () => void;
@@ -75,7 +66,7 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
           />
           <div className="flex gap-2">
             <label className="px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 cursor-pointer">
-              <input 
+              <Input 
                 type="file" 
                 accept="image/*" 
                 onChange={handleFileUpload} 
@@ -84,19 +75,19 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
               />
               Upload
             </label>
-            <button 
+            <Button 
               onClick={handleRemovePicture} 
               className="px-3 py-1 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 text-sm"
               aria-label="Remove profile picture"
             >
               Remove
-            </button>
+            </Button>
           </div>
         </div>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">Name</label>
-            <input
+            <Input
               type="text"
               name="name"
               value={newCustomer.name}
@@ -108,7 +99,7 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Email</label>
-            <input
+            <Input
               type="email"
               name="email"
               value={newCustomer.email}
@@ -120,7 +111,7 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Phone</label>
-            <input
+            <Input
               type="tel"
               name="phone"
               value={newCustomer.phone}
@@ -132,7 +123,7 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Location</label>
-            <input
+            <Input
               type="text"
               name="location"
               value={newCustomer.location}
@@ -142,20 +133,20 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
               aria-label="Customer location"
             />
           </div>
-          <button 
+          <Button 
             onClick={handleAddCustomer} 
             className="w-full mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
             aria-label="Add customer"
           >
             Add Customer
-          </button>
-          <button 
+          </Button>
+          <Button 
             onClick={onClose} 
             className="w-full mt-2 text-gray-600 hover:text-gray-800"
             aria-label="Cancel"
           >
             Cancel
-          </button>
+          </Button>
         </div>
       </div>
     </div>

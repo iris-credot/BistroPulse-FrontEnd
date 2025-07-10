@@ -2,6 +2,7 @@ export type OrderStatus = 'Pending' | 'Preparing' | 'Cancelled' | 'Delivered' | 
 export interface Order {
   id: string;
   date: string;
+  details?: string;
   customer: {
     name: string;
     avatar: string;

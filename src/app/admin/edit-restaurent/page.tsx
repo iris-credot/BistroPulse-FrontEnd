@@ -34,6 +34,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
     restaurantName: "",
     representativeName: "",
     phoneNumber: "",
+    rating: "",
     businessLicenseFile: null,
     ownerNIDFile: null,
     established: "",
@@ -45,7 +46,19 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
 
   useEffect(() => {
     if (restaurant) {
-      setFormData(restaurant);
+      setFormData({
+        restaurantName: restaurant.restaurantName || "",
+        representativeName: restaurant.representativeName || "",
+        phoneNumber: restaurant.phoneNumber || "",
+        rating: restaurant.rating || "",
+        businessLicenseFile: restaurant.businessLicenseFile || null,
+        ownerNIDFile: restaurant.ownerNIDFile || null,
+        established: restaurant.established || "",
+        workingPeriod: restaurant.workingPeriod || "",
+        payment: restaurant.payment || "",
+        location: restaurant.location || "",
+        restaurantImageFile: restaurant.restaurantImageFile || null,
+      });
     }
   }, [restaurant]);
 
@@ -54,8 +67,8 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleFileChange = (id: keyof Restaurant, file: File | null) => {
-    setFormData((prev) => ({ ...prev, [id]: file }));
+  const handleFileChange = (field: keyof Restaurant, file: File | null) => {
+    setFormData((prev) => ({ ...prev, [field]: file }));
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -67,14 +80,14 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
     <form onSubmit={handleSubmit} className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md space-y-5">
       <h2 className="text-xl font-semibold">Edit Restaurant</h2>
 
-  
+      {/* Restaurant Image Upload */}
       <div className="border border-dashed border-blue-400 p-4 rounded-md text-center">
         <p className="text-blue-500">+ Update Photo</p>
         <div className="flex justify-center items-center gap-2 mt-2">
           <label htmlFor="restaurantImageFile" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">
             + Restaurant Image
           </label>
-          <Input
+          <input
             id="restaurantImageFile"
             type="file"
             onChange={(e) => handleFileChange("restaurantImageFile", e.target.files?.[0] || null)}
@@ -83,7 +96,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
           <Button
             type="button"
             onClick={() => handleFileChange("restaurantImageFile", null)}
-            className="text-red-500"
+            variant="ghost"
           >
             Remove
           </Button>
@@ -93,7 +106,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
         )}
       </div>
 
-
+      {/* Restaurant Info */}
       <div>
         <label htmlFor="restaurantName" className="block text-sm font-medium">Restaurant Name</label>
         <Input
@@ -103,6 +116,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
           onChange={handleChange}
           placeholder="Sun valley restaurant"
           className="w-full mt-1 p-2 border rounded"
+          required
         />
       </div>
 
@@ -115,6 +129,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
           onChange={handleChange}
           placeholder="Darrell Steward"
           className="w-full mt-1 p-2 border rounded"
+          required
         />
       </div>
 
@@ -127,10 +142,24 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
           onChange={handleChange}
           placeholder="(+233) 01532548623"
           className="w-full mt-1 p-2 border rounded"
+          required
         />
       </div>
 
- 
+      {/* Rating Field (added to match interface) */}
+      <div>
+        <label htmlFor="rating" className="block text-sm font-medium">Rating</label>
+        <Input
+          id="rating"
+          type="text"
+          value={formData.rating}
+          onChange={handleChange}
+          placeholder="Enter rating"
+          className="w-full mt-1 p-2 border rounded"
+        />
+      </div>
+
+      {/* Document Uploads */}
       <FileInput
         id="businessLicense"
         label="Business License"
@@ -144,7 +173,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
         onFileChange={(file) => handleFileChange("ownerNIDFile", file)}
       />
 
-   
+      {/* Additional Info */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
           <label htmlFor="established" className="block text-sm font-medium">Established</label>
@@ -185,7 +214,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
         </div>
       </div>
 
-    
+      {/* Location */}
       <div>
         <label htmlFor="location" className="block text-sm font-medium">Location</label>
         <Input
@@ -195,12 +224,13 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
           onChange={handleChange}
           placeholder="G. P. O., Asafotase Nettey Road, Accra..."
           className="w-full mt-1 p-2 border rounded"
+          required
         />
       </div>
 
       <Button
         type="submit"
-        className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+        className="w-full bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
       >
         Update Restaurant
       </Button>

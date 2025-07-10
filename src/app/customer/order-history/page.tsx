@@ -6,23 +6,20 @@ import { IoSearch } from "react-icons/io5";
 import { FiFilter } from "react-icons/fi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import clsx from "clsx";
+import { Button } from '../../../../components/Button';
+import { Input } from '../../../../components/Input';
+import { Order } from "../../../../types/order";
 
-type Order = {
-  id: string;
-  details: string;
-  date: string;
-  price: number;
-  status: "Complete" | "Cancelled";
-};
+
 
 const orders: Order[] = [
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 90.0, status: "Complete" },
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 75.0, status: "Cancelled" },
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 110.0, status: "Cancelled" },
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 80.0, status: "Complete" },
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 80.0, status: "Cancelled" },
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 30.0, status: "Complete" },
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 70.0, status: "Cancelled" },
+  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 90.0, status: "Delivered", customer: { name: 'Jane Cooper', avatar: 'https://i.pravatar.cc/40?img=4' } },
+  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 75.0, status: "Cancelled" , customer: { name: 'Jane Cooper', avatar: 'https://i.pravatar.cc/40?img=4' }},
+  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 110.0, status: "Cancelled", customer: { name: 'Jane Cooper', avatar: 'https://i.pravatar.cc/40?img=4' } },
+  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 80.0, status: "Delivered", customer: { name: 'Jane Cooper', avatar: 'https://i.pravatar.cc/40?img=4' } },
+  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 80.0, status: "Cancelled" , customer: { name: 'Jane Cooper', avatar: 'https://i.pravatar.cc/40?img=4' }},
+  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 30.0, status: "Delivered", customer: { name: 'Jane Cooper', avatar: 'https://i.pravatar.cc/40?img=4' } },
+  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 70.0, status: "Cancelled" , customer: { name: 'Jane Cooper', avatar: 'https://i.pravatar.cc/40?img=4' }},
 ];
 
 const filters = ["All", "This Week", "This Month", "This Year"];
@@ -58,7 +55,7 @@ export default function OrdersPage() {
       {/* Filter Buttons */}
       <div className="flex gap-3 mb-4">
         {filters.map((filter) => (
-          <button
+          <Button
             key={filter}
             onClick={() => setSelectedFilter(filter)}
             className={clsx(
@@ -69,7 +66,7 @@ export default function OrdersPage() {
             )}
           >
             {filter}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -77,7 +74,7 @@ export default function OrdersPage() {
       <div className="flex justify-between items-center mb-4">
         <div className="relative">
           <IoSearch className="absolute top-2.5 left-3 text-gray-400" />
-          <input
+          <Input
             type="text"
             placeholder="Search"
             className="pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm w-64 focus:outline-none"
@@ -85,16 +82,16 @@ export default function OrdersPage() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button
+          <Button
             onClick={() => setShowFilter(!showFilter)}
             className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-sm rounded-md"
           >
             <FiFilter />
             Filter
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-md text-sm">
+          </Button>
+          <Button className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-md text-sm">
             Export <MdKeyboardArrowDown />
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -110,7 +107,7 @@ export default function OrdersPage() {
             <span>₵ {priceRange[1]}</span>
           </div>
           <div className="flex items-center space-x-2">
-            <input  title="ff"
+            <Input  title="ff"
               type="range"
               min="0"
               max="200"
@@ -118,7 +115,7 @@ export default function OrdersPage() {
               onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
               className="w-full accent-black"
             />
-            <input  title="ff"
+            <Input  title="ff"
               type="range"
               min="0"
               max="200"
@@ -142,18 +139,18 @@ export default function OrdersPage() {
 
           {/* Buttons */}
           <div className="mt-4 flex gap-2">
-            <button
+            <Button
               onClick={clearFilter}
               className="w-1/2 border border-gray-300 py-2 rounded hover:bg-gray-100"
             >
               Clear
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={applyFilter}
               className="w-1/2 bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
             >
               Apply
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -183,7 +180,7 @@ export default function OrdersPage() {
                 <td className="p-3">
                   <span className={clsx(
                     "text-sm font-medium",
-                    order.status === "Complete" ? "text-green-600" : "text-red-500"
+                    order.status === "Delivered" ? "text-green-600" : "text-red-500"
                   )}>
                     {order.status}
                   </span>
@@ -200,7 +197,7 @@ export default function OrdersPage() {
         <p>1 of 9</p>
         <div className="flex items-center gap-1">
           {[1, 2, 3, 4, 5].map((page) => (
-            <button
+            <Button
               key={page}
               className={clsx(
                 "px-3 py-1 rounded-md",
@@ -208,7 +205,7 @@ export default function OrdersPage() {
               )}
             >
               {page}
-            </button>
+            </Button>
           ))}
           <span className="px-2 text-gray-500">›</span>
         </div>

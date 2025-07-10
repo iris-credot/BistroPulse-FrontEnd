@@ -3,7 +3,8 @@
 import {  ChevronLeft, Check } from 'lucide-react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-
+import { Button } from '../../../../components/Button';
+import { Input } from '../../../../components/Input';
 export default function AddNewAddress() {
   const { register,  formState: { errors } } = useForm();
 
@@ -24,7 +25,7 @@ export default function AddNewAddress() {
           <div className="grid grid-cols-3 gap-2">
             {['Home', 'Work', 'Other'].map((type) => (
               <div key={type} className="flex items-center">
-                <input
+                <Input
                   type="radio"
                   id={type.toLowerCase()}
                   value={type}
@@ -48,7 +49,7 @@ export default function AddNewAddress() {
           <label htmlFor="contactName" className="block text-sm font-medium text-gray-700 mb-1">
             Contact Name
           </label>
-          <input
+          <Input
             type="text"
             id="contactName"
             {...register('contactName', { required: true })}
@@ -63,7 +64,7 @@ export default function AddNewAddress() {
           <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
             Phone Number
           </label>
-          <input
+          <Input
             type="tel"
             id="phone"
             {...register('phone', { required: true })}
@@ -78,7 +79,7 @@ export default function AddNewAddress() {
           <label htmlFor="address1" className="block text-sm font-medium text-gray-700 mb-1">
             Address Line 1
           </label>
-          <input
+          <Input
             type="text"
             id="address1"
             {...register('address1', { required: true })}
@@ -93,7 +94,7 @@ export default function AddNewAddress() {
           <label htmlFor="address2" className="block text-sm font-medium text-gray-700 mb-1">
             Address Line 2 (Optional)
           </label>
-          <input
+          <Input
             type="text"
             id="address2"
             {...register('address2')}
@@ -107,7 +108,7 @@ export default function AddNewAddress() {
           <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
             City
           </label>
-          <input
+          <Input
             type="text"
             id="city"
             {...register('city', { required: true })}
@@ -123,7 +124,7 @@ export default function AddNewAddress() {
             <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-1">
               State/Province
             </label>
-            <input
+            <Input
               type="text"
               id="state"
               {...register('state', { required: true })}
@@ -136,7 +137,7 @@ export default function AddNewAddress() {
             <label htmlFor="zip" className="block text-sm font-medium text-gray-700 mb-1">
               ZIP/Postal Code
             </label>
-            <input
+            <Input
               type="text"
               id="zip"
               {...register('zip', { required: true })}
@@ -167,28 +168,17 @@ export default function AddNewAddress() {
           {errors.country && <p className="mt-1 text-sm text-red-600">Please select a country</p>}
         </div>
 
-        {/* Set as Default */}
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            id="defaultAddress"
-            {...register('defaultAddress')}
-            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-          />
-          <label htmlFor="defaultAddress" className="ml-2 block text-sm text-gray-700">
-            Set as default address
-          </label>
-        </div>
+       
 
         {/* Save Button */}
         <div className="pt-4">
-          <button
+          <Button
             type="submit"
             className="w-full flex justify-center items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-lg font-medium transition-colors"
           >
             <Check size={18} />
             Save Address
-          </button>
+          </Button>
         </div>
       </form>
     </div>

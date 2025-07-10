@@ -2,6 +2,8 @@
 
 import { MapPin, Plus, Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { Button } from '../../../../components/Button';
+
 
 export default function MyAddresses() {
   // Sample address data
@@ -64,20 +66,20 @@ export default function MyAddresses() {
             </div>
 
             <div className="flex gap-3 mt-4">
-              <button className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-500">
+              <Button className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-500">
                 <Edit size={16} />
                 Edit
-              </button>
+              </Button>
               {!address.isDefault && (
-                <button className="flex items-center gap-1 text-sm text-gray-600 hover:text-red-500">
+                <Button className="flex items-center gap-1 text-sm text-gray-600 hover:text-red-500">
                   <Trash2 size={16} />
                   Delete
-                </button>
+                </Button>
               )}
               {!address.isDefault && (
-                <button className="ml-auto text-sm text-blue-500 hover:text-blue-700">
+                <Button className="ml-auto text-sm text-blue-500 hover:text-blue-700">
                   Set as Default
-                </button>
+                </Button>
               )}
             </div>
           </div>
