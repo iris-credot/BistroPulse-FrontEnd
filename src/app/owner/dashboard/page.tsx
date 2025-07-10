@@ -10,7 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '../../../../components/CardDashboard';
 import { Bell, Users, Utensils, LayoutDashboard } from 'lucide-react';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);

@@ -11,7 +11,7 @@ import {
   Legend,
 } from 'chart.js';
 
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '../../../../components/CardDashboard';
 import {
   ShoppingCart,
   Heart,

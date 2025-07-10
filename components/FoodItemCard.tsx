@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React, { useState } from "react";
 import { MoreVertical, Eye, Edit ,UserMinus} from 'lucide-react';
-import { FoodItem } from './types';
+import { FoodItem } from '../types/foodItem';
 
 interface FoodItemCardProps {
   item: FoodItem;

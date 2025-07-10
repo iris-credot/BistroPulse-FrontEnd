@@ -3,7 +3,9 @@ import Link from 'next/link';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { FaEye } from 'react-icons/fa';
+import {  Plus } from "lucide-react";
 
+import { useRouter } from "next/navigation";
 import { useState } from 'react';
 
 
@@ -96,10 +98,16 @@ const statusColor: Record<OrderStatus, string> = {
 };
 
 const CustomerOrder: NextPage = () => {
+   const router = useRouter();
     const [showFilter, setShowFilter] = useState(false);
 const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
 const [selectedStatus, setSelectedStatus] = useState<string>('');
 const [filteredOrders, setFilteredOrders] = useState<Order[]>(orders);
+
+const handleAddOrder = () => {
+    
+    router.push('/customer/add-menu');
+  };
 
   return (
     <>
@@ -119,7 +127,9 @@ const [filteredOrders, setFilteredOrders] = useState<Order[]>(orders);
   Filter
 </button>
 
-              <button className="border px-3 py-1 rounded bg-gray-100">Export ▼</button>
+              <button title='f'  onClick={handleAddOrder} className=" flex items-center justify-center gap-2 text-white border px-3 py-1 rounded bg-blue-500">
+                <Plus className="w-5 h-5" /> <span>New Order</span>
+              </button>
             </div>
           </div>
 
