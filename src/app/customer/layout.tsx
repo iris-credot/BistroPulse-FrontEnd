@@ -4,6 +4,7 @@ import React from 'react';
 import { Home,Utensils, ShoppingCart, Heart, LogOut, MapPin,  Clock,  Bell } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { LanguageProvider } from '../../../components/LanguageProvider';
 
 export default function CustomerLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -100,7 +101,7 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
 
         {/* Main Content */}
         <main className="flex-1 overflow-auto bg-gray-50 p-6">
-          {children}
+          <LanguageProvider>{children}</LanguageProvider>
         </main>
       </div>
     </div>

@@ -1,8 +1,12 @@
 // src/app/admin/layout.tsx
+"use client"; 
 import React from 'react';
 import { LayoutDashboard, Utensils, Users, Bell, LogOut ,ShoppingCart, History} from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from "next/navigation";
+import { LanguageProvider } from '../../../components/LanguageProvider';
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+    const router = useRouter();
   return (
     <div className="flex flex-col h-screen">
       {/* Navbar */}
@@ -24,7 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <button  title='dd' className="p-2 rounded-full hover:bg-gray-100">
               <Bell className="w-5 h-5 text-gray-600" />
             </button>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2" onClick={()=>{ router.push('/admin/settings');}}>
               <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">
                 DS
               </div>
@@ -97,7 +101,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* Main Content Area */}
         <main className="flex-1 overflow-auto bg-gray-100 p-6">
-          {children}
+         <LanguageProvider>{children}</LanguageProvider>
         </main>
       </div>
     </div>
