@@ -2,19 +2,10 @@
 
 import React from "react";
 import Image from "next/image";
+import { Button } from '../../../../components/Button';
+import { Input } from '../../../../components/Input';
+import { Customer } from "../../../../types/customer";
 
-interface Customer {
-  id: number;
-  name: string;
-  phone: string;
-  email: string;
-  location: string;
-  created: string;
-  avatar: string;
-  category?: string;
-  status?: string;
-  orders?: { id: number; details: string; date: string; status: string }[];
-}
 
 interface ViewCustomerProps {
   customer?: Customer;
@@ -53,7 +44,7 @@ const ViewCustomer: React.FC<ViewCustomerProps> = ({ customer = defaultCustomer,
             />
             <div className="mt-4 text-center md:text-left">
               <label className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm cursor-pointer">
-                <input
+                <Input
                   type="file"
                   accept="image/*"
                   onChange={() => {}}
@@ -62,13 +53,13 @@ const ViewCustomer: React.FC<ViewCustomerProps> = ({ customer = defaultCustomer,
                 />
                 Upload
               </label>
-              <button
+              <Button
                 onClick={() => {}}
                 className="mt-2 px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 text-sm"
                 aria-label="Remove profile picture"
               >
                 Remove
-              </button>
+              </Button>
             </div>
           </div>
           <div className="flex-1 space-y-4">
@@ -125,13 +116,13 @@ const ViewCustomer: React.FC<ViewCustomerProps> = ({ customer = defaultCustomer,
             )}
           </div>
         </div>
-        <button
+        <Button
           onClick={onClose}
           className=" mt-6 px-12 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
           aria-label="Close profile"
         >
           Close
-        </button>
+        </Button>
    
     </div>
   );

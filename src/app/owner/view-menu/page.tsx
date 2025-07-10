@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Switch } from "@headlessui/react";
 import { ChevronDown, Star } from "lucide-react";
+import { Button } from '../../../../components/Button';
 
 const FoodDetails = () => {
   const [size, setSize] = useState("Medium");
@@ -60,7 +61,7 @@ const FoodDetails = () => {
               } inline-block h-4 w-4 transform bg-white rounded-full transition`}
             />
           </Switch>
-          <button className="bg-blue-600 text-white px-4 py-1.5 rounded">Edit</button>
+          <Button className="bg-blue-600 text-white px-4 py-1.5 rounded">Edit</Button>
         </div>
       </div>
 
@@ -160,7 +161,7 @@ const FoodDetails = () => {
                 </div>
                 <p className="text-sm text-gray-700">{r.comment}</p>
                 <div className="text-xs text-gray-400 mt-1">{r.date}</div>
-                <button className="text-xs text-blue-600 mt-1">↪ Reply</button>
+                <Button className="text-xs text-blue-600 mt-1">↪ Reply</Button>
               </div>
             ))}
           </div>
