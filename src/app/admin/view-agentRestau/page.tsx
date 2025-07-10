@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { Button } from '../../../../components/Button';
 
 import { MdDownload } from "react-icons/md";
 import React from "react";
@@ -34,18 +35,18 @@ const RestaurantAgentOverview: React.FC = () => {
                 <p className="font-medium text-blue-600">License</p>
                 <p className="text-sm text-gray-500">Businesslicense.pdf</p>
               </div>
-              <button className="text-gray-500 hover:text-gray-700" aria-label="Download License">
+              <Button className="text-gray-500 hover:text-gray-700" aria-label="Download License">
                 <MdDownload size={20} />
-              </button>
+              </Button>
             </div>
             <div className="flex justify-between items-center border border-gray-200 rounded-lg px-4 py-2 hover:shadow-sm">
               <div>
                 <p className="font-medium text-blue-600">NID Card</p>
                 <p className="text-sm text-gray-500">Nidcard.pdf</p>
               </div>
-              <button className="text-gray-500 hover:text-gray-700" aria-label="Download NID Card">
+              <Button className="text-gray-500 hover:text-gray-700" aria-label="Download NID Card">
                 <MdDownload size={20} />
-              </button>
+              </Button>
             </div>
           </div>
         </div>

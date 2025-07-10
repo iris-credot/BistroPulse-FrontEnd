@@ -1,18 +1,8 @@
 "use client";
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
-
-interface Restaurant {
-  restaurantName: string;
-  representativeName: string;
-  phoneNumber: string;
-  businessLicenseFile?: File | null;
-  ownerNIDFile?: File | null;
-  established: string;
-  workingPeriod: string;
-  payment: string;
-  location: string;
-  restaurantImageFile?: File | null;
-}
+import { Restaurant } from "../../../../types/restaurant";
+import { Button } from '../../../../components/Button';
+import { Input } from '../../../../components/Input';
 
 interface EditRestaurantFormProps {
   restaurant?: Restaurant;
@@ -84,19 +74,19 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
           <label htmlFor="restaurantImageFile" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">
             + Restaurant Image
           </label>
-          <input
+          <Input
             id="restaurantImageFile"
             type="file"
             onChange={(e) => handleFileChange("restaurantImageFile", e.target.files?.[0] || null)}
             className="hidden"
           />
-          <button
+          <Button
             type="button"
             onClick={() => handleFileChange("restaurantImageFile", null)}
             className="text-red-500"
           >
             Remove
-          </button>
+          </Button>
         </div>
         {formData.restaurantImageFile && (
           <p className="mt-2 text-sm text-gray-600">{formData.restaurantImageFile.name}</p>
@@ -106,7 +96,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
 
       <div>
         <label htmlFor="restaurantName" className="block text-sm font-medium">Restaurant Name</label>
-        <input
+        <Input
           id="restaurantName"
           type="text"
           value={formData.restaurantName}
@@ -118,7 +108,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
 
       <div>
         <label htmlFor="representativeName" className="block text-sm font-medium">Representative Name</label>
-        <input
+        <Input
           id="representativeName"
           type="text"
           value={formData.representativeName}
@@ -130,7 +120,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
 
       <div>
         <label htmlFor="phoneNumber" className="block text-sm font-medium">Phone Number</label>
-        <input
+        <Input
           id="phoneNumber"
           type="tel"
           value={formData.phoneNumber}
@@ -158,7 +148,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
           <label htmlFor="established" className="block text-sm font-medium">Established</label>
-          <input
+          <Input
             id="established"
             type="date"
             value={formData.established}
@@ -198,7 +188,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
     
       <div>
         <label htmlFor="location" className="block text-sm font-medium">Location</label>
-        <input
+        <Input
           id="location"
           type="text"
           value={formData.location}
@@ -208,12 +198,12 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
         />
       </div>
 
-      <button
+      <Button
         type="submit"
         className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
       >
         Update Restaurant
-      </button>
+      </Button>
     </form>
   );
 };

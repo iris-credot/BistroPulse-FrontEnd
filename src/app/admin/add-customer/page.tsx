@@ -17,6 +17,7 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
     name: "",
     universityStatus: "University student",
     university: "",
+    restaurant: "",
     email: "",
     phone: "",
     gender: "Male",

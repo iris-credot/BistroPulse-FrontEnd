@@ -5,21 +5,14 @@ import Head from 'next/head';
 import { FaEye } from 'react-icons/fa';
 
 import { useState } from 'react';
+import { Button } from '../../../../components/Button';
+import { Input } from '../../../../components/Input';
+import {Order, OrderStatus} from '../../../../types/order'
 
 
 
-type OrderStatus = 'Pending' | 'Preparing' | 'Cancelled' | 'Delivered' | 'On the way';
 
-interface Order {
-  id: string;
-  date: string;
-  customer: {
-    name: string;
-    avatar: string;
-  };
-  price: number;
-  status: OrderStatus;
-}
+
 
 const orders: Order[] = [
   {
@@ -111,23 +104,23 @@ const [filteredOrders, setFilteredOrders] = useState<Order[]>(orders);
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">Orders</h2>
             <div className="flex gap-2">
-              <input type="text" placeholder="Search" className="border px-2 py-1 rounded" />
-              <button
+              <Input type="text" placeholder="Search" className="border px-2 py-1 rounded" />
+              <Button
   onClick={() => setShowFilter(!showFilter)}
   className="border px-3 py-1 rounded bg-gray-100"
 >
   Filter
-</button>
+</Button>
 
-              <button className="border px-3 py-1 rounded bg-gray-100">Export ▼</button>
+              <Button className="border px-3 py-1 rounded bg-gray-100">Export ▼</Button>
             </div>
           </div>
 
           <div className="flex gap-2 mb-4 flex-wrap">
             {['All', 'Pending', 'Being Prepared', 'On The Way', 'Delivered', 'Cancelled'].map(tag => (
-              <button key={tag} className="px-3 py-1 text-sm border rounded-full">
+              <Button key={tag} className="px-3 py-1 text-sm border rounded-full">
                 {tag}
-              </button>
+              </Button>
             ))}
           </div>
 {showFilter && (
@@ -141,7 +134,7 @@ const [filteredOrders, setFilteredOrders] = useState<Order[]>(orders);
       <span>GHC {priceRange[1]}</span>
     </div>
     <div className="flex items-center space-x-2">
-      <input  title="ff"
+      <Input  title="ff"
         type="range"
         min="0"
         max="1000"
@@ -149,7 +142,7 @@ const [filteredOrders, setFilteredOrders] = useState<Order[]>(orders);
         onChange={e => setPriceRange([+e.target.value, priceRange[1]])}
         className="w-full accent-black"
       />
-      <input  title="ff"
+      <Input  title="ff"
         type="range"
         min="0"
         max="1000"
@@ -174,7 +167,7 @@ const [filteredOrders, setFilteredOrders] = useState<Order[]>(orders);
 
     {/* Buttons */}
     <div className="mt-4 flex gap-2">
-      <button
+      <Button
         onClick={() => {
           setPriceRange([0, 1000]);
           setSelectedStatus('');
@@ -183,8 +176,8 @@ const [filteredOrders, setFilteredOrders] = useState<Order[]>(orders);
         className="w-1/2 border border-gray-300 py-2 rounded hover:bg-gray-100"
       >
         Clear Filter
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={() => {
           const filtered = orders.filter(order =>
             order.price >= priceRange[0] &&
@@ -197,7 +190,7 @@ const [filteredOrders, setFilteredOrders] = useState<Order[]>(orders);
         className="w-1/2 bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
       >
         Apply Filter
-      </button>
+      </Button>
     </div>
   </div>
 )}

@@ -4,19 +4,10 @@ import React, { useState, useEffect } from "react";
 import { Search, Filter, Plus, Download, MoreVertical, Eye, Edit, UserMinus } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Button } from '../../../../components/Button';
+import { Input } from '../../../../components/Input';
+import {Customer} from '../../../../types/customer'
 
-interface Customer {
-  id: number;
-  name: string;
-  phone: string;
-  email: string;
-  restaurant: string;
-  created: string;
-  avatar: string;
-  category?: string;
-  status?: string;
-  orders?: { id: number; details: string; date: string; status: string }[];
-}
 
 interface CustomerListProps {
   customers?: Customer[]; // Made optional
@@ -111,7 +102,7 @@ const CustomerList: React.FC<CustomerListProps> = ({
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <div className="relative w-full sm:w-64">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
-              <input
+              <Input
                 type="text"
                 placeholder="Search customers..."
                 title="Search customers by name, email, or phone"
@@ -121,31 +112,31 @@ const CustomerList: React.FC<CustomerListProps> = ({
             </div>
             
             <div className="flex gap-3">
-              <button
+              <Button
                 onClick={() => setFilterVisible(!filterVisible)}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
                 aria-label="Filter"
               >
                 <Filter className="w-5 h-5" />
                 <span className="hidden sm:inline">Filter</span>
-              </button>
+              </Button>
               
-              <button
+              <Button
                 onClick={handleAddCustomer}
                 className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                 aria-label="Add customer"
               >
                 <Plus className="w-5 h-5" />
                 <span className="hidden sm:inline">Add Customer</span>
-              </button>
+              </Button>
               
-              <button
+              <Button
                 className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
                 aria-label="Export"
               >
                 <Download className="w-5 h-5" />
                 <span className="hidden sm:inline">Export</span>
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -204,18 +195,18 @@ const CustomerList: React.FC<CustomerListProps> = ({
             </div>
             
             <div className="flex justify-end gap-2">
-              <button
+              <Button
                 onClick={() => setFilters({ restaurant: "", category: "", status: "" })}
                 className="px-4 py-2 text-gray-600 hover:text-gray-800"
               >
                 Clear
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setFilterVisible(false)}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
               >
                 Apply
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -228,7 +219,7 @@ const CustomerList: React.FC<CustomerListProps> = ({
           <thead className="bg-gray-50">
             <tr>
               <th className="p-4">
-                <input
+                <Input
                   type="checkbox"
                    title="Search customers by name, email, or phone"
                   checked={selectedCustomers.length > 0 && selectedCustomers.length === currentCustomers.length}
@@ -250,7 +241,7 @@ const CustomerList: React.FC<CustomerListProps> = ({
               currentCustomers.map((customer) => (
                 <tr key={customer.id} className="border-t hover:bg-gray-50">
                   <td className="p-4">
-                    <input
+                    <Input
                       type="checkbox"
                        title="Search customers by name, email, or phone"
                       checked={selectedCustomers.includes(customer.id)}
@@ -276,34 +267,34 @@ const CustomerList: React.FC<CustomerListProps> = ({
                   <td className="p-4 text-sm text-gray-600">{customer.created}</td>
                   
                   <td className="p-4 relative">
-                    <button
+                    <Button
                      title="Search customers by name, email, or phone"
                       onClick={() => toggleDropdown(customer.id)}
                       className="p-2 hover:bg-gray-100 rounded-full"
                     >
                       <MoreVertical className="w-5 h-5 text-gray-500" />
-                    </button>
+                    </Button>
                     
                     {activeDropdown === customer.id && (
                       <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg border border-gray-200 z-10">
-                        <button
+                        <Button
                           onClick={() => handleViewProfile()}
                           className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
                         >
                           <Eye className="w-4 h-4" /> View
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                           onClick={() => handleEditCustomer()}
                           className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
                         >
                           <Edit className="w-4 h-4" /> Edit
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                           onClick={() => handleDeleteCustomer(customer.id)}
                           className="w-full px-4 py-2 text-sm text-red-600 hover:bg-red-100 flex items-center gap-2"
                         >
                           <UserMinus className="w-4 h-4" /> Delete
-                        </button>
+                        </Button>
                       </div>
                     )}
                   </td>
@@ -328,13 +319,13 @@ const CustomerList: React.FC<CustomerListProps> = ({
           </span>
           
           <div className="flex gap-2">
-            <button
+            <Button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
               className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50"
             >
               Previous
-            </button>
+            </Button>
             
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
               const page = currentPage <= 3 
@@ -346,7 +337,7 @@ const CustomerList: React.FC<CustomerListProps> = ({
               if (page < 1 || page > totalPages) return null;
               
               return (
-                <button
+                <Button
                   key={page}
                   onClick={() => setCurrentPage(page)}
                   className={`w-8 h-8 rounded-full flex items-center justify-center ${
@@ -354,17 +345,17 @@ const CustomerList: React.FC<CustomerListProps> = ({
                   }`}
                 >
                   {page}
-                </button>
+                </Button>
               );
             })}
             
-            <button
+            <Button
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
               className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50"
             >
               Next
-            </button>
+            </Button>
           </div>
         </div>
       )}

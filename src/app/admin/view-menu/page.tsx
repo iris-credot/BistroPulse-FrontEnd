@@ -1,4 +1,5 @@
 "use client";
+import { Button } from '../../../../components/Button';
 
 import React, { useState } from "react";
 import Image from "next/image";
@@ -160,7 +161,7 @@ const FoodDetails = () => {
                 </div>
                 <p className="text-sm text-gray-700">{r.comment}</p>
                 <div className="text-xs text-gray-400 mt-1">{r.date}</div>
-                <button className="text-xs text-blue-600 mt-1">↪ Reply</button>
+                <Button className="text-xs text-blue-600 mt-1">↪ Reply</Button>
               </div>
             ))}
           </div>

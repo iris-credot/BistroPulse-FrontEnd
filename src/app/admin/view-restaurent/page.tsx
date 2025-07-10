@@ -5,6 +5,7 @@ import { FiEdit3 } from "react-icons/fi";
 
 import RestaurantAgentOverview from "../view-agentRestau/page";
 import React from "react";
+import { Button } from '../../../../components/Button';
 
 const RestaurantOverview: React.FC = () => {
   return (
@@ -15,9 +16,9 @@ const RestaurantOverview: React.FC = () => {
           <h2 className="font-semibold text-lg">Restaurant Overview</h2>
           <div className="flex items-center gap-2">
             <span className="text-green-600 font-medium">Open</span>
-            <button className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 flex items-center gap-1">
+            <Button className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 flex items-center gap-1">
               <FiEdit3 /> Edit
-            </button>
+            </Button>
           </div>
         </div>
 

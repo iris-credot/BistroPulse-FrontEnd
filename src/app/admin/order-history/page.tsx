@@ -1,28 +1,30 @@
 'use client';
 
 import React, { useState } from "react";
-
+import { Button } from '../../../../components/Button';
+import { Input } from '../../../../components/Input';
+import { Order, OrderStatus } from "../../../../types/order";
 import { IoSearch } from "react-icons/io5";
 import { FiFilter } from "react-icons/fi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import clsx from "clsx";
 
-type Order = {
-  id: string;
-  details: string;
-  date: string;
-  price: number;
-  status: "Complete" | "Cancelled";
-};
-
 const orders: Order[] = [
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 90.0, status: "Complete" },
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 75.0, status: "Cancelled" },
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 110.0, status: "Cancelled" },
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 80.0, status: "Complete" },
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 80.0, status: "Cancelled" },
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 30.0, status: "Complete" },
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 70.0, status: "Cancelled" },
+  { 
+    id: "B13789", 
+    date: "Feb 08, 2022", 
+    customer: { name: "John Doe", avatar: "" }, 
+    price: 90.0, 
+    status: "Delivered" 
+  },
+  { 
+    id: "B13790", 
+    date: "Feb 08, 2022", 
+    customer: { name: "Jane Smith", avatar: "" }, 
+    price: 75.0, 
+    status: "Cancelled" 
+  },
+  // Add more orders with unique IDs
 ];
 
 const filters = ["All", "This Week", "This Month", "This Year"];
@@ -31,7 +33,7 @@ export default function OrdersPage() {
   const [selectedFilter, setSelectedFilter] = useState("All");
   const [showFilter, setShowFilter] = useState(false);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 200]);
-  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState<OrderStatus | "">("");
   const [filteredOrders, setFilteredOrders] = useState<Order[]>(orders);
 
   const applyFilter = () => {
@@ -58,7 +60,7 @@ export default function OrdersPage() {
       {/* Filter Buttons */}
       <div className="flex gap-3 mb-4">
         {filters.map((filter) => (
-          <button
+          <Button
             key={filter}
             onClick={() => setSelectedFilter(filter)}
             className={clsx(
@@ -69,7 +71,7 @@ export default function OrdersPage() {
             )}
           >
             {filter}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -77,7 +79,7 @@ export default function OrdersPage() {
       <div className="flex justify-between items-center mb-4">
         <div className="relative">
           <IoSearch className="absolute top-2.5 left-3 text-gray-400" />
-          <input
+          <Input
             type="text"
             placeholder="Search"
             className="pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm w-64 focus:outline-none"
@@ -85,16 +87,16 @@ export default function OrdersPage() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button
+          <Button
             onClick={() => setShowFilter(!showFilter)}
             className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-sm rounded-md"
           >
             <FiFilter />
             Filter
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-md text-sm">
+          </Button>
+          <Button className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-md text-sm">
             Export <MdKeyboardArrowDown />
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -110,7 +112,7 @@ export default function OrdersPage() {
             <span>₵ {priceRange[1]}</span>
           </div>
           <div className="flex items-center space-x-2">
-            <input  title="ff"
+            <Input
               type="range"
               min="0"
               max="200"
@@ -118,7 +120,7 @@ export default function OrdersPage() {
               onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
               className="w-full accent-black"
             />
-            <input  title="ff"
+            <Input
               type="range"
               min="0"
               max="200"
@@ -130,30 +132,34 @@ export default function OrdersPage() {
 
           {/* Status Dropdown */}
           <label className="block text-sm mt-4 mb-1">Status</label>
-          <select  title="ff"
+          <select
+          title="f"
             value={selectedStatus}
-            onChange={(e) => setSelectedStatus(e.target.value)}
+            onChange={(e) => setSelectedStatus(e.target.value as OrderStatus | "")}
             className="w-full border border-gray-300 p-2 rounded"
           >
             <option value="">Select Status</option>
-            <option value="Complete">Complete</option>
+            <option value="Pending">Pending</option>
+            <option value="Preparing">Preparing</option>
             <option value="Cancelled">Cancelled</option>
+            <option value="Delivered">Delivered</option>
+            <option value="On the way">On the way</option>
           </select>
 
           {/* Buttons */}
           <div className="mt-4 flex gap-2">
-            <button
+            <Button
               onClick={clearFilter}
               className="w-1/2 border border-gray-300 py-2 rounded hover:bg-gray-100"
             >
               Clear
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={applyFilter}
               className="w-1/2 bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
             >
               Apply
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -163,32 +169,43 @@ export default function OrdersPage() {
         <table className="w-full text-sm text-left">
           <thead className="bg-gray-100 border-b text-gray-600 uppercase text-xs">
             <tr>
-              <th className="p-3"><input  title="ff" type="checkbox" /></th>
+              <th className="p-3"><input title="g" type="checkbox" /></th>
               <th className="p-3">Order ID</th>
-              <th className="p-3">Details</th>
+              <th className="p-3">Customer</th>
               <th className="p-3">Date</th>
               <th className="p-3">Price <span className="text-xs">↑↓</span></th>
               <th className="p-3">Status</th>
-              
             </tr>
           </thead>
           <tbody>
             {filteredOrders.map((order, idx) => (
               <tr key={idx} className="border-b hover:bg-gray-50">
-                <td className="p-3"><input title="ff" type="checkbox" /></td>
+                <td className="p-3"><input title="j" type="checkbox" /></td>
                 <td className="p-3 font-medium">{order.id}</td>
-                <td className="p-3 truncate">{order.details}</td>
+                <td className="p-3">
+                  <div className="flex items-center gap-2">
+                    {order.customer.avatar && (
+                      <img 
+                        src={order.customer.avatar} 
+                        alt={order.customer.name} 
+                        className="w-6 h-6 rounded-full"
+                      />
+                    )}
+                    <span>{order.customer.name}</span>
+                  </div>
+                </td>
                 <td className="p-3">{order.date}</td>
                 <td className="p-3">₵ {order.price.toFixed(2)}</td>
                 <td className="p-3">
                   <span className={clsx(
                     "text-sm font-medium",
-                    order.status === "Complete" ? "text-green-600" : "text-red-500"
+                    order.status === "Delivered" ? "text-green-600" : 
+                    order.status === "Cancelled" ? "text-red-500" :
+                    "text-yellow-600"
                   )}>
                     {order.status}
                   </span>
                 </td>
-               
               </tr>
             ))}
           </tbody>
@@ -197,10 +214,10 @@ export default function OrdersPage() {
 
       {/* Pagination */}
       <div className="flex justify-between items-center mt-4 text-sm">
-        <p>1 of 9</p>
+        <p>Showing {filteredOrders.length} of {orders.length} orders</p>
         <div className="flex items-center gap-1">
           {[1, 2, 3, 4, 5].map((page) => (
-            <button
+            <Button
               key={page}
               className={clsx(
                 "px-3 py-1 rounded-md",
@@ -208,7 +225,7 @@ export default function OrdersPage() {
               )}
             >
               {page}
-            </button>
+            </Button>
           ))}
           <span className="px-2 text-gray-500">›</span>
         </div>

@@ -2,19 +2,9 @@
 
 import React from "react";
 import Image from "next/image";
+import { Button } from '../../../../components/Button';
 
-interface Customer {
-  id: number;
-  name: string;
-  phone: string;
-  email: string;
-  location: string;
-  created: string;
-  avatar: string;
-  category?: string;
-  status?: string;
-  orders?: { id: number; details: string; date: string; status: string }[];
-}
+import { Customer } from "../../../../types/customer";
 
 interface ViewCustomerProps {
   customer?: Customer;
@@ -125,13 +115,13 @@ const ViewCustomer: React.FC<ViewCustomerProps> = ({ customer = defaultCustomer,
             )}
           </div>
         </div>
-        <button
+        <Button
           onClick={onClose}
           className=" mt-6 px-12 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
           aria-label="Close profile"
         >
           Close
-        </button>
+        </Button>
    
     </div>
   );

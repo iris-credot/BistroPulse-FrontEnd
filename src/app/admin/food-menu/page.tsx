@@ -3,17 +3,12 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from "next/navigation";
-
+import { Button } from '../../../../components/Button';
+import { Input } from '../../../../components/Input';
+import { FoodItem } from '../../../../types/foodItem';
 import {  Power,Search, Filter, Plus, Download, MoreVertical, Eye, Edit, UserMinus } from 'lucide-react';
 
-interface FoodItem {
-  id: number;
-  name: string;
-  image: string;
-  category: string;
-  price: number;
-  status: 'Active' | 'Deactive';
-}
+
 
 const FoodManagement = () => {
   const [foodItems, setFoodItems] = useState<FoodItem[]>([
@@ -109,7 +104,7 @@ const FoodManagement = () => {
               <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                 <div className="relative w-full sm:w-64">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
-                  <input
+                  <Input
                     type="text"
                     placeholder="Search customers..."
                     title="Search customers by name, email, or phone"
@@ -119,31 +114,31 @@ const FoodManagement = () => {
                 </div>
                 
                 <div className="flex gap-3">
-                  <button
+                  <Button
                     onClick={() => setFilterVisible(!filterVisible)}
                     className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
                     aria-label="Filter"
                   >
                     <Filter className="w-5 h-5" />
                     <span className="hidden sm:inline">Filter</span>
-                  </button>
+                  </Button>
                   
-                  <button
+                  <Button
                     onClick={handleAddFood}
                     className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                     aria-label="Add customer"
                   >
                     <Plus className="w-5 h-5" />
                     <span className="hidden sm:inline">Add Food</span>
-                  </button>
+                  </Button>
                   
-                  <button
+                  <Button
                     className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
                     aria-label="Export"
                   >
                     <Download className="w-5 h-5" />
                     <span className="hidden sm:inline">Export</span>
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -202,18 +197,18 @@ const FoodManagement = () => {
             </div>
             
             <div className="flex justify-end gap-2">
-              <button
+              <Button
                 onClick={() => setFilters({ price: "", category: "", status: "" })}
                 className="px-4 py-2 text-gray-600 hover:text-gray-800"
               >
                 Clear
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setFilterVisible(false)}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
               >
                 Apply
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -257,41 +252,41 @@ const FoodManagement = () => {
                   </span>
                 </td>
                 <td className="p-4 relative">
-                  <button
+                  <Button
                   title='hh'
                     onClick={() => setActiveDropdown(activeDropdown === item.id ? null : item.id)}
                     className="p-2 hover:bg-gray-100 rounded-full"
                   >
                     <MoreVertical className="w-5 h-5 text-gray-500" />
-                  </button>
+                  </Button>
                   
                   {activeDropdown === item.id && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-10">
-                      <button
+                      <Button
                         onClick={() => {router.push('/admin/view-menu')}} // View action
                         className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
                       >
                         <Eye className="w-4 h-4" /> View
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         onClick={() => {router.push('/admin/edit-menu')}} // Edit action
                         className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
                       >
                         <Edit className="w-4 h-4" /> Edit
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         onClick={() => toggleStatus(item.id)}
                         className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
                       >
                         <Power className="w-4 h-4" /> 
                         {item.status === 'Active' ? 'Deactivate' : 'Activate'}
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         onClick={() => deleteItem(item.id)}
                         className="w-full px-4 py-2 text-sm text-red-600 hover:bg-red-100 flex items-center gap-2"
                       >
                         <UserMinus className="w-4 h-4" /> Delete
-                      </button>
+                      </Button>
                     </div>
                   )}
                 </td>
@@ -307,23 +302,23 @@ const FoodManagement = () => {
           Showing {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, foodItems.length)} of {foodItems.length} items
         </span>
         <div className="flex gap-2">
-          <button
+          <Button
             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
             className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50"
           >
             Previous
-          </button>
+          </Button>
           <span className="px-3 py-1">
             {currentPage} of {totalPages}
           </span>
-          <button
+          <Button
             onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
             className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50"
           >
             Next
-          </button>
+          </Button>
         </div>
       </div>
     </div>

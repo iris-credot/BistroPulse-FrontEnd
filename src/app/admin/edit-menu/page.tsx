@@ -2,26 +2,21 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { Button } from '../../../../components/Button';
+import { Input } from '../../../../components/Input';
+import { FoodItem } from "../../../../types/foodItem";
 
-// Type for Food
-type Food = {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  image: string;
-};
+
 
 // Props for EditFood
 type EditFoodProps = {
-  food: Food;
-  onSave: (updatedFood: Food) => void;
+  food: FoodItem;
+  onSave: (updatedFood: FoodItem) => void;
   onClose: () => void;
 };
 
 const EditFood: React.FC<EditFoodProps> = ({ food, onSave, onClose }) => {
-  const [editedFood, setEditedFood] = useState<Food | null>(null);
+  const [editedFood, setEditedFood] = useState<FoodItem | null>(null);
 
   useEffect(() => {
     if (food) setEditedFood(food);
@@ -71,22 +66,22 @@ const EditFood: React.FC<EditFoodProps> = ({ food, onSave, onClose }) => {
         />
         <div className="flex gap-2">
           <label className="px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 cursor-pointer">
-            <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+            <Input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
             Upload
           </label>
-          <button
+          <Button
             onClick={handleRemoveImage}
             className="px-3 py-1 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 text-sm"
           >
             Remove
-          </button>
+          </Button>
         </div>
       </div>
 
       <div className="space-y-4 w-full max-w-md">
         <div>
           <label className="block text-sm font-medium text-gray-700">Name</label>
-          <input
+          <Input
             type="text"
             name="name"
             value={editedFood.name}
@@ -109,7 +104,7 @@ const EditFood: React.FC<EditFoodProps> = ({ food, onSave, onClose }) => {
 
         <div>
           <label className="block text-sm font-medium text-gray-700">Price</label>
-          <input
+          <Input
             type="number"
             name="price"
             value={editedFood.price}
@@ -137,18 +132,18 @@ const EditFood: React.FC<EditFoodProps> = ({ food, onSave, onClose }) => {
           </select>
         </div>
 
-        <button
+        <Button
           onClick={handleSave}
           className="w-full mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
         >
           Save
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={onClose}
           className="w-full mt-2 text-gray-600 hover:text-gray-800"
         >
           Cancel
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -157,8 +152,8 @@ const EditFood: React.FC<EditFoodProps> = ({ food, onSave, onClose }) => {
 // ----------- Preview Component for Test -----------
 
 const EditFoodTest = () => {
-  const dummyFood: Food = {
-    id: "1",
+  const dummyFood: FoodItem = {
+    id: 1,
     name: "Grilled Chicken",
     description: "Deliciously seasoned grilled chicken served with veggies.",
     price: 12.99,
@@ -166,7 +161,7 @@ const EditFoodTest = () => {
     image: "/images/placeholder-food.jpg",
   };
 
-  const handleSave = (updatedFood: Food) => {
+  const handleSave = (updatedFood: FoodItem) => {
     console.log("Saved food:", updatedFood);
     alert("Food item saved! Check console for data.");
   };

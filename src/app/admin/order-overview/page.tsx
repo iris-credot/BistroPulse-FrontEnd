@@ -1,4 +1,6 @@
 "use client";
+import { Button } from '../../../../components/Button';
+
 
 import React from "react";
 import Image from "next/image";
@@ -22,8 +24,8 @@ export default function OrderTrackingPage() {
             <select title="fff" className="border rounded px-3 py-1">
               <option>Assign Deliveryman</option>
             </select>
-            <button className="border px-3 py-1 rounded">Payment</button>
-            <button className="border px-3 py-1 rounded">Status</button>
+            <Button className="border px-3 py-1 rounded">Payment</Button>
+            <Button className="border px-3 py-1 rounded">Status</Button>
           </div>
         </div>
 

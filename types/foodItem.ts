@@ -4,5 +4,9 @@ export interface FoodItem {
   image: string;
   category: string;
   price: number;
-  status: 'Active' | 'Deactive';
+  status?: 'Active' | 'Deactive';
+ 
+  description?: string;
+
+  
 }
