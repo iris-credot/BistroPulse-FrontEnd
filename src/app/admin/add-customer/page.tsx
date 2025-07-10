@@ -1,20 +1,11 @@
 "use client";
-
+import { Button } from '../../../../components/Button';
+import { Input } from '../../../../components/Input';
+import { AvatarUploader } from '../../../../components/AvatarUploader';
 import React, { useState } from "react";
-import Image from "next/image";
 
-interface Customer {
-  id: number;
-  name: string;
-  phone: string;
-  email: string;
-  location: string;
-  created: string;
-  avatar: string;
-  category?: string;
-  status?: string;
-  orders?: { id: number; details: string; date: string; status: string }[];
-}
+import {Customer} from '../../../../types/customer'
+
 
 interface AddCustomerProps {
   onClose: () => void;
@@ -37,16 +28,9 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
     setNewCustomer({ ...newCustomer, [e.target.name]: e.target.value });
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setNewCustomer({ ...newCustomer, avatar: URL.createObjectURL(file) });
-    }
-  };
 
-  const handleRemovePicture = () => {
-    setNewCustomer({ ...newCustomer, avatar: "/images/profile.jpg" });
-  };
+
+ 
 
   const handleAddCustomer = () => {
     const newCust = { 
@@ -66,37 +50,17 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg ">
         <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">Add New Customer</h2>
         <div className="flex flex-col items-center mb-6">
-          <Image
-            src={newCustomer.avatar || "/images/profile.jpg"}
-            alt="Avatar"
-            width={80}
-            height={80}
-            className="w-20 h-20 rounded-full object-cover mb-3 border-2 border-gray-200"
-          />
-          <div className="flex gap-2">
-            <label className="px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 cursor-pointer">
-              <input 
-                type="file" 
-                accept="image/*" 
-                onChange={handleFileUpload} 
-                className="hidden" 
-                aria-label="Upload profile picture"
-              />
-              Upload
-            </label>
-            <button 
-              onClick={handleRemovePicture} 
-              className="px-3 py-1 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 text-sm"
-              aria-label="Remove profile picture"
-            >
-              Remove
-            </button>
-          </div>
+           <AvatarUploader 
+        initialAvatar={newCustomer.avatar}
+        onAvatarChange={(avatar) => setNewCustomer({...newCustomer, avatar})}
+      />
+        
+        
         </div>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">Name</label>
-            <input
+            <Input
               type="text"
               name="name"
               value={newCustomer.name}
@@ -108,7 +72,7 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Email</label>
-            <input
+            <Input
               type="email"
               name="email"
               value={newCustomer.email}
@@ -120,7 +84,7 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Phone</label>
-            <input
+            <Input
               type="tel"
               name="phone"
               value={newCustomer.phone}
@@ -132,7 +96,7 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Location</label>
-            <input
+            <Input
               type="text"
               name="location"
               value={newCustomer.location}
@@ -142,20 +106,20 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
               aria-label="Customer location"
             />
           </div>
-          <button 
+          <Button 
             onClick={handleAddCustomer} 
             className="w-full mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
             aria-label="Add customer"
           >
             Add Customer
-          </button>
-          <button 
+          </Button>
+          <Button
             onClick={onClose} 
             className="w-full mt-2 text-gray-600 hover:text-gray-800"
             aria-label="Cancel"
           >
             Cancel
-          </button>
+          </Button>
         </div>
       </div>
     </div>

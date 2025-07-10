@@ -1,13 +1,15 @@
 'use client';
 
 import { useState, ChangeEvent } from 'react';
+import { Button } from '../../../../components/Button';
+import { Input } from '../../../../components/Input';
 
 export default function AddFood() {
   const [photo, setPhoto] = useState<File | null>(null);
   const [category, setCategory] = useState('Pizza');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [hasDifferentSize, setHasDifferentSize] = useState(false);
+ 
   const [price, setPrice] = useState('');
 
   const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +20,7 @@ export default function AddFood() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle the form submission logic here
-    console.log({ photo, category, name, description, hasDifferentSize, price });
+    console.log({ photo, category, name, description,  price });
   };
 
   return (
@@ -33,7 +35,7 @@ export default function AddFood() {
             className="flex justify-center items-center w-40 h-32 border-2 border-dashed border-blue-300 rounded cursor-pointer text-blue-500 text-sm"
           >
             + Add Photo
-            <input
+            <Input
               id="photo"
               type="file"
               accept="image/*"
@@ -43,19 +45,19 @@ export default function AddFood() {
           </label>
 
           <div className="flex flex-col gap-2">
-            <button
+            <Button
               type="button"
               className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700"
             >
               + Food Image
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               className="bg-gray-100 text-gray-700 px-4 py-1 rounded hover:bg-gray-200"
               onClick={() => setPhoto(null)}
             >
               Remove
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -78,7 +80,7 @@ export default function AddFood() {
         {/* Name */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Food Name</label>
-          <input
+          <Input
             className="w-full border rounded px-3 py-2"
             placeholder="Cheese Pizza"
             value={name}
@@ -98,24 +100,12 @@ export default function AddFood() {
           />
         </div>
 
-        {/* Checkbox */}
-        <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={hasDifferentSize}
-            onChange={(e) => setHasDifferentSize(e.target.checked)}
-            id="hasDifferentSize"
-            className="w-4 h-4"
-          />
-          <label htmlFor="hasDifferentSize" className="text-sm text-gray-700">
-            Have a different size
-          </label>
-        </div>
+       
 
         {/* Price */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
-          <input
+          <Input
             type="text"
             className="w-full border rounded px-3 py-2"
             placeholder="GHC 0.00"
@@ -126,12 +116,12 @@ export default function AddFood() {
 
         {/* Submit Button */}
         <div>
-          <button
+          <Button
             type="submit"
             className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
           >
             Add Food
-          </button>
+          </Button>
         </div>
       </form>
     </div>
