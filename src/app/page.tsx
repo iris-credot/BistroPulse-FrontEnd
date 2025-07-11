@@ -83,36 +83,37 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-50 to-white py-20">
-        <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-8">
-          <div className="md:w-1/2 mb-12 md:mb-0">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          <section className="relative bg-black text-white h-[90vh] flex items-center">
+  {/* Background Image */}
+  <div className="absolute inset-0">
+    <Image
+      src="/homee.png"
+      alt="Bus city background"
+      fill
+      priority
+      className="object-cover w-full h-full"
+    />
+    <div className="absolute inset-0 bg-black/60" /> {/* Dark overlay */}
+  </div>
+
+  {/* Content */}
+  <div className="relative z-10 container mx-auto px-6">
+    <div className="max-w-3xl">
+     <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
               Food Delivery <span className="text-blue-600">At Lightning Speed</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8">
+      <p className="text-xl text-white mb-8">
               Order from your favorite local restaurants and get food delivered to your doorstep in minutes.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button 
+       <button 
                 onClick={() => router.push('/login')}
                 className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
                 Order Now
               </button>
-            </div>
-          </div>
-          <div className="md:w-1/2 relative aspect-[4/3] sm:aspect-square min-h-[200px]">
-            <Image
-              src="/home.png"
-              alt="Delicious food delivery"
-              fill
-              priority
-                 className="rounded-lg shadow-xl object-cover"
-    sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          </div>
-        </div>
-      </section>
+    </div>
+  </div>
+</section>
 
       {/* Features Section */}
       <section id="features" className="py-20 bg-white">

@@ -1,5 +1,5 @@
 'use client';
-
+import { useRouter } from "next/navigation";
 import React from 'react';
 import { Home,Utensils, ShoppingCart, Heart, LogOut, MapPin,  Clock,  Bell } from 'lucide-react';
 import Image from 'next/image';
@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { LanguageProvider } from '../../../components/LanguageProvider';
 
 export default function CustomerLayout({ children }: { children: React.ReactNode }) {
+  const router= useRouter();
   return (
     <div className="flex flex-col h-screen">
       {/* Navbar */}
@@ -31,11 +32,11 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
             <button title="Favorites" className="p-2 rounded-full hover:bg-gray-100">
               <Heart className="w-5 h-5 text-gray-600" />
             </button>
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">
+            <div className="flex items-center space-x-2" onClick={()=>{ router.push('/admin/settings');}}>
+              <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium" onClick={()=>{ router.push('/admin/settings');}}>
                 CU
               </div>
-              <span className="text-sm font-medium">Customer User</span>
+              <span className="text-sm font-medium" onClick={()=>{ router.push('/admin/settings');}}>Customer User</span>
             </div>
           </div>
         </div>

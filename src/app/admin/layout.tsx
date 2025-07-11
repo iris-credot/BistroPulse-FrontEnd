@@ -29,10 +29,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Bell className="w-5 h-5 text-gray-600" />
             </button>
             <div className="flex items-center space-x-2" onClick={()=>{ router.push('/admin/settings');}}>
-              <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">
+              <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium" onClick={()=>{ router.push('/admin/settings');}}>
                 DS
               </div>
-              <span className="text-sm font-medium">Darnell Steward</span>
+              <span className="text-sm font-medium" onClick={()=>{ router.push('/admin/settings');}}>Darnell Steward</span>
             </div>
           </div>
         </div>
