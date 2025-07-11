@@ -6,19 +6,13 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
-import {Customer} from '../../../../types/customer'
+import { Customer } from '../../../../types/customer';
 
-
-interface CustomerListProps {
-  customers?: Customer[]; // Made optional
-  setCustomers: React.Dispatch<React.SetStateAction<Customer[]>>;
-}
-
-const CustomerList: React.FC<CustomerListProps> = ({ 
-  customers = [], // Default empty array
-  setCustomers 
-}) => {
+const CustomerList = () => {
   const router = useRouter();
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCustomers, setSelectedCustomers] = useState<number[]>([]);
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
@@ -31,7 +25,61 @@ const CustomerList: React.FC<CustomerListProps> = ({
 
   const itemsPerPage = 10;
 
-  // Safely filter customers
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        setLoading(true);
+        // Mock data - replace with actual API call
+        const mockCustomers: Customer[] = [
+          {
+            id: 1,
+            name: "John Doe",
+          
+          
+            restaurant: "Kigali Restaurant",
+            email: "john@example.com",
+            phone: "+250788123456",
+           
+            location: "Kigali",
+            avatar: "/images/avatar1.jpg",
+            created: "Jun 15, 2023",
+            orders: [],
+            status: "Active",
+            category: "Regular"
+          },
+          {
+            id: 2,
+            name: "Jane Smith",
+            
+           
+            restaurant: "Nyamata Cafe",
+            email: "jane@example.com",
+            phone: "+250788654321",
+         
+            location: "Nyamata",
+            avatar: "/images/avatar2.jpg",
+            created: "Jul 20, 2023",
+            orders: [],
+            status: "Active",
+            category: "VIP"
+          },
+          // Add more mock customers as needed
+        ];
+        
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        setCustomers(mockCustomers);
+      } catch (err) {
+        setError('Failed to fetch customers. Please try again later.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCustomers();
+  }, []);
+
   const filteredCustomers = customers.filter(customer => {
     return (
       (filters.restaurant === "" || customer.restaurant === filters.restaurant) &&
@@ -65,25 +113,33 @@ const CustomerList: React.FC<CustomerListProps> = ({
     setActiveDropdown(prev => prev === customerId ? null : customerId);
   };
 
-  const handleViewProfile = () => {
-    router.push('/admin/view-customer');
+  const handleViewProfile = (customerId: number) => {
+    router.push(`/admin/view-customer/${customerId}`);
     setActiveDropdown(null);
   };
 
-  const handleEditCustomer = () => {
-    router.push('/admin/edit-customer');
+  const handleEditCustomer = (customerId: number) => {
+    router.push(`/admin/edit-customer/${customerId}`);
     setActiveDropdown(null);
   };
 
   const handleDeleteCustomer = (customerId: number) => {
     if (window.confirm("Are you sure you want to delete this customer?")) {
-      setCustomers(prev => prev.filter(c => c.id !== customerId));
+      const updatedCustomers = customers.filter(c => c.id !== customerId);
+      setCustomers(updatedCustomers);
       setSelectedCustomers(prev => prev.filter(id => id !== customerId));
+      
+      // API call would go here
+      // try {
+      //   await fetch(`/api/customers/${customerId}`, { method: 'DELETE' });
+      // } catch (error) {
+      //   console.error('Delete failed:', error);
+      //   setCustomers(customers); // Revert on error
+      // }
     }
   };
 
   const handleAddCustomer = () => {
-    
     router.push('/admin/add-customer');
   };
 
@@ -212,7 +268,6 @@ const CustomerList: React.FC<CustomerListProps> = ({
         </div>
       )}
 
-      {/* Rest of the component remains the same */}
       {/* Customer table */}
       <div className="overflow-x-auto mt-4">
         <table className="w-full text-left border-collapse">
@@ -221,10 +276,11 @@ const CustomerList: React.FC<CustomerListProps> = ({
               <th className="p-4">
                 <input
                   type="checkbox"
-                   title="Search customers by name, email, or phone"
+                  title="Select all customers"
                   checked={selectedCustomers.length > 0 && selectedCustomers.length === currentCustomers.length}
                   onChange={(e) => handleSelectAll(e.target.checked)}
                   className="rounded text-blue-600 focus:ring-blue-500"
+                  aria-label="Select all customers"
                 />
               </th>
               <th className="p-4 text-sm font-medium text-gray-700">Name</th>
@@ -237,16 +293,29 @@ const CustomerList: React.FC<CustomerListProps> = ({
           </thead>
           
           <tbody>
-            {currentCustomers.length > 0 ? (
+            {loading ? (
+              <tr>
+                <td colSpan={7} className="p-4 text-center text-gray-500">
+                  Loading customers...
+                </td>
+              </tr>
+            ) : error ? (
+              <tr>
+                <td colSpan={7} className="p-4 text-center text-red-500">
+                  {error}
+                </td>
+              </tr>
+            ) : currentCustomers.length > 0 ? (
               currentCustomers.map((customer) => (
                 <tr key={customer.id} className="border-t hover:bg-gray-50">
                   <td className="p-4">
                     <Input
                       type="checkbox"
-                       title="Search customers by name, email, or phone"
+                      title="Select customer"
                       checked={selectedCustomers.includes(customer.id)}
                       onChange={(e) => handleSelectCustomer(customer.id, e.target.checked)}
                       className="rounded text-blue-600 focus:ring-blue-500"
+                      aria-label={`Select ${customer.name}`}
                     />
                   </td>
                   
@@ -268,9 +337,10 @@ const CustomerList: React.FC<CustomerListProps> = ({
                   
                   <td className="p-4 relative">
                     <Button
-                     title="Search customers by name, email, or phone"
+                      title="Customer actions"
                       onClick={() => toggleDropdown(customer.id)}
                       className="p-2 hover:bg-gray-100 rounded-full"
+                      aria-label={`Actions for ${customer.name}`}
                     >
                       <MoreVertical className="w-5 h-5 text-gray-500" />
                     </Button>
@@ -278,13 +348,13 @@ const CustomerList: React.FC<CustomerListProps> = ({
                     {activeDropdown === customer.id && (
                       <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg border border-gray-200 z-10">
                         <Button
-                          onClick={() => handleViewProfile()}
+                          onClick={() => handleViewProfile(customer.id)}
                           className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
                         >
                           <Eye className="w-4 h-4" /> View
                         </Button>
                         <Button
-                          onClick={() => handleEditCustomer()}
+                          onClick={() => handleEditCustomer(customer.id)}
                           className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
                         >
                           <Edit className="w-4 h-4" /> Edit
@@ -323,6 +393,7 @@ const CustomerList: React.FC<CustomerListProps> = ({
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
               className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50"
+              aria-label="Previous page"
             >
               Previous
             </Button>
@@ -343,6 +414,8 @@ const CustomerList: React.FC<CustomerListProps> = ({
                   className={`w-8 h-8 rounded-full flex items-center justify-center ${
                     currentPage === page ? "bg-blue-600 text-white" : "bg-gray-100 hover:bg-gray-200"
                   }`}
+                  aria-label={`Go to page ${page}`}
+                  aria-current={currentPage === page ? "page" : undefined}
                 >
                   {page}
                 </Button>
@@ -353,6 +426,7 @@ const CustomerList: React.FC<CustomerListProps> = ({
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
               className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50"
+              aria-label="Next page"
             >
               Next
             </Button>

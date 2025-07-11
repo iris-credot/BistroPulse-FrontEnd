@@ -1,13 +1,10 @@
 "use client";
+
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { Restaurant } from "../../../../types/restaurant";
 import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
-
-interface EditRestaurantFormProps {
-  restaurant?: Restaurant;
-  onSave: (updatedRestaurant: Restaurant) => void;
-}
 
 interface FileInputProps {
   label: string;
@@ -29,8 +26,10 @@ const FileInput: React.FC<FileInputProps> = ({ label, id, file, onFileChange }) 
   </div>
 );
 
-const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onSave }) => {
+const EditRestaurantPage = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState<Restaurant>({
+    
     restaurantName: "",
     representativeName: "",
     phoneNumber: "",
@@ -42,25 +41,53 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
     payment: "",
     location: "",
     restaurantImageFile: null,
+    
+    
   });
 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
-    if (restaurant) {
-      setFormData({
-        restaurantName: restaurant.restaurantName || "",
-        representativeName: restaurant.representativeName || "",
-        phoneNumber: restaurant.phoneNumber || "",
-        rating: restaurant.rating || "",
-        businessLicenseFile: restaurant.businessLicenseFile || null,
-        ownerNIDFile: restaurant.ownerNIDFile || null,
-        established: restaurant.established || "",
-        workingPeriod: restaurant.workingPeriod || "",
-        payment: restaurant.payment || "",
-        location: restaurant.location || "",
-        restaurantImageFile: restaurant.restaurantImageFile || null,
-      });
-    }
-  }, [restaurant]);
+    const fetchRestaurant = async () => {
+      try {
+        setLoading(true);
+        // In a real application, you would get the restaurant ID from the URL
+        // const { id } = useParams();
+        // const response = await fetch(`/api/restaurants/${id}`);
+        // const data = await response.json();
+        
+        // Mock data for demonstration
+        const mockRestaurant: Restaurant = {
+          
+          restaurantName: "Sun Valley Restaurant",
+          representativeName: "Darrell Steward",
+          phoneNumber: "+23301532548623",
+          rating: "4.5",
+          businessLicenseFile: null,
+          ownerNIDFile: null,
+          established: "2020-05-15",
+          workingPeriod: "9:00 AM – 10:00 PM",
+          payment: "Mobile Money",
+          location: "G. P. O., Asafotase Nettey Road, Accra",
+          restaurantImageFile: null,
+          
+          
+        };
+        
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        setFormData(mockRestaurant);
+      } catch (err) {
+        setError('Failed to load restaurant data');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRestaurant();
+  }, []);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { id, value } = e.target;
@@ -71,10 +98,50 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
     setFormData((prev) => ({ ...prev, [field]: file }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    onSave(formData);
+    
+    try {
+      // In a real application, you would make an API call here
+      // const response = await fetch(`/api/restaurants/${formData.id}`, {
+      //   method: 'PUT',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify(formData)
+      // });
+      
+      // if (!response.ok) throw new Error('Update failed');
+      
+      // Redirect after successful update
+      router.push('/admin/restaurant-list');
+    } catch (error) {
+      console.error('Update failed:', error);
+      setError('Failed to update restaurant. Please try again.');
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md text-center">
+        <p>Loading restaurant data...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md text-center text-red-500">
+        <p>{error}</p>
+        <Button 
+          onClick={() => window.location.reload()}
+          className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Try Again
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md space-y-5">
@@ -146,7 +213,7 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
         />
       </div>
 
-      {/* Rating Field (added to match interface) */}
+      {/* Rating Field */}
       <div>
         <label htmlFor="rating" className="block text-sm font-medium">Rating</label>
         <Input
@@ -228,14 +295,25 @@ const EditRestaurantForm: React.FC<EditRestaurantFormProps> = ({ restaurant, onS
         />
       </div>
 
-      <Button
-        type="submit"
-        className="w-full bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
-      >
-        Update Restaurant
-      </Button>
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+
+      <div className="flex gap-3">
+        <Button
+          type="button"
+          onClick={() => router.push('/admin/restaurant-list')}
+          className="bg-gray-200 text-gray-800 px-6 py-2 rounded hover:bg-gray-300"
+        >
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+        >
+          Update Restaurant
+        </Button>
+      </div>
     </form>
   );
 };
 
-export default EditRestaurantForm;
+export default EditRestaurantPage;
