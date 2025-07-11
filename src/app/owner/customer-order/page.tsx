@@ -8,6 +8,7 @@ import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
 import { Order, OrderStatus } from '../../../../types/order';
 
+import Image from 'next/image'
 
 
 
@@ -213,7 +214,7 @@ const [filteredOrders, setFilteredOrders] = useState<Order[]>(orders);
                   <td className="p-3">{order.date}</td>
                   <td className="p-3">
                     <div className="flex items-center gap-2">
-                      <img src={order.customer.avatar} alt={order.customer.name} className="w-6 h-6 rounded-full" />
+                      <Image src={order.customer.avatar} alt={order.customer.name} className="w-6 h-6 rounded-full" />
                       <span>{order.customer.name}</span>
                     </div>
                   </td>

@@ -1,5 +1,6 @@
 "use client"; 
 import React, { useState} from "react";
+import Image from 'next/image'
 
 import { useRouter } from "next/navigation";
 
@@ -64,7 +65,7 @@ export default function SettingsPage() {
 
       <div className="w-full flex justify-center mb-6 mt-4 gap-10">
         <div className="relative">
-          <img
+          <Image
             src=""
             alt="Profile"
             className="w-24 h-24 rounded-full object-cover"

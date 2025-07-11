@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
+import Image from 'next/image'
+
 import { Order, OrderStatus } from "../../../../types/order";
 import { IoSearch } from "react-icons/io5";
 import { FiFilter } from "react-icons/fi";
@@ -185,7 +187,7 @@ export default function OrdersPage() {
                 <td className="p-3">
                   <div className="flex items-center gap-2">
                     {order.customer.avatar && (
-                      <img 
+                      <Image
                         src={order.customer.avatar} 
                         alt={order.customer.name} 
                         className="w-6 h-6 rounded-full"

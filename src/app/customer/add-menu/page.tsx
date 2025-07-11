@@ -3,6 +3,8 @@
 
 import { useState } from 'react';
 import { Search, Plus, Minus, ShoppingCart, Clock, MapPin, ChevronDown } from 'lucide-react';
+import Image from 'next/image'
+
 
 import { Card, CardContent, CardFooter } from '../../../../components/CardDashboard'
 import { MenuItem } from '../../../../types/menu';
@@ -113,7 +115,7 @@ export default function NewOrder() {
               <Card key={item.id} className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-4">
                   <div className="h-40 bg-gray-100 rounded-lg mb-3 overflow-hidden">
-                    <img 
+                    <Image
                       src={item.image} 
                       alt={item.name}
                       className="w-full h-full object-cover"

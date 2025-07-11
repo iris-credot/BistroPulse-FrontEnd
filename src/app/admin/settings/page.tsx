@@ -2,6 +2,8 @@
 import React, { useState} from "react";
 
 import { useRouter } from "next/navigation";
+import Image from 'next/image'
+
 
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -64,7 +66,7 @@ export default function SettingsPage() {
 
       <div className="w-full flex justify-center mb-6 mt-4 gap-10">
         <div className="relative">
-          <img
+          <Image
             src=""
             alt="Profile"
             className="w-24 h-24 rounded-full object-cover"
