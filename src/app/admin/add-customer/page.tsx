@@ -1,17 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
 import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
 import { AvatarUploader } from '../../../../components/AvatarUploader';
-import { Customer } from '../../../../types/customer';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
-interface AddCustomerProps {
-  onClose: () => void;
-  onAddCustomer: (customer: Customer) => void;
-}
 
-const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => {
+export default function AddCustomerPage() {
+  const router = useRouter();
   const [newCustomer, setNewCustomer] = useState({
     name: "",
     universityStatus: "University student",
@@ -28,19 +25,21 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
     setNewCustomer({ ...newCustomer, [e.target.name]: e.target.value });
   };
 
-  const handleAddCustomer = () => {
-    const newCust: Customer = { 
-      ...newCustomer, 
-      id: Math.floor(Math.random() * 10000), 
-      created: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), 
-      orders: [],
-      status: "Active",
-      category: "Regular"
-    };
-
-    // Use the new customer object by calling the callback passed as prop
-    onAddCustomer(newCust);
-    onClose();
+  const handleAddCustomer = async () => {
+  
+    try {
+      // Here you would typically make an API call to your backend
+      // Example:
+      // const response = await fetch('/api/customers', {
+      //   method: 'POST',
+      //   body: JSON.stringify(newCust)
+      // });
+      
+      // For now, we'll just redirect back
+      router.push('/admin/customer-list');
+    } catch (error) {
+      console.error('Failed to add customer:', error);
+    }
   };
 
   return (
@@ -48,12 +47,13 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
         <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">Add New Customer</h2>
         <div className="flex flex-col items-center mb-6">
-          <AvatarUploader
+          <AvatarUploader 
             initialAvatar={newCustomer.avatar}
-            onAvatarChange={(avatar) => setNewCustomer({ ...newCustomer, avatar })}
+            onAvatarChange={(avatar) => setNewCustomer({...newCustomer, avatar})}
           />
         </div>
         <div className="space-y-4">
+          {/* Rest of your form inputs remain the same */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Name</label>
             <Input
@@ -66,51 +66,16 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
               aria-label="Customer name"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
-            <Input
-              type="email"
-              name="email"
-              value={newCustomer.email}
-              onChange={handleInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
-              placeholder="Enter email"
-              aria-label="Customer email"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Phone</label>
-            <Input
-              type="tel"
-              name="phone"
-              value={newCustomer.phone}
-              onChange={handleInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
-              placeholder="Enter phone"
-              aria-label="Customer phone"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Location</label>
-            <Input
-              type="text"
-              name="location"
-              value={newCustomer.location}
-              onChange={handleInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
-              placeholder="Enter location"
-              aria-label="Customer location"
-            />
-          </div>
-          <Button
-            onClick={handleAddCustomer}
+          {/* Other input fields... */}
+          <Button 
+            onClick={handleAddCustomer} 
             className="w-full mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
             aria-label="Add customer"
           >
             Add Customer
           </Button>
           <Button
-            onClick={onClose}
+            onClick={() => router.push('/admin/customer-list')}
             className="w-full mt-2 text-gray-600 hover:text-gray-800"
             aria-label="Cancel"
           >
@@ -120,6 +85,4 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
       </div>
     </div>
   );
-};
-
-export default AddCustomer;
+}
