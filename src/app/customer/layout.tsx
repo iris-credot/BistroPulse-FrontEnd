@@ -1,21 +1,21 @@
 'use client';
-import { useRouter } from "next/navigation";
+
 import React from 'react';
 import axios from "axios";
 import { Home,Utensils, ShoppingCart, Heart, LogOut, MapPin,  Clock,  Bell } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
 import { LanguageProvider } from '../../../components/LanguageProvider';
 
 export default function CustomerLayout({ children }: { children: React.ReactNode }) {
   const router= useRouter();
       const handleLogout = async () => {
   try {
-  await axios.post(
+   await axios.post(
   "https://bistroupulse-backend.onrender.com/api/user/logout",
   {},
-  { withCredentials: true }
-
+  { withCredentials: true } // ✅ Add this
 );
     // Clear localStorage tokens after successful logout
     localStorage.removeItem('token');
