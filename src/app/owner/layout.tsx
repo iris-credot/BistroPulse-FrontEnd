@@ -1,11 +1,29 @@
 // src/app/admin/layout.tsx
 import React from 'react';
+import axios from 'axios';
 import { useRouter } from "next/navigation";
 import { LayoutDashboard, Utensils, Users, Bell, LogOut ,ShoppingCart, History} from 'lucide-react';
 import Image from 'next/image';
 import { LanguageProvider } from '../../../components/LanguageProvider';
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+      const handleLogout = async () => {
+  try {
+   await axios.post(
+  "https://bistroupulse-backend.onrender.com/api/user/logout",
+  {},
+  { withCredentials: true } // ✅ Add this
+);
+    // Clear localStorage tokens after successful logout
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    // Redirect or update UI after logout
+     router.push('/login')
+  } catch (error) {
+    console.error('Logout failed:', error);
+    alert('Failed to logout');
+  }
+};
   return (
     <div className="flex flex-col h-screen">
       {/* Navbar */}
@@ -83,8 +101,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="border-t border-gray-700 pt-4">
             <ul className="space-y-1">
              
-              <li>
-                <a href="/logout" className="flex items-center space-x-3 px-3 py-2 rounded hover:text-red-950 text-red-400">
+              <li onClick={handleLogout}>
+                <a  className="flex items-center space-x-3 px-3 py-2 rounded hover:text-red-950 text-red-400">
                   <LogOut className="w-5 h-5" />
                   <span>Logout</span>
                 </a>
