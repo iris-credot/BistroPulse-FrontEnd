@@ -1,11 +1,10 @@
 "use client";
+
+import React, { useState } from "react";
 import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
 import { AvatarUploader } from '../../../../components/AvatarUploader';
-import React, { useState } from "react";
-
-import {Customer} from '../../../../types/customer'
-
+import { Customer } from '../../../../types/customer';
 
 interface AddCustomerProps {
   onClose: () => void;
@@ -29,12 +28,8 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
     setNewCustomer({ ...newCustomer, [e.target.name]: e.target.value });
   };
 
-
-
- 
-
   const handleAddCustomer = () => {
-    const newCust = { 
+    const newCust: Customer = { 
       ...newCustomer, 
       id: Math.floor(Math.random() * 10000), 
       created: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), 
@@ -42,21 +37,21 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
       status: "Active",
       category: "Regular"
     };
+
+    // Use the new customer object by calling the callback passed as prop
     onAddCustomer(newCust);
     onClose();
   };
 
   return (
-    <div className="  bg-opacity-50 flex items-center justify-center z-50 h-screen p-7">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg ">
+    <div className="bg-opacity-50 flex items-center justify-center z-50 h-screen p-7">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
         <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">Add New Customer</h2>
         <div className="flex flex-col items-center mb-6">
-           <AvatarUploader 
-        initialAvatar={newCustomer.avatar}
-        onAvatarChange={(avatar) => setNewCustomer({...newCustomer, avatar})}
-      />
-        
-        
+          <AvatarUploader
+            initialAvatar={newCustomer.avatar}
+            onAvatarChange={(avatar) => setNewCustomer({ ...newCustomer, avatar })}
+          />
         </div>
         <div className="space-y-4">
           <div>
@@ -107,15 +102,15 @@ const AddCustomer: React.FC<AddCustomerProps> = ({ onClose, onAddCustomer }) => 
               aria-label="Customer location"
             />
           </div>
-          <Button 
-            onClick={handleAddCustomer} 
+          <Button
+            onClick={handleAddCustomer}
             className="w-full mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
             aria-label="Add customer"
           >
             Add Customer
           </Button>
           <Button
-            onClick={onClose} 
+            onClick={onClose}
             className="w-full mt-2 text-gray-600 hover:text-gray-800"
             aria-label="Cancel"
           >
