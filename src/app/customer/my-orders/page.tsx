@@ -228,7 +228,7 @@ const handleAddOrder = () => {
                   <td className="p-3">{order.date}</td>
                   <td className="p-3">
                     <div className="flex items-center gap-2">
-                      <Image src={order.customer.avatar} alt={order.customer.name} className="w-6 h-6 rounded-full" />
+                      <Image src={order.customer.avatar} alt={order.customer.name}  width={24}  height={24} className="w-6 h-6 rounded-full" />
                       <span>{order.customer.name}</span>
                     </div>
                   </td>

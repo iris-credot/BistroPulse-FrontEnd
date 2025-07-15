@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { Mail, Lock } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
-export default function LoginPage() {
+export default function SignupPage() {
   const router = useRouter()
 
   // Form state
@@ -41,8 +41,11 @@ export default function LoginPage() {
 
       // Assuming backend returns user info or token
       const result = await response.json()
-      console.log('Login successful:', result)
-
+      console.log('SignUp successful:', result)
+if (result?.user?._id) {
+      localStorage.setItem('userId', result.user._id)
+      console.log('User ID stored:', result.user._id)
+    }
       // Redirect or do something on success
       router.push('/verifyOtp') // for example
     } catch (err) {

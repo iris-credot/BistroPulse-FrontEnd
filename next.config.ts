@@ -4,8 +4,14 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   
   // Image optimization
+  
   images: {
-     
+       remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.pravatar.cc',
+      },
+    ],
     domains: [
       'images.unsplash.com',
       'localhost',

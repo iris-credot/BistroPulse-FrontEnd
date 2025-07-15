@@ -93,7 +93,7 @@ export default function LandingPage() {
       priority
       className="object-cover w-full h-full"
     />
-    <div className="absolute inset-0 bg-black/60" /> {/* Dark overlay */}
+    <div className="absolute inset-0 bg-black/40" /> {/* Dark overlay */}
   </div>
 
   {/* Content */}

@@ -1,10 +1,10 @@
 export interface Customer {
-  id:  number;
-  name: string;
-  phone: string;
+  id:  string;
+  names: string;
+  phoneNumber: string;
   email: string;
   restaurant?: string;
-  location: string;
+  address: string;
   created?: string;
   avatar: string;
   category?: string;

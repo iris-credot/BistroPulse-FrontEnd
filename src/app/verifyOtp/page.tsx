@@ -46,7 +46,7 @@ export default function VerifyAccountForm() {
         toast.success('Code Verified!');
         reset();
         // Navigate to another page if needed
-        router.push('/login');
+        router.push('/create-client');
       } else {
         toast.error(result.message || 'Invalid verification code.');
       }

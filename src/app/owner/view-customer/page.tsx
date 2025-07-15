@@ -5,7 +5,19 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
-import { Customer } from "../../../../types/customer";
+interface Customer {
+  id:  number;
+  name: string;
+  phone: string;
+  email: string;
+  restaurant?: string;
+  location: string;
+  created?: string;
+  avatar: string;
+  category?: string;
+  status?: string;
+  orders?: { id: number; details: string; date: string; status: string }[];
+}
 
 const ViewCustomerPage = () => {
   const router = useRouter();

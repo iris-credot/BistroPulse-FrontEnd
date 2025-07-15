@@ -79,13 +79,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <li>
                   <a href="/admin/customer-list" className="flex items-center space-x-3 px-3 py-2 rounded hover:text-gray-800">
                     <Users className="w-5 h-5" />
-                    <span>Customers</span>
+                    <span>Representatives</span>
                   </a>
                 </li>
                 <li>
-                  <a href="/admin/customer-order" className="flex items-center space-x-3 px-3 py-2 rounded hover:text-gray-800">
+                  <a href="/admin/users" className="flex items-center space-x-3 px-3 py-2 rounded hover:text-gray-800">
                     <ShoppingCart className="w-5 h-5" />
-                    <span>Order</span>
+                    <span>Users</span>
                   </a>
                 </li>
                 <li>
@@ -95,9 +95,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   </a>
                 </li>
                 <li>
-                  <a href="/admin/order-history" className="flex items-center space-x-3 px-3 py-2 rounded hover:text-gray-800">
+                  <a href="/admin/settings" className="flex items-center space-x-3 px-3 py-2 rounded hover:text-gray-800">
                     <History className="w-5 h-5" />
-                    <span>Order History</span>
+                    <span>Settings</span>
                   </a>
                 </li>
               </ul>
