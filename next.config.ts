@@ -5,17 +5,27 @@ const nextConfig: NextConfig = {
   
   // Image optimization
   
-  images: {
-       remotePatterns: [
+   images: {
+    remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'i.pravatar.cc',
+        hostname: 'i0.wp.com',
+        port: '',
+        pathname: '/**',
       },
-    ],
-    domains: [
-      'images.unsplash.com',
-      'localhost',
-      'randomuser.me'
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/**',
+      },
+         {
+        protocol: 'https',
+        hostname: 'randomuser.me',
+        port: '',
+        pathname: '/**',
+      },
+      // You can add more domains here as needed
     ],
   },
 

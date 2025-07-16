@@ -6,34 +6,33 @@ import { useRouter } from 'next/navigation';
 import { Button } from "../../../../components/Button"; // Assuming you have these components
 import { Input } from "../../../../components/Input";
 import toast from "react-hot-toast";
-
+import { Restaurant } from "../../../../types/restaurant";
 // --- Step 1: Define the shape of the data coming from your API ---
 interface RestaurantFromAPI {
   _id: string; // MongoDB uses _id
   name: string;
+  email: string;
   owner?: {
     user?: {
       names?: string;
       username?: string;
-    };
+        };
   };
-  location?: string;
+   address?: {
+    street?: string;
+    city?: string;
+    country?: string;
+    state?: string;
+    zipCode?: string;
+  };
   phone?: string;
-  averageRating?: number;
-  status?: "Open" | "Closed";
+ 
+ 
   // Add any other fields your API sends
 }
 
 // --- Step 2: Define the shape of the data your component will use ---
-type Restaurant = {
-  id: string; // Use string for MongoDB _id
-  name: string;
-  representative: string;
-  location: string;
-  phone: string;
-  rating: number;
-  status: "Open" | "Closed";
-};
+
 
 export default function RestaurantTable() {
   const router = useRouter();
@@ -78,11 +77,11 @@ export default function RestaurantTable() {
         const transformedRestaurants: Restaurant[] = data.restaurants.map((rest: RestaurantFromAPI) => ({
           id: rest._id,
           name: rest.name,
+          email:rest.email,
           representative: rest.owner?.user?.names || rest.owner?.user?.username || 'N/A',
-          location: rest.location || 'N/A',
+           address: rest.address || { city: 'N/A' }, 
           phone: rest.phone || 'N/A',
-          rating: rest.averageRating || 0,
-          status: rest.status || "Closed",
+        
         }));
 
         setRestaurants(transformedRestaurants);
@@ -101,7 +100,8 @@ export default function RestaurantTable() {
   const filteredRestaurants = restaurants.filter(rest =>
     rest.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     rest.representative.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    rest.location.toLowerCase().includes(searchTerm.toLowerCase())
+    (rest.address?.city && rest.address.city.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (rest.address?.street && rest.address.street.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const handleDelete = async (restaurantId: string, restaurantName: string) => {
@@ -162,11 +162,10 @@ export default function RestaurantTable() {
             <tr>
               <th className="p-3"><input type="checkbox" aria-label="Select all restaurants" /></th>
               <th className="p-3">Name</th>
-              <th className="p-3">Representative</th>
+              <th className="p-3">Email</th>
               <th className="p-3">Location</th>
               <th className="p-3">Phone Number</th>
            
-              <th className="p-3">Status</th>
               <th className="p-3">Action</th>
             </tr>
           </thead>
@@ -179,15 +178,11 @@ export default function RestaurantTable() {
               <tr key={rest.id} className="hover:bg-gray-50 border-b text-sm">
                 <td className="p-3"><input type="checkbox" aria-label={`Select ${rest.name}`} /></td>
                 <td className="p-3 font-medium">{rest.name}</td>
-                <td className="p-3">{rest.representative}</td>
-                <td className="p-3">{rest.location}</td>
+                <td className="p-3">{rest.email}</td>
+                <td className="p-3">{rest.address?.city || 'N/A'}</td>
                 <td className="p-3">{rest.phone}</td>
                
-                <td className="p-3">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${ rest.status === 'Open' ? 'text-green-700 bg-green-100' : 'text-red-700 bg-red-100' }`}>
-                    {rest.status}
-                  </span>
-                </td>
+              
                 <td className="p-3 relative">
                   <Button onClick={() => setSelectedMenuId(selectedMenuId === rest.id ? null : rest.id)} aria-label="More actions" className="p-2 hover:bg-gray-100 rounded-full">
                     <MoreVertical size={18} />

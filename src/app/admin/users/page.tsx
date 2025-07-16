@@ -211,7 +211,7 @@ const CustomerList = () => {
       try {
         const token = localStorage.getItem('token');
         // Assuming your delete endpoint is /api/user/:id
-        const response = await fetch(`https://bistroupulse-backend.onrender.com/api/user/${customerId}`, { 
+        const response = await fetch(`https://bistroupulse-backend.onrender.com/api/user/delete/${customerId}`, { 
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         });
