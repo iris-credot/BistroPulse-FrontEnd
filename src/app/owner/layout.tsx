@@ -27,7 +27,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex flex-col h-screen">
       {/* Navbar */}
-      <header className="bg-white shadow-sm z-10">
+      <header className="bg-white shadow-sm z-10 dark:bg-gray-950">
         <div className="flex items-center justify-between px-6 py-4">
           <div className="flex justify-center items-center space-x-2">
              <Image 
@@ -43,7 +43,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           
           <div className="flex items-center space-x-4">
             <button  title='dd' className="p-2 rounded-full hover:bg-gray-100">
-              <Bell className="w-5 h-5 text-gray-600" />
+              <Bell className="w-5 h-5 text-white" />
             </button>
             <div className="flex items-center space-x-2" onClick={()=>{ router.push('/admin/settings');}}>
               <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium" onClick={()=>{ router.push('/admin/settings');}}>
@@ -58,7 +58,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Main Content */}
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <aside className="w-64 bg-white text-gray-500 p-4 flex flex-col">
+        <aside className="w-64 bg-white text-gray-500 p-4 flex flex-col dark:bg-gray-950">
           <div className="flex-1">
            
             <nav className='mt-4'>
@@ -112,7 +112,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </aside>
 
         {/* Main Content Area */}
-        <main className="flex-1 overflow-auto bg-gray-100 p-6">
+        <main className="flex-1 overflow-auto bg-gray-100 p-6 dark:bg-gray-900">
         <LanguageProvider>{children}</LanguageProvider>
         </main>
       </div>

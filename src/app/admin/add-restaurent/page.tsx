@@ -11,7 +11,7 @@ const FileInput: React.FC<FileInputProps> = ({ label, id, onFileChange }) => (
       id={id}
       type="file"
       onChange={(e) => onFileChange(e.target.files?.[0] || null)}
-      className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+      className="block w-full text-sm text-gray-900 dark:text-gray-500 border border-gray-300 rounded-lg cursor-pointer dark:bg-gray-950 bg-gray-50 focus:outline-none"
     />
   </div>
 );
@@ -20,7 +20,7 @@ const AddRestaurantForm: React.FC = () => {
 
 
   return (
-    <form className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md space-y-5">
+    <form className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md space-y-5 dark:bg-gray-800">
       <h2 className="text-xl font-semibold">Add Restaurant</h2>
 
      
@@ -29,7 +29,7 @@ const AddRestaurantForm: React.FC = () => {
         <div className="flex justify-center items-center gap-2 mt-2">
           <Button
             type="button"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 dark:text-black"
           >
             + Restaurant Image
           </Button>
@@ -78,6 +78,7 @@ const AddRestaurantForm: React.FC = () => {
       <FileInput
         id="businessLicense"
         label="Business License"
+       
           onFileChange={() => (NaN)}
       />
       <FileInput
@@ -93,14 +94,14 @@ const AddRestaurantForm: React.FC = () => {
           <Input
             id="established"
             type="date"
-            className="w-full mt-1 p-2 border rounded"
+            className="w-full mt-1 p-2 border rounded  dark:text-gray-500"
           />
         </div>
         <div>
           <label htmlFor="workingPeriod" className="block text-sm font-medium">Working Period</label>
           <select
             id="workingPeriod"
-            className="w-full mt-1 p-2 border rounded"
+            className="w-full mt-1 p-2 border rounded dark:bg-gray-950 dark:text-gray-500"
           >
             <option value="">Select working period</option>
             <option>9:00 AM – 10:00 PM</option>
@@ -111,7 +112,7 @@ const AddRestaurantForm: React.FC = () => {
           <label htmlFor="payment" className="block text-sm font-medium">Payment</label>
           <select
             id="payment"
-            className="w-full mt-1 p-2 border rounded"
+            className="w-full mt-1 p-2 border rounded dark:bg-gray-950 dark:text-gray-500"
           >
             <option value="">Select payment method</option>
             <option>Cash in hand</option>
@@ -133,7 +134,7 @@ const AddRestaurantForm: React.FC = () => {
 
       <Button
         type="submit"
-        className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+        className="bg-blue-600 text-white dark:text-black px-6 py-2 rounded hover:bg-blue-700"
       >
         Add Restaurant
       </Button>

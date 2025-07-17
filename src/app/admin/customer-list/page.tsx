@@ -178,13 +178,13 @@ const CustomerList = () => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg">
+    <div className="bg-white shadow-md rounded-lg dark:bg-gray-800">
       {/* Header */}
       <div className="p-4 border-b border-gray-200">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div className="flex items-center gap-3">
             
-            <h2 className="text-lg font-semibold text-gray-800"> Representatives</h2>
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white"> Representatives</h2>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <div className="relative w-full sm:w-64">
@@ -202,7 +202,7 @@ const CustomerList = () => {
                 <Filter className="w-5 h-5" />
                 <span className="hidden sm:inline">Filter</span>
               </Button>
-              <Button onClick={handleAddCustomer} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+              <Button onClick={handleAddCustomer} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-gray-700  rounded-lg hover:bg-blue-700">
                 <Plus className="w-5 h-5" />
                 <span className="hidden sm:inline">Representative</span>
               </Button>
@@ -250,15 +250,15 @@ const CustomerList = () => {
       {/* Table */}
       <div className="overflow-x-auto mt-4">
         <table className="w-full text-left border-collapse">
-          <thead className="bg-gray-50">
+          <thead className="bg-gray-50 dark:bg-gray-600">
             <tr>
               <th className="p-4"><input title="cd" type="checkbox" checked={currentCustomers.length > 0 && selectedCustomers.length === currentCustomers.length} onChange={(e) => handleSelectAll(e.target.checked)} className="rounded text-blue-600 focus:ring-blue-500"/></th>
-              <th className="p-4 text-sm font-medium text-gray-700">Name</th>
-              <th className="p-4 text-sm font-medium text-gray-700">Phone</th>
-              <th className="p-4 text-sm font-medium text-gray-700">Email</th>
-              <th className="p-4 text-sm font-medium text-gray-700">Business Name</th>
-              <th className="p-4 text-sm font-medium text-gray-700">Created</th>
-              <th className="p-4 text-sm font-medium text-gray-700">Actions</th>
+              <th className="p-4 text-sm font-medium text-gray-700 dark:text-white ">Name</th>
+              <th className="p-4 text-sm font-medium text-gray-700 dark:text-white">Phone</th>
+              <th className="p-4 text-sm font-medium text-gray-700 dark:text-white">Email</th>
+              <th className="p-4 text-sm font-medium text-gray-700 dark:text-white">Business Name</th>
+              <th className="p-4 text-sm font-medium text-gray-700 dark:text-white">Created</th>
+              <th className="p-4 text-sm font-medium text-gray-700 dark:text-white">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -268,16 +268,16 @@ const CustomerList = () => {
               <tr><td colSpan={7} className="p-4 text-center text-red-500">{error}</td></tr>
             ) : currentCustomers.length > 0 ? (
               currentCustomers.map((customer) => (
-                <tr key={customer.id} className="border-t hover:bg-gray-50">
+                <tr key={customer.id} className="border-t hover:bg-gray-50 dark:hover:bg-gray-900">
                   <td className="p-4"><input title="f" type="checkbox" checked={selectedCustomers.includes(customer.id)} onChange={(e) => handleSelectCustomer(customer.id, e.target.checked)} className="rounded text-blue-600"/></td>
                   <td className="p-4 flex items-center gap-3">
                     
-                    <span className="text-sm font-medium text-gray-800">{customer.names}</span>
+                    <span className="text-sm font-medium text-gray-800 dark:text-white">{customer.names}</span>
                   </td>
-                  <td className="p-4 text-sm text-gray-600">{customer.phoneNumber}</td>
-                  <td className="p-4 text-sm text-blue-600">{customer.email}</td>
-                  <td className="p-4 text-sm text-gray-600">{customer.restaurant}</td>
-                  <td className="p-4 text-sm text-gray-600">{customer.created}</td>
+                  <td className="p-4 text-sm text-gray-600 dark:text-white">{customer.phoneNumber}</td>
+                  <td className="p-4 text-sm text-blue-600 dark:text-white">{customer.email}</td>
+                  <td className="p-4 text-sm text-gray-600 dark:text-white">{customer.restaurant}</td>
+                  <td className="p-4 text-sm text-gray-600 dark:text-white">{customer.created}</td>
                   <td className="p-4 relative">
                     <Button onClick={() => toggleDropdown(customer.id)} className="p-2 hover:bg-gray-100 rounded-full"><MoreVertical className="w-5 h-5 text-gray-500" /></Button>
                     {activeDropdown === customer.id && (

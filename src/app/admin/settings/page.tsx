@@ -60,7 +60,7 @@ export default function SettingsPage() {
   ];
 
   return (
-    <div className="flex flex-col justify-center p-5 gap-6 dark:text-white items-center dark:bg-black">
+    <div className="flex flex-col justify-center p-5 gap-6 dark:text-white items-center dark:bg-transparent h-screen">
       <h1 className="font-bold text-5xl">Settings</h1>
      
 
@@ -136,7 +136,7 @@ export default function SettingsPage() {
         <button
           type="button"
         onClick={()=>{ router.push('/admin/');}}
-          className="bg-[#FFB640] text-white rounded-lg px-2 py-2 w-[20%]"
+          className="bg-blue-500 text-white rounded-lg px-2 py-2 w-[20%]"
         >
           Edit
         </button>

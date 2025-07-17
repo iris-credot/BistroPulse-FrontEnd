@@ -132,33 +132,32 @@ export default function RestaurantTable() {
   }
 
   return (
-    <div className="p-6 bg-white shadow rounded-lg">
+    <div className="p-6 bg-white shadow rounded-lg dark:bg-gray-800">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
         <h2 className="text-xl font-semibold">Restaurants</h2>
         <div className="flex flex-col sm:flex-row gap-2 items-center w-full md:w-auto">
-          <div className="relative w-full md:w-64">
-             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <Input
-              id="search"
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="border rounded-lg pl-10 pr-4 py-2 w-full"
-            />
-          </div>
+         <div className="relative w-full sm:w-64">
+                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
+                       <Input
+                         type="text"
+                         placeholder="Search owners..."
+                         value={searchTerm}
+                         onChange={(e) => setSearchTerm(e.target.value)}
+                         className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
+                       />
+                     </div>
           <Button className="border px-4 py-2 rounded-lg flex items-center gap-2 w-full sm:w-auto justify-center">
             <Filter size={18} /> Filter
           </Button>
-          <Button className="bg-blue-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto justify-center" onClick={() => router.push('/admin/add-restaurent')}>
+          <Button className="bg-blue-600 text-white dark:text-black px-4 py-2 rounded-lg w-full sm:w-auto justify-center" onClick={() => router.push('/admin/add-restaurent')}>
             Add Restaurant
           </Button>
         </div>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full table-auto text-left">
-          <thead className="bg-gray-50 text-sm">
+        <table className="w-full table-auto text-left ">
+          <thead className="bg-gray-50 text-sm dark:bg-gray-600">
             <tr>
               <th className="p-3"><input type="checkbox" aria-label="Select all restaurants" /></th>
               <th className="p-3">Name</th>
@@ -175,7 +174,7 @@ export default function RestaurantTable() {
             ) : error ? (
                 <tr><td colSpan={8} className="text-center p-4 text-red-500">{error}</td></tr>
             ) : filteredRestaurants.map((rest) => (
-              <tr key={rest.id} className="hover:bg-gray-50 border-b text-sm">
+              <tr key={rest.id} className="hover:bg-gray-50 dark:hover:bg-gray-800 border-b text-sm">
                 <td className="p-3"><input type="checkbox" aria-label={`Select ${rest.name}`} /></td>
                 <td className="p-3 font-medium">{rest.name}</td>
                 <td className="p-3">{rest.email}</td>
@@ -188,14 +187,14 @@ export default function RestaurantTable() {
                     <MoreVertical size={18} />
                   </Button>
                   {selectedMenuId === rest.id && (
-                    <div className="absolute right-0 mt-2 w-40 bg-white border shadow-lg rounded-md text-sm z-10">
-                      <button onClick={() => router.push(`/admin/view-restaurent/${rest.id}`)} className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                    <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-500 border shadow-lg rounded-md text-sm z-10">
+                      <button onClick={() => router.push(`/admin/view-restaurent/${rest.id}`)} className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800  flex items-center gap-2">
                         <Eye size={16} /> View
                       </button>
-                      <button onClick={() => router.push(`/admin/edit-restaurent/${rest.id}`)} className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                      <button onClick={() => router.push(`/admin/edit-restaurent/${rest.id}`)} className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-2">
                         <Edit size={16} /> Edit
                       </button>
-                      <button onClick={() => handleDelete(rest.id, rest.name)} className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 flex items-center gap-2">
+                      <button onClick={() => handleDelete(rest.id, rest.name)} className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-gray-800 flex items-center gap-2">
                         <Trash2 size={16} /> Delete
                       </button>
                     </div>

@@ -161,9 +161,9 @@ const EditCustomerPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-6 w-full max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Edit Client Profile</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center dark:text-white">Edit Client Profile</h2>
       
-      <div className="w-full bg-white p-8 rounded-lg shadow-md">
+      <div className="w-full bg-white p-8 rounded-lg shadow-md dark:bg-gray-800">
         <div className="flex flex-col items-center mb-6">
           <Image
             src={formData.avatar}
@@ -177,7 +177,7 @@ const EditCustomerPage = () => {
         
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Name</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-white">Name</label>
             <Input
               type="text"
               name="names"
@@ -187,7 +187,7 @@ const EditCustomerPage = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-white">Email</label>
             <Input
               type="email"
               name="email"
@@ -197,7 +197,7 @@ const EditCustomerPage = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Phone</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-white">Phone</label>
             <Input
               type="tel"
               name="phoneNumber"
@@ -207,7 +207,7 @@ const EditCustomerPage = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Address</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-white">Address</label>
             <Input
               type="text"
               name="address"
@@ -228,7 +228,7 @@ const EditCustomerPage = () => {
             </Button>
             <Button
                 onClick={handleSave}
-                className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                className="w-full px-4 py-2 bg-blue-600 text-gray-800 rounded-md hover:bg-blue-700 disabled:opacity-50"
                 disabled={isSaving}
             >
                 {isSaving ? 'Saving...' : 'Save Changes'}

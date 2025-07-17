@@ -25,7 +25,7 @@ export default function AddFood() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
-      <h2 className="text-xl font-semibold text-gray-800 mb-6">🍕 Add Food</h2>
+      <h2 className="text-xl font-semibold text-gray-800 mb-6 dark:text-white">🍕 Add Food</h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Upload */}
@@ -47,7 +47,7 @@ export default function AddFood() {
           <div className="flex flex-col gap-2">
             <Button
               type="button"
-              className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700"
+              className="bg-blue-600 text-white dark:text-black px-4 py-1 rounded hover:bg-blue-700"
             >
               + Food Image
             </Button>
@@ -63,10 +63,10 @@ export default function AddFood() {
 
         {/* Category */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Category</label>
           <select
           title='categories'
-            className="w-full border rounded px-3 py-2"
+            className="w-full border rounded px-3 py-2 dark:bg-gray-900"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
@@ -79,9 +79,9 @@ export default function AddFood() {
 
         {/* Name */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Food Name</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Food Name</label>
           <Input
-            className="w-full border rounded px-3 py-2"
+            className="w-full border rounded dark:bg-gray-900 px-3 py-2 dark:text-white"
             placeholder="Cheese Pizza"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -90,9 +90,9 @@ export default function AddFood() {
 
         {/* Description */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Description</label>
           <textarea
-            className="w-full border rounded px-3 py-2"
+            className="w-full border rounded px-3 py-2 dark:text-white dark:bg-gray-900"
             placeholder="Write ingredients. Separate by comma (,)"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -104,10 +104,10 @@ export default function AddFood() {
 
         {/* Price */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Price</label>
           <Input
             type="text"
-            className="w-full border rounded px-3 py-2"
+            className="w-full border rounded px-3 py-2 dark:text-white dark:bg-gray-900"
             placeholder="GHC 0.00"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
@@ -118,7 +118,7 @@ export default function AddFood() {
         <div>
           <Button
             type="submit"
-            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+            className="bg-blue-600 text-white dark:text-black px-6 py-2 rounded hover:bg-blue-700"
           >
             Add Food
           </Button>

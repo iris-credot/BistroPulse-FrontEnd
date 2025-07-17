@@ -30,7 +30,7 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
   return (
     <div className="flex flex-col h-screen">
       {/* Navbar */}
-      <header className="bg-white shadow-sm z-10">
+      <header className="bg-white shadow-sm z-10 dark:bg-gray-950">
         <div className="flex items-center justify-between px-6 py-4">
           <div className="flex justify-center items-center space-x-2">
             <Image 
@@ -45,7 +45,7 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
 
           <div className="flex items-center space-x-4">
             <button title="Notifications" className="p-2 rounded-full hover:bg-gray-100 relative">
-              <Bell className="w-5 h-5 text-gray-600" />
+              <Bell className="w-5 h-5 text-white" />
               <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
             <button title="Favorites" className="p-2 rounded-full hover:bg-gray-100">
@@ -64,7 +64,7 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
       {/* Main Layout */}
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <aside className="w-64 bg-white text-gray-500 p-4 flex flex-col border-r border-gray-200">
+        <aside className="w-64 bg-white text-gray-500 p-4 flex flex-col border-r border-gray-200 dark:bg-gray-950">
           <nav className="mt-4">
             <ul className="space-y-2">
               <li>
@@ -120,7 +120,7 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-auto bg-gray-50 p-6">
+        <main className="flex-1 overflow-auto bg-gray-50 p-6 dark:bg-gray-900">
           <LanguageProvider>{children}</LanguageProvider>
         </main>
       </div>

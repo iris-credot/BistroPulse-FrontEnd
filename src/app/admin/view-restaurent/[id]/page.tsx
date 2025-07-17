@@ -92,15 +92,15 @@ const RestaurantOverviewPage: React.FC = () => {
 
   // --- Step 6: Render the component with dynamic data ---
   return (
-    <div className="flex flex-col md:flex-row gap-6 p-6 bg-gray-50 min-h-screen">
-      <div className="flex-1 bg-white p-6 rounded-xl shadow-md">
+    <div className="flex flex-col md:flex-row gap-6 p-6 bg-gray-50 dark:bg-gray-900 max-h-screen max-w-screen">
+      <div className="w-2/3 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
         <div className="flex justify-between items-center mb-4">
           <h2 className="font-semibold text-lg">Restaurant Overview</h2>
           <div className="flex items-center gap-2">
             <span className={restaurant.status === 'Open' ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
               {restaurant.status}
             </span>
-            <Button onClick={() => router.push(`/admin/edit-restaurent/${restaurant.id}`)} className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 flex items-center gap-1">
+            <Button onClick={() => router.push(`/admin/edit-restaurent/${restaurant.id}`)} className="bg-blue-500 dark:bg-gray-900 text-white px-4 py-1 rounded hover:bg-blue-600 flex items-center gap-1">
               <FiEdit3 /> Edit
             </Button>
           </div>
@@ -117,7 +117,7 @@ const RestaurantOverviewPage: React.FC = () => {
         </div>
 
         <h3 className="text-xl font-semibold mt-4">{restaurant.name}</h3>
-        <div className="flex items-center text-sm text-gray-500 mt-1 gap-2">
+        <div className="flex items-center text-sm text-gray-500 mt-1 gap-2 dark:text-white">
           {/* These can be made dynamic if API provides the data */}
           <FaStar className="text-yellow-500" />
           <span>5.0 (23 Reviews)</span>
@@ -125,33 +125,33 @@ const RestaurantOverviewPage: React.FC = () => {
           <span>23 Orders</span>
         </div>
 
-        <div className="mt-6 space-y-4 text-sm text-gray-700">
+        <div className="mt-6 space-y-4 text-sm text-gray-700 dark:text-white">
           <div>
-            <h4 className="font-medium">Established</h4>
-            <p className="text-gray-500">
+            <h4 className="font-bold">Established</h4>
+            <p className="text-gray-500 dark:text-white">
               {new Date(restaurant.createdAt).toLocaleDateString('en-US', {
                 year: 'numeric', month: 'long', day: 'numeric'
               })}
             </p>
           </div>
           <div>
-            <h4 className="font-medium">Description</h4>
-            <p className="text-gray-500">{restaurant.description || 'Not specified'}</p>
+            <h4 className="font-bold">Description</h4>
+            <p className="text-gray-500 dark:text-white">{restaurant.description || 'Not specified'}</p>
           </div>
           <div>
-            <h4 className="font-medium">Working Period</h4>
-            <p className="text-gray-500">{restaurant.openingHours|| 'Not specified'}</p>
+            <h4 className="font-bold">Working Period</h4>
+            <p className="text-gray-500 dark:text-white">{restaurant.openingHours|| 'Not specified'}</p>
           </div>
           <div>
-            <h4 className="font-medium">Location</h4>
-            <p className="text-gray-500">
+            <h4 className="font-bold">Location</h4>
+            <p className="text-gray-500 dark:text-white">
               {formatAddress(restaurant.address)}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="w-full md:w-[300px] lg:w-[400px] space-y-6">
+      <div className=" w-1/3 space-y-6">
         {/* --- Step 7: Pass the fetched owner ID to the child component --- */}
         {restaurant.owner? (
             <RestaurantAgentOverview  />

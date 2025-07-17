@@ -45,40 +45,40 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="p-6 space-y-8">
+    <div className="p-6 space-y-8 ">
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-4 rounded-xl shadow space-y-2">
-          <h2 className="text-sm font-medium text-gray-600">Total Customers</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 dark:text-white">
+        <div className="bg-white p-4 rounded-xl shadow space-y-2 dark:bg-gray-600 ">
+          <h2 className="text-sm font-medium text-gray-600 dark:text-white">Total Customers</h2>
           <p className="text-3xl font-bold text-blue-600">1,200</p>
         </div>
 
-        <div className="bg-white p-4 rounded-xl shadow space-y-2">
-          <h2 className="text-sm font-medium text-gray-600">Total Restaurants</h2>
+        <div className="bg-white p-4 rounded-xl shadow space-y-2 dark:bg-gray-600">
+          <h2 className="text-sm font-medium text-gray-600 dark:text-white">Total Restaurants</h2>
           <p className="text-3xl font-bold text-green-600">85</p>
         </div>
 
-        <div className="bg-white p-4 rounded-xl shadow space-y-2">
-          <h2 className="text-sm font-medium text-gray-600">Total Orders</h2>
+        <div className="bg-white p-4 rounded-xl shadow space-y-2 dark:bg-gray-600">
+          <h2 className="text-sm font-medium text-gray-600 dark:text-white">Total Orders</h2>
           <p className="text-3xl font-bold text-orange-500">3,300</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">User Statistics</h3>
+        <div className="bg-white p-6 rounded-xl shadow dark:bg-gray-600">
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">User Statistics</h3>
           <Bar data={userStats} options={{ responsive: true, plugins: { legend: { display: false } } }} />
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Order Status</h3>
+        <div className="bg-white p-6 rounded-xl shadow dark:bg-gray-600">
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Order Status</h3>
           <Doughnut data={orderStatusData} />
         </div>
       </div>
 
-      <div className="bg-white p-6 rounded-xl shadow mt-6">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">Recent Activities</h3>
-        <ul className="space-y-3 text-sm text-gray-700">
+      <div className="bg-white p-6 rounded-xl shadow mt-6 dark:bg-gray-600">
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Recent Activities</h3>
+        <ul className="space-y-3 text-sm text-gray-700 dark:text-white">
           <li>✅ New restaurant <strong>FreshBites</strong> registered</li>
           <li>✅ Order <strong>#B14322</strong> delivered successfully</li>
           <li>❌ Restaurant <strong>Taco Villa</strong> suspended for policy violation</li>

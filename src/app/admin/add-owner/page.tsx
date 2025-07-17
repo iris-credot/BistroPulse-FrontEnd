@@ -92,7 +92,7 @@ export default function CreateOwnerPage() {
 
     try {
       // --- FIX 3: Use the correct, specialized endpoint ---
-      const res = await fetch('https://bistroupulse-backend.onrender.com/api/owner/create-with-credentials', {
+      const res = await fetch('https://bistroupulse-backend.onrender.com/api/owner', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

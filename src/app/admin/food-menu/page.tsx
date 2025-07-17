@@ -92,13 +92,13 @@ const FoodManagement = () => {
     router.push('/admin/add-food-menu');
   };
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden dark:bg-gray-800">
       {/* Header */}
        <div className="p-4 border-b border-gray-200">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div className="flex items-center gap-3">
                
-                <h2 className="text-lg font-semibold text-gray-800">Food Items</h2>
+                <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Food Items</h2>
               </div>
               
               <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
@@ -125,7 +125,7 @@ const FoodManagement = () => {
                   
                   <Button
                     onClick={handleAddFood}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-gray-700 rounded-lg hover:bg-blue-700"
                     aria-label="Add customer"
                   >
                     <Plus className="w-5 h-5" />
@@ -146,7 +146,7 @@ const FoodManagement = () => {
 
           {/* Filter */}
   {filterVisible && (
-        <div className="absolute right-6 mt-2 w-72 bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-10">
+        <div className="absolute right-6 mt-2 w-72 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 p-4 z-10">
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-500">Price</label>
@@ -172,7 +172,7 @@ const FoodManagement = () => {
                 title="Filter by customer category"
                 value={filters.category}
                 onChange={(e) => setFilters({...filters, category: e.target.value})}
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 block w-full border text-gray-400 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">All Categories</option>
                 <option value="Regular">Regular</option>
@@ -188,7 +188,7 @@ const FoodManagement = () => {
                 title="Filter by customer status"
                 value={filters.status}
                 onChange={(e) => setFilters({...filters, status: e.target.value})}
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 block w-full text-gray-400 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">All Statuses</option>
                 <option value="Active">Active</option>
@@ -205,7 +205,7 @@ const FoodManagement = () => {
               </Button>
               <Button
                 onClick={() => setFilterVisible(false)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="px-4 py-2 bg-blue-600 text-gray-600 rounded-lg hover:bg-blue-700"
               >
                 Apply
               </Button>
@@ -216,20 +216,20 @@ const FoodManagement = () => {
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50">
+          <thead className="bg-gray-50 dark:bg-gray-600">
             <tr>
-              <th className="p-4 text-left text-sm font-medium text-gray-700">Name</th>
-              <th className="p-4 text-left text-sm font-medium text-gray-700">Image</th>
-              <th className="p-4 text-left text-sm font-medium text-gray-700">Category</th>
-              <th className="p-4 text-left text-sm font-medium text-gray-700">Price</th>
-              <th className="p-4 text-left text-sm font-medium text-gray-700">Status</th>
-              <th className="p-4 text-left text-sm font-medium text-gray-700">Action</th>
+              <th className="p-4 text-left text-sm font-medium text-gray-700 dark:text-white">Name</th>
+              <th className="p-4 text-left text-sm font-medium text-gray-700 dark:text-white">Image</th>
+              <th className="p-4 text-left text-sm font-medium text-gray-700 dark:text-white">Category</th>
+              <th className="p-4 text-left text-sm font-medium text-gray-700 dark:text-white">Price</th>
+              <th className="p-4 text-left text-sm font-medium text-gray-700 dark:text-white">Status</th>
+              <th className="p-4 text-left text-sm font-medium text-gray-700 dark:text-white">Action</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
             {currentItems.map((item) => (
-              <tr key={item.id} className="hover:bg-gray-50">
-                <td className="p-4 text-sm font-medium text-gray-800">{item.name}</td>
+              <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-gray-900">
+                <td className="p-4 text-sm font-medium text-gray-800 dark:text-white">{item.name}</td>
                 <td className="p-4">
                   <div className="w-16 h-16 relative">
                     <Image
@@ -240,8 +240,8 @@ const FoodManagement = () => {
                     />
                   </div>
                 </td>
-                <td className="p-4 text-sm text-gray-600">{item.category}</td>
-                <td className="p-4 text-sm text-gray-600">€ {item.price.toFixed(2)}</td>
+                <td className="p-4 text-sm text-gray-600 dark:text-white">{item.category}</td>
+                <td className="p-4 text-sm text-gray-600 dark:text-white">€ {item.price.toFixed(2)}</td>
                 <td className="p-4">
                   <span className={`px-3 py-1 rounded-full text-xs ${
                     item.status === 'Active' 
@@ -257,7 +257,7 @@ const FoodManagement = () => {
                     onClick={() => setActiveDropdown(activeDropdown === item.id ? null : item.id)}
                     className="p-2 hover:bg-gray-100 rounded-full"
                   >
-                    <MoreVertical className="w-5 h-5 text-gray-500" />
+                    <MoreVertical className="w-5 h-5 text-gray-500 " />
                   </Button>
                   
                   {activeDropdown === item.id && (
@@ -298,14 +298,14 @@ const FoodManagement = () => {
 
       {/* Pagination */}
       <div className="flex justify-between items-center px-4 py-3 border-t border-gray-200">
-        <span className="text-sm text-gray-600">
+        <span className="text-sm text-gray-600 dark:text-white">
           Showing {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, foodItems.length)} of {foodItems.length} items
         </span>
         <div className="flex gap-2">
           <Button
             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50"
+            className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50 "
           >
             Previous
           </Button>

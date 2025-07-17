@@ -122,9 +122,9 @@ const ViewCustomerPage = () => {
 
   return (
     <div className="bg-opacity-50 flex flex-col items-center justify-center  max-h-screen p-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Representative Information.</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center dark:text-white">Representative Information.</h2>
       
-      <div className="flex flex-col md:flex-row gap-8 w-full max-w-4xl bg-white p-8 rounded-lg shadow-md">
+      <div className="flex flex-col md:flex-row gap-8 w-full max-w-4xl bg-white dark:bg-gray-700 p-8 rounded-lg shadow-md">
         <div className="flex-shrink-0 text-center">
           <Image
             src={customer.avatar}
@@ -139,45 +139,45 @@ const ViewCustomerPage = () => {
         
         <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-500">Name</label>
-            <p className="mt-1 p-2 text-gray-800 bg-gray-50 rounded-md">{customer.names}</p>
+            <label className="block text-sm font-medium text-gray-500 dark:text-white">Name</label>
+            <p className="mt-1 p-2 text-gray-800 bg-gray-900 dark:text-white rounded-md">{customer.names}</p>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-500">Email Address</label>
-            <p className="mt-1 p-2 text-gray-800 bg-gray-50 rounded-md">{customer.email}</p>
+            <label className="block text-sm font-medium text-gray-500 dark:text-white">Email Address</label>
+            <p className="mt-1 p-2 text-gray-800 bg-gray-900 dark:text-white rounded-md">{customer.email}</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-500">Phone</label>
-            <p className="mt-1 p-2 text-gray-800 bg-gray-50 rounded-md">{customer.phoneNumber}</p>
+            <label className="block text-sm font-medium text-gray-500 dark:text-white">Phone</label>
+            <p className="mt-1 p-2 text-gray-800 bg-gray-900 dark:text-white rounded-md">{customer.phoneNumber}</p>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-500">Business Name</label>
-            <p className="mt-1 p-2 text-gray-800 bg-gray-50 rounded-md">{customer.restaurant}</p>
+            <label className="block text-sm font-medium text-gray-500 dark:text-white">Business Name</label>
+            <p className="mt-1 p-2 text-gray-800 bg-gray-900 dark:text-white rounded-md">{customer.restaurant}</p>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-500">Location</label>
-            <p className="mt-1 p-2 text-gray-800 bg-gray-50 rounded-md">{customer.address}</p>
+            <label className="block text-sm font-medium text-gray-500 dark:text-white">Location</label>
+            <p className="mt-1 p-2 text-gray-800 bg-gray-900 dark:text-white rounded-md">{customer.address}</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-500">Account Created</label>
-            <p className="mt-1 p-2 text-gray-800 bg-gray-50 rounded-md">{customer.created}</p>
+            <label className="block text-sm font-medium text-gray-500 dark:text-white">Account Created</label>
+            <p className="mt-1 p-2 text-gray-800 bg-gray-900 dark:text-white rounded-md">{customer.created}</p>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-500">Status</label>
-            <p className={`mt-1 p-2 font-semibold rounded-md ${customer.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+            <label className="block text-sm font-medium text-gray-500 dark:text-white">Status</label>
+            <p className={`mt-1 p-2 font-semibold rounded-md ${customer.status === 'Active' ? 'bg-gray-900  text-green-800' : 'bg-gray-900  text-yellow-800'}`}>
                 {customer.status}
             </p>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-500">Category</label>
-            <p className="mt-1 p-2 text-gray-800 bg-gray-50 rounded-md">{customer.category}</p>
+            <label className="block text-sm font-medium text-gray-500 dark:text-white">Category</label>
+            <p className="mt-1 p-2 text-gray-800 bg-gray-900 dark:text-white rounded-md">{customer.category}</p>
           </div>
         </div>
       </div>
@@ -191,7 +191,7 @@ const ViewCustomerPage = () => {
         </Button>
         <Button
           onClick={() => router.push(`/admin/edit-customer/${customer.id}`)}
-          className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          className="px-6 py-2 bg-blue-600 text-gray-800 rounded-md hover:bg-blue-700"
         >
           Edit Profile
         </Button>
