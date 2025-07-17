@@ -4,7 +4,7 @@ import { MapPin, Plus, Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../../../../components/Button';
 
-export const MyAddresses = () => {
+export default function MyAddresses () {
   // Sample address data
   const addresses = [
     {
@@ -109,13 +109,3 @@ export const MyAddresses = () => {
 }
 
 
-// Wrapper component for testing and visualization
-const MyAddressesTest = () => {
-    return (
-        <div className="bg-white dark:bg-gray-800 p-8 rounded-lg">
-            <MyAddresses />
-        </div>
-    )
-}
-
-export default MyAddressesTest;
