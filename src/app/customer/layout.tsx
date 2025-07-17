@@ -2,7 +2,7 @@
 
 import React from 'react';
 import axios from "axios";
-import { Home,Utensils, ShoppingCart, Heart, LogOut, MapPin,  Clock,  Bell } from 'lucide-react';
+import { Home,Utensils, ShoppingCart, Heart, LogOut, MapPin,  Clock,  Bell ,History} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -105,11 +105,21 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
                   <span>Order History</span>
                 </Link>
               </li>
-             
+               <li>
+                               
+                                 <Link href="/customer/settings"  className="flex items-center space-x-3 px-3 py-2 rounded  dark:hover:text-white hover:text-black"> 
+                                  <History className="w-5 h-5" />
+                                 <span>Settings</span>
+                                 </Link>
+                                
+                        
+                             </li>
             </ul>
           </nav>
     
- <div className="flex md:flex-row gap-12 w-full mb-3 justify-center items-center">
+
+          <div className="border-t border-gray-200 pt-4 mt-auto">
+             <div className="flex md:flex-row gap-12 w-full mb-3 justify-center items-center">
       <label className="  text-base font-semibold">
         DarkMode
       </label>
@@ -126,7 +136,6 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
         <span>{darkMode ? "On" : "Off"}</span>
       </button>
     </div>
-          <div className="border-t border-gray-200 pt-4 mt-auto">
             <ul className="space-y-2">
             
            

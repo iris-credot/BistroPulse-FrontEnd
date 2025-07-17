@@ -54,7 +54,7 @@ const CustomerDashboard = () => {
         <CardContent className="flex items-center gap-4 p-6">
           <ShoppingCart className="w-8 h-8 text-blue-600" />
           <div>
-            <p className="text-sm text-gray-500">My Orders</p>
+            <p className="text-sm text-gray-500 dark:text-white">My Orders</p>
             <p className="text-xl font-bold">12</p>
           </div>
         </CardContent>
@@ -64,7 +64,7 @@ const CustomerDashboard = () => {
         <CardContent className="flex items-center gap-4 p-6">
           <Heart className="w-8 h-8 text-pink-500" />
           <div>
-            <p className="text-sm text-gray-500">Favorites</p>
+            <p className="text-sm text-gray-500 dark:text-white">Favorites</p>
             <p className="text-xl font-bold">8</p>
           </div>
         </CardContent>
@@ -74,7 +74,7 @@ const CustomerDashboard = () => {
         <CardContent className="flex items-center gap-4 p-6">
           <Wallet className="w-8 h-8 text-yellow-500" />
           <div>
-            <p className="text-sm text-gray-500">Total Spent</p>
+            <p className="text-sm text-gray-500 dark:text-white">Total Spent</p>
             <p className="text-xl font-bold">₵ 1,200</p>
           </div>
         </CardContent>
@@ -84,7 +84,7 @@ const CustomerDashboard = () => {
         <CardContent className="flex items-center gap-4 p-6">
           <Clock className="w-8 h-8 text-purple-600" />
           <div>
-            <p className="text-sm text-gray-500">Last Order</p>
+            <p className="text-sm text-gray-500 dark:text-white">Last Order</p>
             <p className="text-xl font-bold">2 days ago</p>
           </div>
         </CardContent>

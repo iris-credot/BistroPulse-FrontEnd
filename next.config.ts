@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   // Image optimization
   
    images: {
+    domains: ['i.pravatar.cc'],
     remotePatterns: [
       {
         protocol: 'https',

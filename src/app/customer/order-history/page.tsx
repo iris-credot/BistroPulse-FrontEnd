@@ -1,10 +1,9 @@
 'use client';
-
 import React, { useState } from "react";
 
 import { IoSearch } from "react-icons/io5";
 import { FiFilter } from "react-icons/fi";
-import { MdKeyboardArrowDown } from "react-icons/md";
+
 import clsx from "clsx";
 import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
@@ -89,9 +88,7 @@ export default function OrdersPage() {
             <FiFilter />
             Filter
           </Button>
-          <Button className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-md text-sm">
-            Export <MdKeyboardArrowDown />
-          </Button>
+        
         </div>
       </div>
 
@@ -171,7 +168,7 @@ export default function OrdersPage() {
           </thead>
           <tbody>
             {filteredOrders.map((order, idx) => (
-              <tr key={idx} className="border-b hover:bg-gray-50">
+              <tr key={idx} className="border-b hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td className="p-3"><input title="ff" type="checkbox" /></td>
                 <td className="p-3 font-medium">{order.id}</td>
                 <td className="p-3 truncate">{order.details}</td>

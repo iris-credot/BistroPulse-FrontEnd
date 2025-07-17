@@ -9,8 +9,6 @@ import { Input } from '../../../../components/Input';
 // import React, { useState, useEffect } from "react";
 // import { Restaurant } from "../../../../types/restaurant";
 
-// --- Step 1: Use a consistent and realistic data structure ---
-// Each object has a unique ID for routing.
 const restaurants = [
   {
     id: "68769aa6ebb86e2c710b2f67",
@@ -50,31 +48,26 @@ const restaurants = [
 export default function RestaurantTable() {
   const router = useRouter();
 
-  // For a real application, you would fetch data like this:
-  // const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
-  // useEffect(() => {
-  //   const fetchRestaurants = async () => {
-  //     const response = await fetch('/api/restaurants'); // Your API endpoint
-  //     const data = await response.json();
-  //     setRestaurants(data);
-  //   };
-  //   fetchRestaurants();
-  // }, []);
-
   return (
-    <div className="p-6 bg-white shadow rounded-lg">
+    <div className="p-6 bg-white dark:bg-gray-800 shadow rounded-lg">
       <div className="flex justify-between mb-4">
-        <h2 className="text-xl font-semibold">Restaurants</h2>
+        <h2 className="text-xl font-semibold dark:text-white">Restaurants</h2>
         <div className="flex gap-2 items-center">
-          <Input type="text" placeholder="Search" className="border rounded px-3 py-1" />
-          <Button className="border px-3 py-1 rounded">Filter</Button>
+          <Input
+            type="text"
+            placeholder="Search"
+            className="border rounded px-3 py-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+          />
+          <Button className="border px-3 py-1 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-600">
+            Filter
+          </Button>
         </div>
       </div>
 
       <table className="w-full table-auto text-left">
-        <thead className="bg-gray-100 text-sm">
+        <thead className="bg-gray-100 dark:bg-gray-700 text-sm text-gray-700 dark:text-gray-300">
           <tr>
-            <th className="p-2"><input title="h" type="checkbox" /></th>
+            <th className="p-2"><input title="select-all" type="checkbox" className="dark:bg-gray-800 dark:border-gray-600" /></th>
             <th className="p-2">Restaurant Name</th>
             <th className="p-2">Representative</th>
             <th className="p-2">Location</th>
@@ -84,14 +77,12 @@ export default function RestaurantTable() {
           </tr>
         </thead>
         <tbody>
-          {/* --- Step 2: Map over the corrected data structure --- */}
           {restaurants.map((rest) => (
-            <tr key={rest.id} className="hover:bg-gray-50 border-b">
-              <td className="p-2"><input title="h" type="checkbox" /></td>
-              <td className="p-2 font-medium">{rest.name}</td>
+            <tr key={rest.id} className="hover:bg-gray-50 dark:hover:bg-gray-900 border-b dark:border-gray-700 text-gray-800 dark:text-gray-300">
+              <td className="p-2"><input title={`select-${rest.id}`} type="checkbox" className="dark:bg-gray-800 dark:border-gray-600" /></td>
+              <td className="p-2 font-medium dark:text-white">{rest.name}</td>
               <td 
-                className="p-2 hover:underline text-blue-600 cursor-pointer"
-                // --- Step 3: Implement correct dynamic routing for the agent ---
+                className="p-2 hover:underline text-blue-600 dark:text-blue-400 cursor-pointer"
                 onClick={() => router.push(`/admin/view-agentRestau/${rest.representative.id}`)}
               >
                 {rest.representative.name}
@@ -103,10 +94,9 @@ export default function RestaurantTable() {
                 {rest.rating}
               </td>
               <td className="p-2">
-                {/* --- Step 3: Implement correct dynamic routing for the restaurant --- */}
                 <Link href={`/admin/view-restaurent/${rest.id}`}>
                   <FaEye 
-                    className="text-gray-600 cursor-pointer hover:text-blue-600 hover:scale-110 transition-transform" 
+                    className="text-gray-600 dark:text-gray-400 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 hover:scale-110 transition-transform" 
                     title="View restaurant overview"
                   />
                 </Link>
