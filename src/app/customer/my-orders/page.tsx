@@ -9,7 +9,7 @@ import { Input } from '../../../../components/Input';
 import { Order, OrderStatus } from '../../../../types/order';
 import { useRouter } from "next/navigation";
 import { useState } from 'react'; // Assuming you have a ThemeContext
-
+import Image from 'next/image';
 
 // This is a mock. In a real app, you'd get this from your theme context.
 
@@ -60,7 +60,7 @@ const CustomerOrder: NextPage = () => {
               >
                 Filter
               </Button>
-              <Button title='New Order' onClick={handleAddOrder} className="flex items-center justify-center gap-2 text-white border px-3 py-1 dark:text-gray-600 rounded bg-blue-500 hover:bg-blue-600">
+              <Button title='New Order' onClick={handleAddOrder} className="flex items-center justify-center gap-2 text-white border px-3 py-1 rounded bg-blue-500 hover:bg-blue-600">
                 <Plus className="w-5 h-5" /> <span>New Order</span>
               </Button>
             </div>
@@ -162,13 +162,7 @@ const CustomerOrder: NextPage = () => {
                     <td className="p-3">{order.date}</td>
                     <td className="p-3">
                       <div className="flex items-center gap-2">
-                         <img 
-                        src={order.customer.avatar} 
-                        alt={order.customer.name} 
-                        width={24}  
-                        height={24} 
-                        className="rounded-full" 
-                      />
+                        <Image src={order.customer.avatar} alt={order.customer.name}  width={24}  height={24} className="rounded-full" />
                         <span className="font-medium dark:text-white">{order.customer.name}</span>
                       </div>
                     </td>
