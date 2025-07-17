@@ -5,7 +5,7 @@ import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
 
 // --- Main Component ---
-const AddFood = () => {
+export default function AddFood  () {
   const [photo, setPhoto] = useState<File | null>(null);
   const [category, setCategory] = useState('Pizza');
   const [name, setName] = useState('');
@@ -130,14 +130,4 @@ const AddFood = () => {
     </div>
   );
 }
-export default AddFood;
-// --- Preview Component for Testing ---
-// This wrapper allows you to easily see the component in both light and dark modes.
-export const AddFoodTest = () => {
-  return (
-    <div className="bg-white dark:bg-gray-800 p-4 rounded-lg">
-      <AddFood />
-    </div>
-      
-  );
-}
+
