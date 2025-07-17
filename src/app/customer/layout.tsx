@@ -5,11 +5,15 @@ import axios from "axios";
 import { Home,Utensils, ShoppingCart, Heart, LogOut, MapPin,  Clock,  Bell } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
+import { useTheme } from '../../../components/darkTheme';
 import { useRouter } from "next/navigation";
 import { LanguageProvider } from '../../../components/LanguageProvider';
 
 export default function CustomerLayout({ children }: { children: React.ReactNode }) {
   const router= useRouter();
+    const { darkMode, toggleDarkMode } = useTheme();
       const handleLogout = async () => {
   try {
    await axios.post(
@@ -68,19 +72,19 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
           <nav className="mt-4">
             <ul className="space-y-2">
               <li>
-                <Link href="/customer/dashboard" className="flex items-center space-x-3 px-3 py-2 rounded hover:bg-gray-100 hover:text-gray-800">
+                <Link href="/customer/dashboard" className="flex items-center space-x-3 px-3 py-2 rounded dark:hover:text-white hover:text-black">
                   <Home className="w-5 h-5" />
                   <span>Dashboard</span>
                 </Link>
               </li>
               <li>
-                <Link href="/customer/restaurents" className="flex items-center space-x-3 px-3 py-2 rounded hover:bg-gray-100 hover:text-gray-800">
+                <Link href="/customer/restaurents" className="flex items-center space-x-3 px-3 py-2 rounded dark:hover:text-white hover:text-black">
                   <Utensils className="w-5 h-5" />
                   <span>Restaurants</span>
                 </Link>
               </li>
               <li>
-                <Link href="/customer/my-orders" className="flex items-center space-x-3 px-3 py-2 rounded hover:bg-gray-100 hover:text-gray-800">
+                <Link href="/customer/my-orders" className="flex items-center space-x-3 px-3 py-2 rounded dark:hover:text-white hover:text-black">
                   <ShoppingCart className="w-5 h-5" />
                   <span>My Orders</span>
                   <span className="ml-auto bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">3</span>
@@ -88,7 +92,7 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
               </li>
              
               <li>
-                <Link href="/customer/my-addresses" className="flex items-center space-x-3 px-3 py-2 rounded hover:bg-gray-100 hover:text-gray-800">
+                <Link href="/customer/my-addresses" className="flex items-center space-x-3 px-3 py-2 rounded dark:hover:text-white hover:text-black">
                   <MapPin className="w-5 h-5" />
                   <span>My Addresses</span>
                 </Link>
@@ -96,7 +100,7 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
              
              
               <li>
-                <Link href="/customer/order-history" className="flex items-center space-x-3 px-3 py-2 rounded hover:bg-gray-100 hover:text-gray-800">
+                <Link href="/customer/order-history" className="flex items-center space-x-3 px-3 py-2 rounded dark:hover:text-white hover:text-black">
                   <Clock className="w-5 h-5" />
                   <span>Order History</span>
                 </Link>
@@ -104,7 +108,24 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
              
             </ul>
           </nav>
-
+    
+ <div className="flex md:flex-row gap-12 w-full mb-3 justify-center items-center">
+      <label className="  text-base font-semibold">
+        DarkMode
+      </label>
+      <button
+        type="button"
+        onClick={toggleDarkMode}
+        className={`flex justify-center items-center   rounded-lg px-5 py-2 gap-3 border transition duration-300 ${
+          darkMode
+            ? "bg-blue-500 text-white border-blue-500"
+            : "bg-white text-black border-black"
+        }`}
+      >
+        <FontAwesomeIcon icon={darkMode ? faMoon : faSun} />
+        <span>{darkMode ? "On" : "Off"}</span>
+      </button>
+    </div>
           <div className="border-t border-gray-200 pt-4 mt-auto">
             <ul className="space-y-2">
             

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
+
 interface Customer {
   id:  number;
   name: string;
@@ -29,10 +30,6 @@ const ViewCustomerPage = () => {
     const fetchCustomerData = async () => {
       try {
         setLoading(true);
-        // In a real app, you would get the customer ID from the URL params
-        // const customerId = router.query.id;
-        
-        // Mock customer data
         const mockCustomer: Customer = {
           id: 1,
           name: "Jane Doe",
@@ -46,14 +43,9 @@ const ViewCustomerPage = () => {
             { id: 101, details: "Order #101 - 3x T-Shirts", date: "2025-06-30", status: "Shipped" },
             { id: 102, details: "Order #102 - 2x Jeans", date: "2025-07-01", status: "Processing" }
           ],
-          // Additional fields from Customer type
-       
           restaurant: "Cafe Delight",
-       
           category: "VIP"
         };
-
-        // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 1000));
         setCustomer(mockCustomer);
       } catch (err) {
@@ -63,7 +55,6 @@ const ViewCustomerPage = () => {
         setLoading(false);
       }
     };
-
     fetchCustomerData();
   }, []);
 
@@ -83,7 +74,7 @@ const ViewCustomerPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center dark:text-white">
         <p>Loading customer profile...</p>
       </div>
     );
@@ -105,15 +96,16 @@ const ViewCustomerPage = () => {
 
   if (!customer) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center dark:text-white">
         <p>Customer not found</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-opacity-50 flex flex-col items-center justify-center min-h-screen p-6">
-      <h2 className="text-xl font-bold text-gray-800 mb-6 text-center">Customer Profile</h2>
+    // Removed bg-opacity-50 to allow parent to control background
+    <div className="flex flex-col items-center justify-center w-full">
+      <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-6 text-center">Customer Profile</h2>
       
       <div className="flex flex-col md:flex-row gap-6 w-full max-w-4xl">
         <div className="flex-shrink-0">
@@ -122,7 +114,7 @@ const ViewCustomerPage = () => {
             alt={customer.name || "Customer profile"}
             width={128}
             height={128}
-            className="w-32 h-32 rounded-full object-cover border-2 border-gray-200 mx-auto md:mx-0"
+            className="w-32 h-32 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600 mx-auto md:mx-0"
             priority
           />
           <div className="mt-4 text-center md:text-left">
@@ -138,7 +130,7 @@ const ViewCustomerPage = () => {
             </label>
             <Button
               onClick={handleRemovePicture}
-              className="mt-2 px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 text-sm"
+              className="mt-2 px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 text-sm dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700"
               aria-label="Remove profile picture"
             >
               Remove
@@ -148,62 +140,60 @@ const ViewCustomerPage = () => {
         
         <div className="flex-1 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Name</label>
-            <p className="mt-1 p-2 bg-gray-50 rounded-md">{customer.name || "N/A"}</p>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+            <p className="mt-1 p-2 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-md">{customer.name || "N/A"}</p>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700">Phone</label>
-            <p className="mt-1 p-2 bg-gray-50 rounded-md">{customer.phone || "N/A"}</p>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Phone</label>
+            <p className="mt-1 p-2 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-md">{customer.phone || "N/A"}</p>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
-            <p className="mt-1 p-2 bg-gray-50 rounded-md">{customer.email || "N/A"}</p>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+            <p className="mt-1 p-2 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-md">{customer.email || "N/A"}</p>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700">Location</label>
-            <p className="mt-1 p-2 bg-gray-50 rounded-md">{customer.location || "N/A"}</p>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Location</label>
+            <p className="mt-1 p-2 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-md">{customer.location || "N/A"}</p>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700">Created</label>
-            <p className="mt-1 p-2 bg-gray-50 rounded-md">{customer.created || "N/A"}</p>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Created</label>
+            <p className="mt-1 p-2 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-md">{customer.created || "N/A"}</p>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700">Status</label>
-            <p className="mt-1 p-2 bg-gray-50 rounded-md">{customer.status || "N/A"}</p>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
+            <p className="mt-1 p-2 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-md">{customer.status || "N/A"}</p>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700">Category</label>
-            <p className="mt-1 p-2 bg-gray-50 rounded-md">{customer.category || "N/A"}</p>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
+            <p className="mt-1 p-2 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-md">{customer.category || "N/A"}</p>
           </div>
-          
-        
           
           {customer.orders && customer.orders.length > 0 && (
             <div>
-              <h3 className="text-lg font-medium text-gray-700 mb-2">Order History</h3>
+              <h3 className="text-lg font-medium text-gray-700 dark:text-white mb-2">Order History</h3>
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
-                  <thead className="bg-gray-50">
+                  <thead className="bg-gray-50 dark:bg-gray-700">
                     <tr>
-                      <th className="p-2 text-sm font-medium text-gray-700">Order ID</th>
-                      <th className="p-2 text-sm font-medium text-gray-700">Details</th>
-                      <th className="p-2 text-sm font-medium text-gray-700">Date</th>
-                      <th className="p-2 text-sm font-medium text-gray-700">Status</th>
+                      <th className="p-2 text-sm font-medium text-gray-700 dark:text-gray-300">Order ID</th>
+                      <th className="p-2 text-sm font-medium text-gray-700 dark:text-gray-300">Details</th>
+                      <th className="p-2 text-sm font-medium text-gray-700 dark:text-gray-300">Date</th>
+                      <th className="p-2 text-sm font-medium text-gray-700 dark:text-gray-300">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {customer.orders.map((order) => (
-                      <tr key={order.id} className="border-t">
-                        <td className="p-2 text-sm text-gray-600">{order.id}</td>
-                        <td className="p-2 text-sm text-gray-600">{order.details || "N/A"}</td>
-                        <td className="p-2 text-sm text-gray-600">{order.date || "N/A"}</td>
-                        <td className="p-2 text-sm text-gray-600">{order.status || "N/A"}</td>
+                      <tr key={order.id} className="border-t dark:border-gray-700">
+                        <td className="p-2 text-sm text-gray-600 dark:text-gray-400">{order.id}</td>
+                        <td className="p-2 text-sm text-gray-600 dark:text-gray-400">{order.details || "N/A"}</td>
+                        <td className="p-2 text-sm text-gray-600 dark:text-gray-400">{order.date || "N/A"}</td>
+                        <td className="p-2 text-sm text-gray-600 dark:text-gray-400">{order.status || "N/A"}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -217,7 +207,7 @@ const ViewCustomerPage = () => {
       <div className="flex gap-3 mt-6">
         <Button
           onClick={() => router.push('/owner/customer-list')}
-          className="px-6 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+          className="px-6 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
         >
           Back to List
         </Button>
@@ -232,4 +222,13 @@ const ViewCustomerPage = () => {
   );
 };
 
-export default ViewCustomerPage;
+// Wrapper for testing purposes
+const ViewCustomerPageTest = () => {
+    return (
+        <div className="bg-white dark:bg-gray-800 p-6 min-h-screen">
+            <ViewCustomerPage />
+        </div>
+    )
+}
+
+export default ViewCustomerPageTest;

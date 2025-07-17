@@ -70,7 +70,7 @@ const AddCustomerPage = () => {
 
   return (
     <div className="bg-opacity-50 flex items-center justify-center z-50 min-h-screen p-7">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg dark:bg-gray-800">
         <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">Add New Customer</h2>
         
         <div className="flex flex-col items-center mb-6">
@@ -104,7 +104,7 @@ const AddCustomerPage = () => {
         
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Name</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-white">Name</label>
             <Input
               type="text"
               name="name"
@@ -118,7 +118,7 @@ const AddCustomerPage = () => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-white">Email</label>
             <Input
               type="email"
               name="email"
@@ -132,7 +132,7 @@ const AddCustomerPage = () => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700">Phone</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-white">Phone</label>
             <Input
               type="tel"
               name="phone"
@@ -146,7 +146,7 @@ const AddCustomerPage = () => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700">Location</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-white">Location</label>
             <Input
               type="text"
               name="location"
@@ -161,13 +161,13 @@ const AddCustomerPage = () => {
           
           {/* Additional fields for university */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">University Status</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-white">University Status</label>
             <select
             title="d"
               name="universityStatus"
               value={newCustomer.universityStatus}
               onChange={handleInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:bg-gray-950"
             >
               <option value="University student">University student</option>
               <option value="Graduate">Graduate</option>
@@ -177,7 +177,7 @@ const AddCustomerPage = () => {
           
           {newCustomer.universityStatus !== "Not applicable" && (
             <div>
-              <label className="block text-sm font-medium text-gray-700">University</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-white">University</label>
               <Input
                 type="text"
                 name="university"
@@ -191,13 +191,13 @@ const AddCustomerPage = () => {
           )}
           
           <div>
-            <label className="block text-sm font-medium text-gray-700">Gender</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-white">Gender</label>
             <select
             title="d"
               name="gender"
               value={newCustomer.gender}
               onChange={handleInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-950"
             >
               <option value="Male">Male</option>
               <option value="Female">Female</option>
@@ -220,7 +220,7 @@ const AddCustomerPage = () => {
             
             <Button 
               onClick={handleAddCustomer} 
-              className="flex-1 mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+              className="flex-1 mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 dark:text-black"
               aria-label="Add customer"
               disabled={loading}
             >

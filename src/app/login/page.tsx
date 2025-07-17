@@ -112,7 +112,7 @@ export default function LoginForm() {
               {...register('email')}
               type="email"
               placeholder="example@gmail.com"
-              className="pl-10 pr-3 py-2 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="pl-10 pr-3 py-2 border rounded w-full text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
           </div>

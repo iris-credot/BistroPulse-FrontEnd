@@ -3,15 +3,14 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from "next/navigation";
-
-import {  Power,Search, Filter, Plus, Download, MoreVertical, Eye, Edit, UserMinus } from 'lucide-react';
+import { Power, Search, Filter, Plus, Download, MoreVertical, Eye, Edit, UserMinus } from 'lucide-react';
 import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
 import { FoodItem } from '../../../../types/foodItem';
 
-
 const FoodManagement = () => {
   const [foodItems, setFoodItems] = useState<FoodItem[]>([
+    // ... your food items data
     {
       id: 1,
       name: 'Beef onion pizza',
@@ -62,12 +61,12 @@ const FoodManagement = () => {
     }
   ]);
   const router = useRouter();
-    const [filterVisible, setFilterVisible] = useState(false);
-      const [filters, setFilters] = useState({ 
-        price: "", 
-        category: "", 
-        status: "" 
-      });
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [filters, setFilters] = useState({ 
+    price: "", 
+    category: "", 
+    status: "" 
+  });
   const [currentPage, setCurrentPage] = useState(1);
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
   const itemsPerPage = 5;
@@ -88,74 +87,75 @@ const FoodManagement = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = foodItems.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(foodItems.length / itemsPerPage);
+  
   const handleAddFood = () => {
     router.push('/owner/add-food-menu');
   };
+
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
       {/* Header */}
-       <div className="p-4 border-b border-gray-200">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-              <div className="flex items-center gap-3">
-               
-                <h2 className="text-lg font-semibold text-gray-800">Food Items</h2>
-              </div>
+       <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="flex items-center gap-3">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Food Items</h2>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+            <div className="relative w-full sm:w-64">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
+              <Input
+                type="text"
+                placeholder="Search customers..."
+                title="Search customers by name, email, or phone"
+                className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                aria-label="Search customers"
+              />
+            </div>
+            
+            <div className="flex gap-3">
+              <Button
+                onClick={() => setFilterVisible(!filterVisible)}
+                className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                aria-label="Filter"
+              >
+                <Filter className="w-5 h-5" />
+                <span className="hidden sm:inline">Filter</span>
+              </Button>
               
-              <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-                <div className="relative w-full sm:w-64">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
-                  <Input
-                    type="text"
-                    placeholder="Search customers..."
-                    title="Search customers by name, email, or phone"
-                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
-                    aria-label="Search customers"
-                  />
-                </div>
-                
-                <div className="flex gap-3">
-                  <Button
-                    onClick={() => setFilterVisible(!filterVisible)}
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
-                    aria-label="Filter"
-                  >
-                    <Filter className="w-5 h-5" />
-                    <span className="hidden sm:inline">Filter</span>
-                  </Button>
-                  
-                  <Button
-                    onClick={handleAddFood}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                    aria-label="Add customer"
-                  >
-                    <Plus className="w-5 h-5" />
-                    <span className="hidden sm:inline">Add Food</span>
-                  </Button>
-                  
-                  <Button
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
-                    aria-label="Export"
-                  >
-                    <Download className="w-5 h-5" />
-                    <span className="hidden sm:inline">Export</span>
-                  </Button>
-                </div>
-              </div>
+              <Button
+                onClick={handleAddFood}
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:text-gray-500"
+                aria-label="Add customer"
+              >
+                <Plus className="w-5 h-5" />
+                <span className="hidden sm:inline">Add Food</span>
+              </Button>
+              
+              <Button
+                className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                aria-label="Export"
+              >
+                <Download className="w-5 h-5" />
+                <span className="hidden sm:inline">Export</span>
+              </Button>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Filter */}
-  {filterVisible && (
-        <div className="absolute right-6 mt-2 w-72 bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-10">
+      {/* Filter */}
+      {filterVisible && (
+        <div className="absolute right-6 mt-2 w-72 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-10">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-500">Price</label>
+              <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">Price</label>
               <select
                 name="location"
                 title="Filter by customer location"
                 value={filters.price}
                 onChange={(e) => setFilters({...filters, price: e.target.value})}
-                className="mt-1 block w-full border text-gray-400 border-gray-500 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 block w-full border text-gray-400 border-gray-500 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
               >
                 <option value="">Available</option>
                 <option value="Kigali">2k</option>
@@ -166,13 +166,13 @@ const FoodManagement = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-500">Category</label>
+              <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">Category</label>
               <select
                 name="category"
                 title="Filter by customer category"
                 value={filters.category}
                 onChange={(e) => setFilters({...filters, category: e.target.value})}
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
               >
                 <option value="">All Categories</option>
                 <option value="Regular">Regular</option>
@@ -182,13 +182,13 @@ const FoodManagement = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700">Status</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Status</label>
               <select
                 name="status"
                 title="Filter by customer status"
                 value={filters.status}
                 onChange={(e) => setFilters({...filters, status: e.target.value})}
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
               >
                 <option value="">All Statuses</option>
                 <option value="Active">Active</option>
@@ -199,7 +199,7 @@ const FoodManagement = () => {
             <div className="flex justify-end gap-2">
               <Button
                 onClick={() => setFilters({ price: "", category: "", status: "" })}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                className="px-4 py-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
               >
                 Clear
               </Button>
@@ -213,77 +213,79 @@ const FoodManagement = () => {
           </div>
         </div>
       )}
+      
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50">
+          <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
-              <th className="p-4 text-left text-sm font-medium text-gray-700">Name</th>
-              <th className="p-4 text-left text-sm font-medium text-gray-700">Image</th>
-              <th className="p-4 text-left text-sm font-medium text-gray-700">Category</th>
-              <th className="p-4 text-left text-sm font-medium text-gray-700">Price</th>
-              <th className="p-4 text-left text-sm font-medium text-gray-700">Status</th>
-              <th className="p-4 text-left text-sm font-medium text-gray-700">Action</th>
+              <th className="p-4 text-left text-sm font-medium text-gray-700 dark:text-gray-300">Name</th>
+              <th className="p-4 text-left text-sm font-medium text-gray-700 dark:text-gray-300">Image</th>
+              <th className="p-4 text-left text-sm font-medium text-gray-700 dark:text-gray-300">Category</th>
+              <th className="p-4 text-left text-sm font-medium text-gray-700 dark:text-gray-300">Price</th>
+              <th className="p-4 text-left text-sm font-medium text-gray-700 dark:text-gray-300">Status</th>
+              <th className="p-4 text-left text-sm font-medium text-gray-700 dark:text-gray-300">Action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
             {currentItems.map((item) => (
-              <tr key={item.id} className="hover:bg-gray-50">
-                <td className="p-4 text-sm font-medium text-gray-800">{item.name}</td>
+              <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-gray-900">
+                <td className="p-4 text-sm font-medium text-gray-800 dark:text-white">{item.name}</td>
                 <td className="p-4">
                   <div className="w-16 h-16 relative">
                     <Image
                       src={item.image}
                       alt={item.name}
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover rounded"
                     />
                   </div>
                 </td>
-                <td className="p-4 text-sm text-gray-600">{item.category}</td>
-                <td className="p-4 text-sm text-gray-600">€ {item.price.toFixed(2)}</td>
+                <td className="p-4 text-sm text-gray-600 dark:text-gray-400">{item.category}</td>
+                <td className="p-4 text-sm text-gray-600 dark:text-gray-400">€ {item.price.toFixed(2)}</td>
                 <td className="p-4">
-                  <span className={`px-3 py-1 rounded-full text-xs ${
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                     item.status === 'Active' 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-gray-100 text-gray-800'
+                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' 
+                      : 'bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-gray-300'
                   }`}>
                     {item.status}
                   </span>
                 </td>
                 <td className="p-4 relative">
                   <Button
-                  title='hh'
+                  title='actions'
                     onClick={() => setActiveDropdown(activeDropdown === item.id ? null : item.id)}
-                    className="p-2 hover:bg-gray-100 rounded-full"
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full "
                   >
                     <MoreVertical className="w-5 h-5 text-gray-500" />
                   </Button>
                   
                   {activeDropdown === item.id && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-10">
+                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg border border-gray-200  dark:border-gray-700 z-10">
                       <Button
                         onClick={() => {router.push('/owner/view-menu')}} // View action
-                        className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                        className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-800 flex items-center gap-2"
                       >
                         <Eye className="w-4 h-4" /> View
                       </Button>
                       <Button
                         onClick={() => {router.push('/owner/edit-menu')}} // Edit action
-                        className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                        className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-800 flex items-center gap-2"
                       >
                         <Edit className="w-4 h-4" /> Edit
                       </Button>
                       <Button
                         onClick={() => toggleStatus(item.id)}
-                        className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                        className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-800 flex items-center gap-2"
                       >
                         <Power className="w-4 h-4" /> 
                         {item.status === 'Active' ? 'Deactivate' : 'Activate'}
                       </Button>
                       <Button
                         onClick={() => deleteItem(item.id)}
-                        className="w-full px-4 py-2 text-sm text-red-600 hover:bg-red-100 flex items-center gap-2"
+                        className="w-full px-4 py-2 text-sm text-red-600 hover:bg-red-100 dark:bg-gray-600 dark:text-red-500 dark:hover:bg-red-900/50 flex items-center gap-2"
                       >
                         <UserMinus className="w-4 h-4" /> Delete
                       </Button>
@@ -297,25 +299,25 @@ const FoodManagement = () => {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-between items-center px-4 py-3 border-t border-gray-200">
-        <span className="text-sm text-gray-600">
+      <div className="flex justify-between items-center px-4 py-3 border-t border-gray-200 dark:border-gray-700">
+        <span className="text-sm text-gray-600 dark:text-gray-400">
           Showing {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, foodItems.length)} of {foodItems.length} items
         </span>
         <div className="flex gap-2">
           <Button
             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50"
+            className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
           >
             Previous
           </Button>
-          <span className="px-3 py-1">
+          <span className="px-3 py-1 text-gray-700 dark:text-gray-300">
             {currentPage} of {totalPages}
           </span>
           <Button
             onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
-            className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50"
+            className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
           >
             Next
           </Button>

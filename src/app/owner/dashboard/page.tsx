@@ -48,7 +48,7 @@ const Dashboard = () => {
         <CardContent className="flex items-center gap-4 p-6">
           <LayoutDashboard className="w-8 h-8 text-blue-600" />
           <div>
-            <p className="text-sm text-gray-500">Total Orders</p>
+            <p className="text-sm text-gray-500 dark:text-white">Total Orders</p>
             <p className="text-xl font-bold">2,345</p>
           </div>
         </CardContent>
@@ -57,7 +57,7 @@ const Dashboard = () => {
         <CardContent className="flex items-center gap-4 p-6">
           <Users className="w-8 h-8 text-green-600" />
           <div>
-            <p className="text-sm text-gray-500">New Users</p>
+            <p className="text-sm text-gray-500 dark:text-white">New Users</p>
             <p className="text-xl font-bold">425</p>
           </div>
         </CardContent>
@@ -66,8 +66,8 @@ const Dashboard = () => {
         <CardContent className="flex items-center gap-4 p-6">
           <Utensils className="w-8 h-8 text-yellow-600" />
           <div>
-            <p className="text-sm text-gray-500">Top Dish</p>
-            <p className="text-xl font-bold">Pizza</p>
+            <p className="text-sm text-gray-500 dark:text-white">Top Dish</p>
+            <p className="text-xl font-bold dark:text-white">Pizza</p>
           </div>
         </CardContent>
       </Card>
@@ -75,7 +75,7 @@ const Dashboard = () => {
         <CardContent className="flex items-center gap-4 p-6">
           <Bell className="w-8 h-8 text-red-600" />
           <div>
-            <p className="text-sm text-gray-500">Alerts</p>
+            <p className="text-sm text-gray-500 dark:text-white">Alerts</p>
             <p className="text-xl font-bold">7</p>
           </div>
         </CardContent>

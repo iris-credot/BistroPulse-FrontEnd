@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Search, Filter, Plus, Download, MoreVertical, Eye, Edit, UserMinus } from "lucide-react";
+import { Search, Filter, Plus,  MoreVertical, Eye, Edit, UserMinus } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from '../../../../components/Button';
@@ -155,7 +155,7 @@ const CustomerList = () => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg">
+    <div className="bg-white shadow-md rounded-lg dark:bg-gray-800">
       {/* Header with search and actions */}
       <div className="p-4 border-b border-gray-200">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -163,7 +163,7 @@ const CustomerList = () => {
             <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
               <span className="text-white text-sm">👤</span>
             </div>
-            <h2 className="text-lg font-semibold text-gray-800">Customers</h2>
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Customers</h2>
           </div>
           
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
@@ -190,20 +190,14 @@ const CustomerList = () => {
               
               <Button
                 onClick={handleAddCustomer}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white dark:text-black rounded-lg hover:bg-blue-700"
                 aria-label="Add customer"
               >
                 <Plus className="w-5 h-5" />
-                <span className="hidden sm:inline">Add Customer</span>
+                <span className="hidden sm:inline ">Add Customer</span>
               </Button>
               
-              <Button
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
-                aria-label="Export"
-              >
-                <Download className="w-5 h-5" />
-                <span className="hidden sm:inline">Export</span>
-              </Button>
+             
             </div>
           </div>
         </div>
@@ -211,16 +205,16 @@ const CustomerList = () => {
 
       {/* Filter dropdown */}
       {filterVisible && (
-        <div className="absolute right-6 mt-2 w-72 bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-10">
+        <div className="absolute right-6 mt-2 w-72 bg-white rounded-lg shadow-lg border dark:bg-gray-800 border-gray-200 p-4 z-10">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-500">Location</label>
+              <label className="block text-sm font-medium text-gray-500 dark:bg-gray-800">Location</label>
               <select
                 name="location"
                 title="Filter by customer location"
                 value={filters.location}
                 onChange={(e) => setFilters({...filters, location: e.target.value})}
-                className="mt-1 block w-full border text-gray-400 border-gray-500 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 block w-full border text-gray-400 dark:bg-gray-800 border-gray-500 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">All Locations</option>
                 <option value="Kigali">Kigali</option>
@@ -231,13 +225,13 @@ const CustomerList = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-500">Category</label>
+              <label className="block text-sm font-medium text-gray-500 dark:bg-gray-800">Category</label>
               <select
                 name="category"
                 title="Filter by customer category"
                 value={filters.category}
                 onChange={(e) => setFilters({...filters, category: e.target.value})}
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 block w-full dark:bg-gray-800 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">All Categories</option>
                 <option value="Regular">Regular</option>
@@ -247,13 +241,13 @@ const CustomerList = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700">Status</label>
+              <label className="block text-sm font-medium dark:bg-gray-800 text-gray-700">Status</label>
               <select
                 name="status"
                 title="Filter by customer status"
                 value={filters.status}
                 onChange={(e) => setFilters({...filters, status: e.target.value})}
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 block w-full border dark:bg-gray-800 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">All Statuses</option>
                 <option value="Active">Active</option>
@@ -270,7 +264,7 @@ const CustomerList = () => {
               </Button>
               <Button
                 onClick={() => setFilterVisible(false)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="px-4 py-2 bg-blue-600 text-white dark:text-black rounded-lg hover:bg-blue-700"
               >
                 Apply
               </Button>
@@ -283,7 +277,7 @@ const CustomerList = () => {
       <div className="overflow-x-auto mt-4">
         <table className="w-full text-left border-collapse">
           <thead className="bg-gray-50">
-            <tr>
+            <tr className="dark:bg-gray-600 dark:text-white">
               <th className="p-4">
                 <input
                   type="checkbox"
@@ -294,12 +288,12 @@ const CustomerList = () => {
                   aria-label="Select all customers"
                 />
               </th>
-              <th className="p-4 text-sm font-medium text-gray-700">Name</th>
-              <th className="p-4 text-sm font-medium text-gray-700">Phone</th>
-              <th className="p-4 text-sm font-medium text-gray-700">Email</th>
-              <th className="p-4 text-sm font-medium text-gray-700">Location</th>
-              <th className="p-4 text-sm font-medium text-gray-700">Created</th>
-              <th className="p-4 text-sm font-medium text-gray-700">Actions</th>
+              <th className="p-4 text-sm font-medium text-gray-700 dark:text-white">Name</th>
+              <th className="p-4 text-sm font-medium text-gray-700 dark:text-white">Phone</th>
+              <th className="p-4 text-sm font-medium text-gray-700 dark:text-white">Email</th>
+              <th className="p-4 text-sm font-medium text-gray-700 dark:text-white">Location</th>
+              <th className="p-4 text-sm font-medium text-gray-700 dark:text-white">Created</th>
+              <th className="p-4 text-sm font-medium text-gray-700 dark:text-white">Actions</th>
             </tr>
           </thead>
           
@@ -318,14 +312,14 @@ const CustomerList = () => {
               </tr>
             ) : currentCustomers.length > 0 ? (
               currentCustomers.map((customer) => (
-                <tr key={customer.id} className="border-t hover:bg-gray-50">
+                <tr key={customer.id} className="border-t hover:bg-gray-50 dark:hover:bg-gray-900">
                   <td className="p-4">
                     <input
                       type="checkbox"
                       title={`Select ${customer.name}`}
                       checked={selectedCustomers.includes(customer.id)}
                       onChange={(e) => handleSelectCustomer(customer.id, e.target.checked)}
-                      className="rounded text-blue-600 focus:ring-blue-500"
+                      className="rounded text-blue-600 focus:ring-blue-500 "
                       aria-label={`Select ${customer.name}`}
                     />
                   </td>
@@ -341,10 +335,10 @@ const CustomerList = () => {
                     <span className="text-sm font-medium text-gray-800">{customer.name}</span>
                   </td>
                   
-                  <td className="p-4 text-sm text-gray-600">{customer.phone}</td>
-                  <td className="p-4 text-sm text-blue-600">{customer.email}</td>
-                  <td className="p-4 text-sm text-gray-600">{customer.location}</td>
-                  <td className="p-4 text-sm text-gray-600">{customer.created}</td>
+                  <td className="p-4 text-sm text-gray-600 dark:text-white">{customer.phone}</td>
+                  <td className="p-4 text-sm text-blue-600 dark:text-white">{customer.email}</td>
+                  <td className="p-4 text-sm text-gray-600 dark:text-white">{customer.location}</td>
+                  <td className="p-4 text-sm text-gray-600 dark:text-white">{customer.created}</td>
                   
                   <td className="p-4 relative">
                     <Button

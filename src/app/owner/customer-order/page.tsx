@@ -182,6 +182,7 @@ const [filteredOrders, setFilteredOrders] = useState<Order[]>(orders);
             order.price <= priceRange[1] &&
             (selectedStatus ? order.status === selectedStatus : true)
           );
+          
           setFilteredOrders(filtered);
           setShowFilter(false);
         }}

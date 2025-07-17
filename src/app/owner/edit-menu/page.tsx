@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -6,7 +5,6 @@ import Image from "next/image";
 import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
 import { FoodItem } from "../../../../types/foodItem";
-
 
 // Props for EditFood
 type EditFoodProps = {
@@ -25,7 +23,7 @@ const EditFood: React.FC<EditFoodProps> = ({ food, onSave, onClose }) => {
   if (!editedFood) {
     return (
       <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white p-6 rounded shadow">Loading food item...</div>
+        <div className="bg-white dark:bg-gray-800 p-6 rounded shadow">Loading food item...</div>
       </div>
     );
   }
@@ -53,8 +51,9 @@ const EditFood: React.FC<EditFoodProps> = ({ food, onSave, onClose }) => {
   };
 
   return (
-    <div className=" bg-white flex-col bg-opacity-50 flex items-center justify-center z-50 p-4 min-h-screen">
-      <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">Edit Food</h2>
+    // Removed bg-white from the wrapper to allow parent to control it
+    <div className="flex-col flex items-center justify-center z-50 w-full">
+      <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">Edit Food</h2>
 
       <div className="flex flex-col items-center mb-6">
         <Image
@@ -62,7 +61,7 @@ const EditFood: React.FC<EditFoodProps> = ({ food, onSave, onClose }) => {
           alt="Food Image"
           width={120}
           height={120}
-          className="w-28 h-28 rounded object-cover mb-3 border-2 border-gray-200"
+          className="w-28 h-28 rounded object-cover mb-3 border-2 border-gray-200 dark:border-gray-600"
         />
         <div className="flex gap-2">
           <label className="px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 cursor-pointer">
@@ -71,7 +70,7 @@ const EditFood: React.FC<EditFoodProps> = ({ food, onSave, onClose }) => {
           </label>
           <Button
             onClick={handleRemoveImage}
-            className="px-3 py-1 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 text-sm"
+            className="px-3 py-1 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 text-sm dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700"
           >
             Remove
           </Button>
@@ -80,49 +79,49 @@ const EditFood: React.FC<EditFoodProps> = ({ food, onSave, onClose }) => {
 
       <div className="space-y-4 w-full max-w-md">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Name</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
           <Input
             type="text"
             name="name"
             value={editedFood.name}
             onChange={handleInputChange}
-            className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
             placeholder="Enter food name"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Description</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
           <textarea
             name="description"
             value={editedFood.description}
             onChange={handleInputChange}
-            className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
             placeholder="Enter description"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Price</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Price</label>
           <Input
             type="number"
             name="price"
             value={editedFood.price}
             onChange={handleInputChange}
-            className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
             placeholder="Enter price"
             min={0}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Category</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
           <select
             name="category"
             title="ds"
             value={editedFood.category}
             onChange={handleInputChange}
-            className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
           >
             <option value="">Select category</option>
             <option value="Appetizer">Appetizer</option>
@@ -134,13 +133,13 @@ const EditFood: React.FC<EditFoodProps> = ({ food, onSave, onClose }) => {
 
         <Button
           onClick={handleSave}
-          className="w-full mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          className="w-full mt-4 px-4 py-2 bg-blue-600 text-white dark:text-black rounded-md hover:bg-blue-700"
         >
           Save
         </Button>
         <Button
           onClick={onClose}
-          className="w-full mt-2 text-gray-600 hover:text-gray-800"
+          className="w-full mt-2 text-gray-600 hover:text-gray-800 dark:text-black dark:hover:text-gray-200"
         >
           Cancel
         </Button>
@@ -159,6 +158,7 @@ const EditFoodTest = () => {
     price: 12.99,
     category: "Main",
     image: "/images/placeholder-food.jpg",
+    status: 'Active'
   };
 
   const handleSave = (updatedFood: FoodItem) => {
@@ -171,7 +171,12 @@ const EditFoodTest = () => {
     alert("Edit modal closed.");
   };
 
-  return <EditFood food={dummyFood} onSave={handleSave} onClose={handleClose} />;
+  return (
+    // Wrapper to demonstrate dark mode styling effectively
+    <div className="bg-white dark:bg-gray-800 p-8 rounded-lg">
+        <EditFood food={dummyFood} onSave={handleSave} onClose={handleClose} />
+    </div>
+  );
 };
 
 export default EditFoodTest;

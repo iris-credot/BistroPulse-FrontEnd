@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
+
 interface Customer {
   id:  number;
   name: string;
@@ -17,7 +18,6 @@ interface Customer {
   status?: string;
   orders?: { id: number; details: string; date: string; status: string }[];
 }
-
 
 // Props for EditCustomer
 type EditCustomerProps = {
@@ -36,7 +36,7 @@ const EditCustomer: React.FC<EditCustomerProps> = ({ customer, onSave, onClose }
   if (!editedCustomer) {
     return (
       <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white p-6 rounded shadow">Loading customer...</div>
+        <div className="bg-white dark:bg-gray-800 p-6 rounded shadow">Loading customer...</div>
       </div>
     );
   }
@@ -65,18 +65,18 @@ const EditCustomer: React.FC<EditCustomerProps> = ({ customer, onSave, onClose }
   };
 
   return (
-    <div className="   flex-col bg-opacity-50 flex items-center justify-center z-50">
-        <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">Edit Customer</h2>
+    <div className="flex-col flex items-center justify-center z-50 w-[80%]">
+        <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">Edit Customer</h2>
         <div className="flex flex-col items-center mb-6">
           <Image
             src={editedCustomer.avatar || "/images/profile.jpg"}
             alt="Avatar"
             width={80}
             height={80}
-            className="w-20 h-20 rounded-full object-cover mb-3 border-2 border-gray-200"
+            className="w-20 h-20 rounded-full object-cover mb-3 border-2 border-gray-200 dark:border-gray-600"
           />
           <div className="flex gap-2">
-            <label className="px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 cursor-pointer">
+            <label className="px-6 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 cursor-pointer">
               <Input
                 type="file"
                 accept="image/*"
@@ -88,7 +88,7 @@ const EditCustomer: React.FC<EditCustomerProps> = ({ customer, onSave, onClose }
             </label>
             <Button
               onClick={handleRemoveEditPicture}
-              className="px-3 py-1 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 text-sm"
+              className="px-3 py-1 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 text-sm dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700"
               aria-label="Remove profile picture"
             >
               Remove
@@ -97,75 +97,74 @@ const EditCustomer: React.FC<EditCustomerProps> = ({ customer, onSave, onClose }
         </div>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Name</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
             <Input
               type="text"
               name="name"
               value={editedCustomer.name}
               onChange={handleEditInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
               placeholder="Enter name"
               aria-label="Customer name"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
             <Input
               type="email"
               name="email"
               value={editedCustomer.email}
               onChange={handleEditInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
               placeholder="Enter email"
               aria-label="Customer email"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Phone</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Phone</label>
             <Input
               type="tel"
               name="phone"
               value={editedCustomer.phone}
               onChange={handleEditInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
               placeholder="Enter phone"
               aria-label="Customer phone"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Location</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Location</label>
             <Input
               type="text"
               name="location"
               value={editedCustomer.location}
               onChange={handleEditInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
               placeholder="Enter location"
               aria-label="Customer location"
             />
           </div>
           <Button
             onClick={handleSaveEdit}
-            className="w-full mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            className="w-full mt-4 px-4 py-2 bg-blue-600 text-white rounded-md dark:text-black hover:bg-blue-700"
             aria-label="Save changes"
           >
             Save
           </Button>
           <Button
             onClick={onClose}
-            className="w-full mt-2 text-gray-600 hover:text-gray-800"
+            className="w-full mt-2 text-gray-600 hover:text-gray-800  dark:hover:text-gray-200 dark:text-black"
             aria-label="Cancel"
           >
             Cancel
           </Button>
         </div>
-     
     </div>
   );
 };
 
 // ---------- Static Preview Component ----------
-
+// I've added a wrapper div with a background color to better visualize the component in both themes.
 const EditCustomerTest = () => {
   const dummyCustomer: Customer = {
     id: 1,
@@ -186,7 +185,11 @@ const EditCustomerTest = () => {
     alert("Edit modal closed.");
   };
 
-  return <EditCustomer customer={dummyCustomer} onSave={handleSave} onClose={handleClose} />;
+  return (
+    <div className="bg-white dark:bg-gray-800 p-8 rounded-lg">
+      <EditCustomer customer={dummyCustomer} onSave={handleSave} onClose={handleClose} />
+    </div>
+  );
 };
 
 export default EditCustomerTest;
