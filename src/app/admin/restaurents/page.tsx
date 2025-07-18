@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { Restaurant } from "../../../../types/restaurant";
 import LoadingSpinner from "../../../../components/loadingSpinner";
 
+// Interface for the raw API response for a single restaurant
 interface RestaurantFromAPI {
   _id: string;
   name: string;
@@ -27,6 +28,13 @@ export default function RestaurantTable() {
   const [selectedMenuId, setSelectedMenuId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  
+  // --- STATE FOR FILTER VISIBILITY AND VALUES ---
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [filters, setFilters] = useState({
+    name: "",
+    location: "",
+  });
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -64,6 +72,7 @@ export default function RestaurantTable() {
         }));
         setRestaurants(transformedRestaurants);
       } catch (err) {
+        console.log(err);
         console.error(err);
       } finally {
         setLoading(false);
@@ -72,15 +81,32 @@ export default function RestaurantTable() {
     fetchRestaurants();
   }, []);
 
-  const filteredRestaurants = restaurants.filter(rest =>
-    rest.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    rest.representative.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (rest.address?.city && rest.address.city.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (rest.address?.street && rest.address.street.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  // --- UPDATED FILTER LOGIC ---
+  const filteredRestaurants = restaurants.filter(rest => {
+    const searchLower = searchTerm.toLowerCase();
+    const filterNameLower = filters.name.toLowerCase();
+    const filterLocationLower = filters.location.toLowerCase();
+
+    const matchesSearch = searchTerm === "" ||
+      rest.name.toLowerCase().includes(searchLower) ||
+      rest.representative.toLowerCase().includes(searchLower);
+
+    const matchesFilters = 
+      (filters.name === "" || rest.name.toLowerCase().includes(filterNameLower)) &&
+      (filters.location === "" || (rest.address?.city && rest.address.city.toLowerCase().includes(filterLocationLower)));
+
+    return matchesSearch && matchesFilters;
+  });
+
+  // --- Reset to page 1 when filters change ---
+  useEffect(() => {
+      setCurrentPage(1);
+  }, [searchTerm, filters]);
+
 
   const handleDelete = async (restaurantId: string, restaurantName: string) => {
     if (window.confirm(`Are you sure you want to delete ${restaurantName}?`)) {
+        const originalRestaurants = [...restaurants];
         setRestaurants(prev => prev.filter(r => r.id !== restaurantId));
         setSelectedMenuId(null);
         try {
@@ -92,8 +118,8 @@ export default function RestaurantTable() {
             if (!response.ok) throw new Error("Failed to delete restaurant.");
             toast.success("Restaurant deleted successfully.");
         } catch (err) {
-           console.log(err);
-           window.location.reload(); 
+          console.log(err);
+           setRestaurants(originalRestaurants);
         }
     }
   }
@@ -139,11 +165,11 @@ export default function RestaurantTable() {
         <div className="flex flex-col sm:flex-row gap-2 items-center w-full md:w-auto">
          <div className="relative w-full sm:w-auto md:w-64">
            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
-           <Input type="text" placeholder="Search restaurants..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+           <Input type="text" placeholder="Search..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600"
            />
          </div>
-          <Button className="border px-4 py-2 rounded-lg flex items-center gap-2 w-full sm:w-auto justify-center dark:border-gray-600 dark:hover:bg-gray-700">
+          <Button onClick={() => setFilterVisible(!filterVisible)} className="border px-4 py-2 rounded-lg flex items-center gap-2 w-full sm:w-auto justify-center dark:border-gray-600 dark:hover:bg-gray-700">
             <Filter size={18} /> Filter
           </Button>
           <Button className="bg-blue-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto justify-center" onClick={() => router.push('/admin/add-restaurent')}>
@@ -151,6 +177,26 @@ export default function RestaurantTable() {
           </Button>
         </div>
       </div>
+      
+      {/* --- FILTER UI --- */}
+      {filterVisible && (
+        <div className="absolute right-6 mt-2 w-72 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 p-4 z-20 dark:border-gray-700">
+            <div className="space-y-4">
+                <div>
+                    <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">Restaurant Name</label>
+                    <Input type="text" name="name" value={filters.name} onChange={(e) => setFilters(prev => ({...prev, name: e.target.value}))} className="mt-1 w-full" placeholder="e.g. The Pizza Place"/>
+                </div>
+                 <div>
+                    <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">Location (City)</label>
+                    <Input type="text" name="location" value={filters.location} onChange={(e) => setFilters(prev => ({...prev, location: e.target.value}))} className="mt-1 w-full" placeholder="e.g. Kigali"/>
+                </div>
+                <div className="flex justify-end gap-2 pt-2">
+                    <Button onClick={() => setFilters({ name: "", location: "" })} className="px-4 py-2 text-white hover:bg-gray-100 dark:text-black dark:hover:bg-gray-800 rounded-md">Clear</Button>
+                    <Button onClick={() => setFilterVisible(false)} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Apply</Button>
+                </div>
+            </div>
+        </div>
+      )}
 
       <div>
         {loading ? (
@@ -223,7 +269,7 @@ export default function RestaurantTable() {
             </div>
           </>
         ) : (
-          <div className="text-center p-4 text-gray-500">No restaurants found.</div>
+          <div className="text-center p-4 text-gray-500">No restaurants match your criteria.</div>
         )}
       </div>
       
