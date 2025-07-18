@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'; // Import useEffect
 import { useRouter } from 'next/navigation';
 import { FaBuilding, FaEnvelope, FaKey,  FaCheck } from 'react-icons/fa';
 import toast from 'react-hot-toast';
+import LoadingSpinner from '../../../../components/loadingSpinner';
+
 
 // Corrected Type: Data from the API will not include a plain password.
 interface OwnerData {
@@ -187,7 +189,11 @@ export default function CreateOwnerPage() {
                 disabled={loading}
                 className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
               >
-                {loading ? 'Creating...' : 'Create User'}
+                {loading ? (
+  <div className="flex justify-center items-center h-[80vh]">
+    <LoadingSpinner />
+  </div>
+) : 'Create User'}
               </button>
             </form>
           </>
@@ -234,7 +240,11 @@ export default function CreateOwnerPage() {
                 disabled={loading}
                 className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
               >
-                {loading ? 'Creating...' : 'Create Owner & Send Email'}
+                {loading ? (
+  <div className="flex justify-center items-center h-[80vh]">
+    <LoadingSpinner />
+  </div>
+) : 'Create '}
               </button>
             </form>
           </>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import LoadingSpinner from "../../../../components/loadingSpinner";
 import { Search, Filter, Plus, MoreVertical, Eye, Edit, UserMinus } from "lucide-react";
 
 import { useRouter } from "next/navigation";
@@ -263,7 +264,13 @@ const CustomerList = () => {
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan={7} className="p-4 text-center text-gray-500">Loading owners...</td></tr>
+              <tr>
+    <td colSpan={7}>
+      <div className="flex justify-center items-center py-6">
+        <LoadingSpinner />
+      </div>
+    </td>
+  </tr>
             ) : error ? (
               <tr><td colSpan={7} className="p-4 text-center text-red-500">{error}</td></tr>
             ) : currentCustomers.length > 0 ? (

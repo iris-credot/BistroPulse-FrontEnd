@@ -9,6 +9,7 @@ import { Input } from '../../../../components/Input';
 import { format } from 'date-fns';
 import toast from 'react-hot-toast';
 import { Customer } from "../../../../types/customer";
+import LoadingSpinner from "../../../../components/loadingSpinner";
 // This is the shape of the data the component will use for its state and UI
 
 
@@ -349,7 +350,13 @@ const CustomerList = () => {
           
           <tbody>
             {loading ? (
-              <tr><td colSpan={7} className="p-4 text-center text-gray-500">Loading users...</td></tr>
+                      <tr>
+                 <td colSpan={7}>
+                   <div className="flex justify-center items-center py-6">
+                     <LoadingSpinner />
+                   </div>
+                 </td>
+               </tr>
             ) : error ? (
               <tr><td colSpan={7} className="p-4 text-center text-red-500">{error}</td></tr>
             ) : currentCustomers.length > 0 ? (

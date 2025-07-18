@@ -7,6 +7,7 @@ import { Button } from "../../../../components/Button"; // Assuming you have the
 import { Input } from "../../../../components/Input";
 import toast from "react-hot-toast";
 import { Restaurant } from "../../../../types/restaurant";
+import LoadingSpinner from "../../../../components/loadingSpinner";
 // --- Step 1: Define the shape of the data coming from your API ---
 interface RestaurantFromAPI {
   _id: string; // MongoDB uses _id
@@ -170,8 +171,14 @@ export default function RestaurantTable() {
           </thead>
           <tbody>
             {loading ? (
-                <tr><td colSpan={8} className="text-center p-4">Loading restaurants...</td></tr>
-            ) : error ? (
+            <tr>
+       <td colSpan={7}>
+         <div className="flex justify-center items-center py-6">
+           <LoadingSpinner />
+         </div>
+       </td>
+     </tr>
+  ) : error ? (
                 <tr><td colSpan={8} className="text-center p-4 text-red-500">{error}</td></tr>
             ) : filteredRestaurants.map((rest) => (
               <tr key={rest.id} className="hover:bg-gray-50 dark:hover:bg-gray-800 border-b text-sm">

@@ -8,7 +8,7 @@ import { Button } from '../../../../../components/Button';
 import { Input } from '../../../../../components/Input';
 import { Customer } from "../../../../../types/customer";
 import { OwnerFromAPI } from "../../../../../types/owner";
-
+import LoadingSpinner from "../../../../../components/loadingSpinner";
 // --- FIX 1: Add businessName to the payload ---
 // This interface defines the exact shape of the object we send to the backend.
 interface UpdatePayload {
@@ -138,8 +138,12 @@ const EditCustomerPage = () => {
     }
   };
 
-  if (loading) {
-    return <div className="text-center p-10">Loading customer details...</div>;
+   if (loading) {
+    return (
+      <div className="flex justify-center items-center h-[80vh]">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   if (error) {
@@ -231,7 +235,11 @@ const EditCustomerPage = () => {
                 className="w-full px-4 py-2 bg-blue-600 text-gray-800 rounded-md hover:bg-blue-700 disabled:opacity-50"
                 disabled={isSaving}
             >
-                {isSaving ? 'Saving...' : 'Save Changes'}
+                {isSaving ? (
+    <div className="flex justify-center items-center h-[80vh]">
+      <LoadingSpinner />
+    </div>
+  ) : 'Save Changes'}
             </Button>
           </div>
         </div>

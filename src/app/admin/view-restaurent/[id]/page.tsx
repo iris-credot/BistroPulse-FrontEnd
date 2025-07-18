@@ -5,7 +5,7 @@ import { FiEdit3 } from "react-icons/fi";
 import React, { useState, useEffect } from "react";
 import { Button } from '../../../../../components/Button';
 import { useRouter } from 'next/navigation'; 
-// Corrected import path for the child component
+import LoadingSpinner from "../../../../../components/loadingSpinner";
 import RestaurantAgentOverview from "../../view-agentRestau/page"; // Assuming this is the correct path
 import { Restaurant } from "../../../../../types/restaurant";
 import { useParams } from 'next/navigation'; 
@@ -72,8 +72,12 @@ const RestaurantOverviewPage: React.FC = () => {
   }, [restaurantId]);
 
   // --- Step 5: Handle UI for loading and error states ---
-  if (loading) {
-    return <div className="p-6 text-center">Loading Restaurant Details...</div>;
+ if (loading) {
+    return (
+      <div className="flex justify-center items-center h-[80vh]">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   if (error) {

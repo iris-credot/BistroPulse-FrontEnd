@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Button } from '../../../../../components/Button';
 import { Customer } from "../../../../../types/customer";
 import { format } from 'date-fns';
-
+import LoadingSpinner from '../../../../../components/loadingSpinner';
 // Define the shape of a single user object coming from your /api/user/getOne endpoint
 interface UserFromAPI {
   _id: string;
@@ -95,10 +95,10 @@ const ViewCustomerPage = () => {
     fetchCustomerData();
   }, [id]);
 
-  if (loading) {
+ if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-500">Loading user profile...</p>
+      <div className="flex justify-center items-center h-[80vh]">
+        <LoadingSpinner />
       </div>
     );
   }

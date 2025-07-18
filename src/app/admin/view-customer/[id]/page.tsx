@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Button } from '../../../../../components/Button';
 import { Customer } from "../../../../../types/customer";
 import { format } from 'date-fns';
-
+import LoadingSpinner from '../../../../../components/loadingSpinner';
 import { OwnerFromAPI } from '../../../../../types/owner';
 // Define the shape of the owner object coming from your single-owner API endpoint
 
@@ -90,10 +90,10 @@ const ViewCustomerPage = () => {
     fetchCustomerData();
   }, [id]); // Re-run the effect if the ID in the URL changes
 
-  if (loading) {
+ if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-500">Loading customer profile...</p>
+      <div className="flex justify-center items-center h-[80vh]">
+        <LoadingSpinner />
       </div>
     );
   }
