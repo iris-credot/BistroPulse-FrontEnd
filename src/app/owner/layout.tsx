@@ -1,24 +1,44 @@
 'use client';
-import React, { useState } from 'react'; // Import useState
+import React, { useState, useEffect, useRef } from 'react'; // Import useEffect and useRef
 import axios from 'axios';
 import { useRouter, usePathname } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { useTheme } from '../../../components/darkTheme';
-// --- Import Menu and X icons for mobile toggle ---
-import { LayoutDashboard, Utensils, Users, Bell, LogOut, ShoppingCart, History, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Utensils, Users, Bell, LogOut, ShoppingCart, History, Globe, Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import { LanguageProvider } from '../../../components/LanguageProvider';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function OwnerLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const { darkMode, toggleDarkMode } = useTheme();
 
-  // --- State to control mobile sidebar visibility ---
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  
+  // --- Dropdown State and Ref ---
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const handleLanguageSelect = (language: string) => {
+    console.log(`Language selected: ${language}`);
+    setIsDropdownOpen(false);
+  };
+  
+  // --- Click outside to close dropdown ---
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -36,7 +56,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
   };
 
-  // --- Animation Variants (No changes here) ---
   const headerVariants: Variants = {
     hidden: { y: -100, opacity: 0 },
     visible: { y: 0, opacity: 1, transition: { duration: 0.4, ease: 'easeOut' } },
@@ -51,7 +70,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     exit: { opacity: 0, y: -20, transition: { duration: 0.3, ease: 'easeInOut' } },
   };
 
-  // --- Sidebar content separated for reuse ---
   const sidebarContent = (
     <>
       <div className="flex-1">
@@ -89,61 +107,77 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900">
-      {/* Animated Navbar */}
       <motion.header
-        className="bg-white shadow-sm z-10 dark:bg-gray-950"
+        className="bg-white shadow-sm z-20 dark:bg-gray-950"
         variants={headerVariants} initial="hidden" animate="visible"
       >
         <div className="flex items-center justify-between px-4 sm:px-6 py-4">
           <div className="flex items-center space-x-2">
-            {/* --- Hamburger button for mobile, hidden on medium screens and up --- */}
-           
             <Image src="/icon.png" alt="BistroPulse Logo" width={32} height={32} priority />
-            <h1 className="text-xl font-bold text-blue-500">Boutique Hotel</h1>
+            <h1 className="text-xl ml-2 font-bold text-blue-500">Boutique Hotel</h1>
           </div>
           <div className="flex items-center space-x-4">
-            <button title='Notifications' className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-              <Bell className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-            </button>
+            {/* --- Language Dropdown Container --- */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                title='Change Language'
+                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              >
+                <Globe className="w-8 h-8 text-blue-500" />
+              </button>
+              <AnimatePresence>
+                {isDropdownOpen && (
+                  <motion.div
+                    className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-50 py-1 ring-1 ring-black ring-opacity-5"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <button onClick={() => handleLanguageSelect('en')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">English</button>
+                    <button onClick={() => handleLanguageSelect('fr')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">French</button>
+                    <button onClick={() => handleLanguageSelect('sw')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Kiswahili</button>
+                    <button onClick={() => handleLanguageSelect('rw')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Kinyarwanda</button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
             <div className="flex items-center space-x-2 cursor-pointer" onClick={() => router.push('/owner/settings')}>
               <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">DS</div>
-             
             </div>
-             <button title='f' onClick={toggleSidebar} className="p-2 rounded-md md:hidden text-gray-600 dark:text-gray-300">
-                <Menu className="w-6 h-6" />
+            <button title='Toggle Menu' onClick={toggleSidebar} className="p-2 rounded-md md:hidden text-gray-600 dark:text-gray-300">
+              <Menu className="w-8 h-8" />
             </button>
           </div>
         </div>
       </motion.header>
 
-      {/* Main Content */}
       <div className="flex flex-1 overflow-hidden">
-        {/* --- MOBILE SIDEBAR DRAWER (ANIMATED) --- */}
         <AnimatePresence>
-            {isSidebarOpen && (
-                <>
-                    <motion.div
-                        className="fixed inset-0 bg-transparent bg-opacity-50 z-20 md:hidden"
-                        onClick={toggleSidebar}
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                    />
-                    <motion.aside
-                        className="fixed top-0 left-0 w-64 h-full bg-white dark:bg-gray-950 z-30 p-4 flex flex-col md:hidden"
-                        initial={{ x: "-100%" }} animate={{ x: 0 }} exit={{ x: "-100%" }}
-                        transition={{ type: "tween", ease: "easeOut", duration: 0.3 }}
-                    >
-                      <div className="flex justify-end mb-4">
-                        <button title='f' onClick={toggleSidebar} className="p-2 rounded-md text-gray-600 dark:text-gray-300">
-                          <X className="w-6 h-6" />
-                        </button>
-                      </div>
-                      {sidebarContent}
-                    </motion.aside>
-                </>
-            )}
+          {isSidebarOpen && (
+            <>
+              <motion.div
+                className="fixed inset-0 bg-black bg-opacity-25 z-30 md:hidden"
+                onClick={toggleSidebar}
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              />
+              <motion.aside
+                className="fixed top-0 left-0 w-64 h-full bg-white dark:bg-gray-950 z-40 p-4 flex flex-col md:hidden"
+                initial={{ x: "-100%" }} animate={{ x: 0 }} exit={{ x: "-100%" }}
+                transition={{ type: "tween", ease: "easeOut", duration: 0.3 }}
+              >
+                <div className="flex justify-end mb-4">
+                  <button title='Close Menu' onClick={toggleSidebar} className="p-2 rounded-md text-gray-600 dark:text-gray-300">
+                    <X className="w-8 h-8" />
+                  </button>
+                </div>
+                {sidebarContent}
+              </motion.aside>
+            </>
+          )}
         </AnimatePresence>
         
-        {/* --- DESKTOP SIDEBAR (STATIC & ANIMATED ON LOAD) --- */}
         <motion.aside
           className="hidden md:flex w-64 bg-white text-gray-500 p-4 flex-col dark:bg-gray-950 border-r dark:border-gray-800"
           variants={sidebarVariants} initial="hidden" animate="visible"
@@ -151,7 +185,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           {sidebarContent}
         </motion.aside>
 
-        {/* Animated Main Content Area */}
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-6 relative">
           <AnimatePresence mode="wait">
             <motion.div

@@ -1,10 +1,11 @@
 'use client';
-
+ 
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react'; // Import useEffect
 import emailjs from '@emailjs/browser';
 import { useRouter } from 'next/navigation';
 import { FaBolt, FaUtensils, FaMotorcycle, FaStar, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { Globe } from 'lucide-react';
 import { MdDeliveryDining, MdFoodBank } from 'react-icons/md';
 
 export default function LandingPage() {
@@ -12,6 +13,8 @@ export default function LandingPage() {
   const formRef = useRef<HTMLFormElement>(null);
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null); // Create a ref for the dropdown
 
   const sendEmail = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,6 +43,26 @@ export default function LandingPage() {
     }
   };
 
+  // Close dropdown when a language is selected
+  const handleLanguageSelect = (language: string) => {
+    console.log(`Language selected: ${language}`); // Placeholder for language change logic
+    setIsDropdownOpen(false);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef]);
+
+
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
@@ -59,13 +82,13 @@ export default function LandingPage() {
             
             <span className="text-2xl font-bold text-blue-600">BistroPulse</span>
           </div>
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-8 text-black">
             <a href="#features" className="font-medium hover:text-blue-600 transition">Features</a>
             <a href="#how-it-works" className="font-medium hover:text-blue-600 transition">How It Works</a>
             <a href="#restaurants" className="font-medium hover:text-blue-600 transition">Restaurants</a>
             <a href="#contact" className="font-medium hover:text-blue-600 transition">Contact</a>
           </div>
-          <div className="flex gap-2 flex-wrap sm:flex-nowrap">
+          <div className="flex gap-4 flex-wrap sm:flex-nowrap items-center">
             <button 
               onClick={() => router.push('/login')}
               className="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition"
@@ -78,6 +101,23 @@ export default function LandingPage() {
             >
               Sign Up
             </button>
+              <div className="relative" ref={dropdownRef}>
+                <button 
+                  title='Change Language'
+                  className="p-2 rounded-full  dark:hover:bg-blue-500 transition-colors items-end"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                >
+                  <Globe className="w-8 h-8 text-blue-500 hover:text-white " />
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 py-1 ring-1 ring-black ring-opacity-5">
+                    <button onClick={() => handleLanguageSelect('en')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</button>
+                    <button onClick={() => handleLanguageSelect('fr')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">French</button>
+                    <button onClick={() => handleLanguageSelect('sw')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Kiswahili</button>
+                    <button onClick={() => handleLanguageSelect('rw')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Kinyarwanda</button>
+                  </div>
+                )}
+              </div>
           </div>
         </div>
       </nav>
@@ -258,7 +298,7 @@ export default function LandingPage() {
                   />
                 </div>
                 <div className="p-6">
-                  <div className="flex justify-between items-start mb-2">
+                  <div className="flex justify-between items-start mb-2 text-black">
                     <h3 className="text-xl font-bold">{restaurant.name}</h3>
                     <div className="flex items-center bg-blue-100 px-2 py-1 rounded">
                       <FaStar className="text-yellow-400 mr-1" />
@@ -271,7 +311,7 @@ export default function LandingPage() {
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {restaurant.tags.map((tag, tagIndex) => (
-                      <span key={tagIndex} className="bg-gray-200 px-2 py-1 rounded text-sm">{tag}</span>
+                      <span key={tagIndex} className="bg-gray-200 px-2 py-1 rounded text-sm text-black">{tag}</span>
                     ))}
                   </div>
                 </div>
@@ -308,15 +348,15 @@ export default function LandingPage() {
               <div className="space-y-4">
                 <div className="flex items-center">
                   <FaPhoneAlt className="text-blue-600 mr-4" />
-                  <span>+250 (785) 123-456</span>
+                  <span className='text-black'>+250 (785) 123-456</span>
                 </div>
                 <div className="flex items-center">
                   <FaEnvelope className="text-blue-600 mr-4" />
-                  <span>support@bistropulse.com</span>
+                  <span className='text-black'>support@bistropulse.com</span>
                 </div>
                 <div className="flex items-center">
                   <FaMapMarkerAlt className="text-blue-600 mr-4" />
-                  <span>123 Food Street, Kigali, CA 94107</span>
+                  <span className='text-black'>123 Food Street, Kigali, CA 94107</span>
                 </div>
               </div>
             </div>
@@ -328,7 +368,7 @@ export default function LandingPage() {
                     type="text" 
                     name="user_name"
                     placeholder="Your Name" 
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border text-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
                 </div>
@@ -337,7 +377,7 @@ export default function LandingPage() {
                     type="email" 
                     name="user_email"
                     placeholder="Your Email" 
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
                 </div>
@@ -346,7 +386,7 @@ export default function LandingPage() {
                     name="user_message"
                     placeholder="Your Message" 
                     rows={4}
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border text-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   ></textarea>
                 </div>
