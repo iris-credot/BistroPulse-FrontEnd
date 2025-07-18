@@ -20,23 +20,27 @@ const AddRestaurantForm: React.FC = () => {
 
 
   return (
-    <form className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md space-y-5 dark:bg-gray-800">
+    // Added responsive padding: p-4 on mobile, p-6 on larger screens
+    <form className="max-w-2xl mx-auto p-4 sm:p-6 bg-white shadow-md rounded-md space-y-5 dark:bg-gray-800">
       <h2 className="text-xl font-semibold">Add Restaurant</h2>
 
      
       <div className="border border-dashed border-blue-400 p-4 rounded-md text-center">
         <p className="text-blue-500">+ Add Photo</p>
-        <div className="flex justify-center items-center gap-2 mt-2">
+        {/* Buttons stack vertically on mobile and horizontally on larger screens */}
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-2 mt-2">
           <Button
             type="button"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 dark:text-black"
+            // Full-width on mobile, auto-width on larger screens
+            className="w-full sm:w-auto bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 dark:text-black"
           >
             + Restaurant Image
           </Button>
           <Button
             type="button"
             onClick={() => (null)}
-            className="text-red-500"
+            // Full-width on mobile, auto-width on larger screens
+            className="w-full sm:w-auto text-red-500"
           >
             Remove
           </Button>
@@ -88,6 +92,7 @@ const AddRestaurantForm: React.FC = () => {
       />
 
    
+      {/* This grid is already responsive: 1 column on mobile, 3 on larger screens */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
           <label htmlFor="established" className="block text-sm font-medium">Established</label>
@@ -134,7 +139,8 @@ const AddRestaurantForm: React.FC = () => {
 
       <Button
         type="submit"
-        className="bg-blue-600 text-white dark:text-black px-6 py-2 rounded hover:bg-blue-700"
+        // Full-width on mobile, auto-width on larger screens
+        className="w-full sm:w-auto bg-blue-600 text-white dark:text-black px-6 py-2 rounded hover:bg-blue-700"
       >
         Add Restaurant
       </Button>

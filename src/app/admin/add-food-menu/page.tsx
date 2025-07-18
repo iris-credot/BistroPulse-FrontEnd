@@ -24,15 +24,17 @@ export default function AddFood() {
   };
 
   return (
+    // The max-w-2xl and mx-auto classes already make the container responsive.
     <div className="max-w-2xl mx-auto px-4 py-8">
       <h2 className="text-xl font-semibold text-gray-800 mb-6 dark:text-white">🍕 Add Food</h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Upload */}
-        <div className="flex items-center gap-4">
+        {/* Stacks vertically on mobile, becomes a row on medium screens (md) and up */}
+        <div className="flex flex-col md:flex-row md:items-center gap-4">
           <label
             htmlFor="photo"
-            className="flex justify-center items-center w-40 h-32 border-2 border-dashed border-blue-300 rounded cursor-pointer text-blue-500 text-sm"
+            className="flex justify-center items-center w-full md:w-40 h-32 border-2 border-dashed border-blue-300 rounded cursor-pointer text-blue-500 text-sm"
           >
             + Add Photo
             <Input
@@ -44,7 +46,8 @@ export default function AddFood() {
             />
           </label>
 
-          <div className="flex flex-col gap-2">
+          {/* Buttons take full width on mobile and auto width on medium screens and up */}
+          <div className="flex flex-col gap-2 w-full md:w-auto">
             <Button
               type="button"
               className="bg-blue-600 text-white dark:text-black px-4 py-1 rounded hover:bg-blue-700"
@@ -66,6 +69,7 @@ export default function AddFood() {
           <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Category</label>
           <select
           title='categories'
+            // w-full makes this element responsive by default
             className="w-full border rounded px-3 py-2 dark:bg-gray-900"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
@@ -118,7 +122,7 @@ export default function AddFood() {
         <div>
           <Button
             type="submit"
-            className="bg-blue-600 text-white dark:text-black px-6 py-2 rounded hover:bg-blue-700"
+            className="w-full md:w-auto bg-blue-600 text-white dark:text-black px-6 py-2 rounded hover:bg-blue-700"
           >
             Add Food
           </Button>

@@ -9,8 +9,7 @@ import { Input } from '../../../../../components/Input';
 import { Customer } from "../../../../../types/customer";
 import { OwnerFromAPI } from "../../../../../types/owner";
 import LoadingSpinner from "../../../../../components/loadingSpinner";
-// --- FIX 1: Add businessName to the payload ---
-// This interface defines the exact shape of the object we send to the backend.
+
 interface UpdatePayload {
   user: {
     names: string;
@@ -57,7 +56,6 @@ const EditCustomerPage = () => {
         const data = await response.json();
         const owner: OwnerFromAPI = data.owner;
 
-        // Populate the form state with fetched data
         setFormData({
           id: owner._id,
           names: owner.user?.names || '',
@@ -73,7 +71,6 @@ const EditCustomerPage = () => {
         });
 
       } catch (err) {
-       
         console.log(err);
       } finally {
         setLoading(false);
@@ -96,8 +93,6 @@ const EditCustomerPage = () => {
     }
     setIsSaving(true);
     
-    // This payload structure is now correct for your new backend logic.
-    // We just need to ensure TypeScript is happy by providing fallbacks.
     const payload: UpdatePayload = {
       user: {
         names: formData.names ?? '',
@@ -123,7 +118,6 @@ const EditCustomerPage = () => {
 
         if (!response.ok) {
             const errorData = await response.json();
-            // Use the specific error message from the backend if it exists
             throw new Error(errorData.message || "Failed to save changes.");
         }
 
@@ -131,7 +125,6 @@ const EditCustomerPage = () => {
         router.push('/admin/customer-list');
 
     } catch (err) {
-       
         console.error("Save failed:", err);
     } finally {
         setIsSaving(false);
@@ -140,7 +133,7 @@ const EditCustomerPage = () => {
 
    if (loading) {
     return (
-      <div className="flex justify-center items-center h-[80vh]">
+      <div className="flex justify-center items-center h-screen">
         <LoadingSpinner />
       </div>
     );
@@ -155,30 +148,31 @@ const EditCustomerPage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 w-full max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center  dark:text-white">Edit Owner Profile</h2>
+    // Added responsive padding
+    <div className="p-4 sm:p-6 w-full max-w-2xl mx-auto">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center dark:text-white">Edit Owner Profile</h2>
       
-      <div className="w-full bg-white p-8 rounded-lg shadow-md dark:bg-gray-800">
+      {/* Added responsive padding to card */}
+      <div className="w-full bg-white p-6 sm:p-8 rounded-lg shadow-md dark:bg-gray-800">
         <div className="flex flex-col items-center mb-6">
           <Image
             src={formData.avatar}
             alt="Avatar"
             width={96}
             height={96}
-            className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-gray-200"
-       
+            className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-gray-200 dark:border-gray-600"
           />
         </div>
         
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700  dark:text-white">Name</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-white">Name</label>
             <Input
               type="text"
               name="names"
               value={formData.names}
               onChange={handleInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-3"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
             />
           </div>
           <div>
@@ -188,7 +182,7 @@ const EditCustomerPage = () => {
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-3"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
             />
           </div>
           <div>
@@ -198,7 +192,7 @@ const EditCustomerPage = () => {
               name="phoneNumber"
               value={formData.phoneNumber}
               onChange={handleInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-3"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
             />
           </div>
           <div>
@@ -208,38 +202,36 @@ const EditCustomerPage = () => {
               name="address"
               value={formData.address}
               onChange={handleInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-3"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
             />
           </div>
            <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-white">Business Name</label>
             <Input
               type="text"
-              name="restaurant" // This key from the 'Customer' type
+              name="restaurant"
               value={formData.restaurant}
               onChange={handleInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-3"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
             />
           </div>
           
+          {/* Buttons stack vertically on mobile, horizontally on larger screens */}
           <div className="flex flex-col sm:flex-row gap-3 pt-4">
              <Button
                 onClick={() => router.back()}
-                className="w-full px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                className="w-full px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500"
                 disabled={isSaving}
              >
                 Cancel
             </Button>
             <Button
                 onClick={handleSave}
-                className="w-full px-4 py-2 bg-blue-600 text-gray-800 rounded-md hover:bg-blue-700 disabled:opacity-50"
+                // Added flex and justify-center to center the spinner
+                className="w-full flex justify-center items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
                 disabled={isSaving}
             >
-                {isSaving ? (
-    <div className="flex justify-center items-center h-[80vh]">
-      <LoadingSpinner />
-    </div>
-  ) : 'Save Changes'}
+                {isSaving ? <LoadingSpinner /> : 'Save Changes'}
             </Button>
           </div>
         </div>

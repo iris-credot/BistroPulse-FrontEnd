@@ -6,8 +6,6 @@ import { Button } from "../../../../../components/Button";
 import { Input } from "../../../../../components/Input"; 
 import { FoodItem } from "../../../../../types/foodItem";
 
-
-
 // Props for EditFood
 type EditFoodProps = {
   food: FoodItem;
@@ -53,7 +51,8 @@ const EditFood: React.FC<EditFoodProps> = ({ food, onSave, onClose }) => {
   };
 
   return (
-    <div className=" bg-white flex-col bg-opacity-50 flex items-center justify-center z-50 p-4 max-h-screen dark:bg-transparent">
+    // Added overflow-y-auto to allow scrolling on small screens if content is too long
+    <div className="bg-white flex-col bg-opacity-50 flex items-center justify-start z-50 p-4 max-h-screen w-full dark:bg-transparent overflow-y-auto">
       <h2 className="text-xl font-bold text-gray-800 mb-4 text-center dark:text-white">Edit Food</h2>
 
       <div className="flex flex-col items-center mb-6">
@@ -132,18 +131,23 @@ const EditFood: React.FC<EditFoodProps> = ({ food, onSave, onClose }) => {
           </select>
         </div>
 
-        <Button
-          onClick={handleSave}
-          className="w-full mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 dark:bg-gray-950"
-        >
-          Save
-        </Button>
-        <Button
-          onClick={onClose}
-          className="w-full mt-2  hover:text-gray-800 dark:bg-gray-950 text-white"
-        >
-          Cancel
-        </Button>
+        {/* --- Buttons are now in a responsive flex container --- */}
+        <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 pt-4">
+            <Button
+              onClick={onClose}
+              // Full-width on mobile, auto-width on larger screens
+              className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 text-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSave}
+              // Full-width on mobile, auto-width on larger screens
+              className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            >
+              Save
+            </Button>
+        </div>
       </div>
     </div>
   );

@@ -15,6 +15,7 @@ import {
 } from 'chart.js';
 // --- IMPORT FRAMER MOTION TYPES ---
 import { motion, Variants } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 ChartJS.register(
   CategoryScale,
@@ -26,6 +27,23 @@ ChartJS.register(
 );
 
 export default function AdminDashboard() {
+  const [greeting, setGreeting] = useState('');
+
+  useEffect(() => {
+    const getCurrentGreeting = () => {
+      const currentHour = new Date().getHours();
+      if (currentHour < 12) {
+        return 'Good morning';
+      } else if (currentHour < 18) {
+        return 'Good afternoon';
+      } else {
+        return 'Good evening';
+      }
+    };
+    setGreeting(getCurrentGreeting());
+  }, []);
+
+
   const userStats = {
     labels: ['Customers', 'Restaurants', 'Orders'],
     datasets: [
@@ -106,6 +124,9 @@ export default function AdminDashboard() {
       initial="hidden"
       animate="visible"
     >
+      <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
+        {greeting}, Alex
+      </h1>
       {/* Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 dark:text-white">
         <div className="bg-white p-4 rounded-xl shadow space-y-2 dark:bg-gray-600">

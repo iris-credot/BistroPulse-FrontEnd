@@ -1,10 +1,9 @@
 'use client';
-import React, { useState, useEffect } from 'react'; // Import useEffect
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaBuilding, FaEnvelope, FaKey,  FaCheck } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '../../../../components/loadingSpinner';
-
 
 // Corrected Type: Data from the API will not include a plain password.
 interface OwnerData {
@@ -20,16 +19,12 @@ interface OwnerData {
 export default function CreateOwnerPage() {
   const router = useRouter();
   
-  // --- FIX 1: Delay localStorage access ---
-  // Initialize token state as null.
   const [token, setToken] = useState<string | null>(null);
 
-  // This hook runs ONLY on the client-side, after the component mounts.
   useEffect(() => {
-    // Now it's safe to access localStorage.
     const storedToken = localStorage.getItem('token');
     setToken(storedToken);
-  }, []); // The empty array [] ensures this runs only once.
+  }, []); 
 
 
   const [step, setStep] = useState<'user' | 'owner' | 'success'>('user');
@@ -37,7 +32,7 @@ export default function CreateOwnerPage() {
     user_email: '',
     user_password: '',
     businessName: '',
-    retyped_password: '' // Changed name for clarity
+    retyped_password: ''
   });
 
   const [createdOwner, setCreatedOwner] = useState<OwnerData | null>(null);
@@ -79,7 +74,6 @@ export default function CreateOwnerPage() {
     e.preventDefault();
     setLoading(true);
 
-    // --- FIX 2: Validate passwords match before sending ---
     if (formData.user_password !== formData.retyped_password) {
       toast.error("Passwords do not match. Please re-type the password.");
       setLoading(false);
@@ -93,18 +87,16 @@ export default function CreateOwnerPage() {
     }
 
     try {
-      // --- FIX 3: Use the correct, specialized endpoint ---
       const res = await fetch('https://bistroupulse-backend.onrender.com/api/owner', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        // --- FIX 4: Send the original password as plainTextPassword ---
         body: JSON.stringify({
           userId: newUserId,
           businessName: formData.businessName,
-          plainTextPassword: formData.user_password, // Send the original password
+          plainTextPassword: formData.user_password,
         }),
       });
 
@@ -142,8 +134,10 @@ export default function CreateOwnerPage() {
   };
 
   return (
-    <div className="max-h-screen p-4">
-      <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-xl p-6 space-y-6">
+    // Use min-h-screen for better scrolling on mobile, with responsive padding
+    <div className="min-h-screen p-4 sm:p-6 lg:p-8">
+      {/* Added responsive padding to the main container */}
+      <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-xl p-4 sm:p-6 space-y-6">
         {step === 'user' && (
           <>
             <h2 className="text-xl font-bold text-indigo-700">Step 1: Enter the credentials</h2>
@@ -187,13 +181,10 @@ export default function CreateOwnerPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
+                // Full-width on mobile, auto-width on larger screens. Flex for spinner alignment.
+                className="w-full sm:w-auto flex justify-center items-center bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
               >
-                {loading ? (
-  <div className="flex justify-center items-center h-[80vh]">
-    <LoadingSpinner />
-  </div>
-) : 'Create User'}
+                {loading ? <LoadingSpinner /> : 'Create User'}
               </button>
             </form>
           </>
@@ -225,7 +216,7 @@ export default function CreateOwnerPage() {
                   <input
                     title='retype-password'
                     type="password"
-                    name="retyped_password" // Changed name to match state
+                    name="retyped_password"
                     value={formData.retyped_password}
                     onChange={handleChange}
                     className="pl-10 py-2 border rounded-lg w-full"
@@ -238,13 +229,10 @@ export default function CreateOwnerPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
+                 // Full-width on mobile, auto-width on larger screens. Flex for spinner alignment.
+                className="w-full sm:w-auto flex justify-center items-center bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
               >
-                {loading ? (
-  <div className="flex justify-center items-center h-[80vh]">
-    <LoadingSpinner />
-  </div>
-) : 'Create '}
+                {loading ? <LoadingSpinner /> : 'Create'}
               </button>
             </form>
           </>
@@ -260,11 +248,13 @@ export default function CreateOwnerPage() {
             <h2 className="text-xl font-bold text-green-700">Owner Created!</h2>
             <p><strong>Business Name:</strong> {createdOwner.businessName}</p>
             <p><strong>Email:</strong> {createdOwner.user.email}</p>
-            <div className="flex gap-4 justify-center mt-4">
-              <button onClick={reset} className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
+            {/* Flex container stacks vertically on mobile, horizontally on larger screens */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-4">
+              {/* Buttons are full-width on mobile */}
+              <button onClick={reset} className="w-full sm:w-auto bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
                 Create Another
               </button>
-              <button onClick={() => router.push('/admin/customer-list')} className="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-900">
+              <button onClick={() => router.push('/admin/customer-list')} className="w-full sm:w-auto bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-900">
                 View Owners
               </button>
             </div>

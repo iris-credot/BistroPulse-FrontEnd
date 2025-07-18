@@ -8,6 +8,7 @@ import { Button } from '../../../../../components/Button';
 import { Input } from '../../../../../components/Input';
 import { Customer } from "../../../../../types/customer";
 import LoadingSpinner from "../../../../../components/loadingSpinner";
+
 // Define the shape of a single user from your API
 interface UserFromAPI {
   _id: string;
@@ -19,7 +20,6 @@ interface UserFromAPI {
 }
 
 // Define the exact shape of the data for the PUT request
-// This should only contain fields that can be updated for a user.
 interface UpdateUserPayload {
   names: string;
   email: string;
@@ -62,13 +62,11 @@ const EditCustomerPage = () => {
 
         const data = await response.json();
         
-        // --- FIX 1: Access 'data.user' which is what the API sends ---
         if (!data || !data.user) {
             throw new Error("User data is missing in the API response.");
         }
         const user: UserFromAPI = data.user;
 
-        // Populate the form state with the fetched user data
         setFormData({
           id: user._id,
           names: user.names || '',
@@ -76,7 +74,6 @@ const EditCustomerPage = () => {
           phoneNumber: user.phoneNumber || '',
           address: user.address || '',
           avatar: user.image || "/images/default-avatar.png",
-          // These fields don't apply to a client user but are part of the Customer type
           restaurant: '', 
           created: '', 
           orders: [],
@@ -85,7 +82,6 @@ const EditCustomerPage = () => {
         });
 
       } catch (err) {
-       
         console.log(err);
       } finally {
         setLoading(false);
@@ -108,8 +104,6 @@ const EditCustomerPage = () => {
     }
     setIsSaving(true);
     
-    // --- FIX 2: Create a payload with ONLY user fields ---
-    // The backend endpoint for updating a user only needs user data.
     const payload: UpdateUserPayload = {
         names: formData.names ?? '',
         email: formData.email ?? '',
@@ -121,7 +115,6 @@ const EditCustomerPage = () => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error("You are not authenticated.");
 
-        // --- FIX 3: Use the correct endpoint for updating a user ---
         const response = await fetch(`https://bistroupulse-backend.onrender.com/api/user/profile/${id}`, {
             method: 'PUT',
             headers: {
@@ -137,10 +130,9 @@ const EditCustomerPage = () => {
         }
 
         toast.success("Profile updated successfully!");
-        router.push('/admin/users'); // Navigate back to the client list
+        router.push('/admin/users');
 
     } catch (err) {
-       
         console.error("Save failed:", err);
     } finally {
         setIsSaving(false);
@@ -149,7 +141,7 @@ const EditCustomerPage = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-[80vh]">
+      <div className="flex justify-center items-center h-screen">
         <LoadingSpinner />
       </div>
     );
@@ -164,18 +156,19 @@ const EditCustomerPage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 w-full max-w-2xl mx-auto">
+    // Added responsive padding
+    <div className="p-4 sm:p-6 w-full max-w-2xl mx-auto">
       <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center dark:text-white">Edit Client Profile</h2>
       
-      <div className="w-full bg-white p-8 rounded-lg shadow-md dark:bg-gray-800">
+      {/* Added responsive padding to card */}
+      <div className="w-full bg-white p-6 sm:p-8 rounded-lg shadow-md dark:bg-gray-800">
         <div className="flex flex-col items-center mb-6">
           <Image
             src={formData.avatar}
             alt="Avatar"
             width={96}
             height={96}
-            className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-gray-200"
-          
+            className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-gray-200 dark:border-gray-600"
           />
         </div>
         
@@ -187,7 +180,7 @@ const EditCustomerPage = () => {
               name="names"
               value={formData.names}
               onChange={handleInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-3"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
             />
           </div>
           <div>
@@ -197,7 +190,7 @@ const EditCustomerPage = () => {
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-3"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
             />
           </div>
           <div>
@@ -207,7 +200,7 @@ const EditCustomerPage = () => {
               name="phoneNumber"
               value={formData.phoneNumber}
               onChange={handleInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-3"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
             />
           </div>
           <div>
@@ -217,29 +210,26 @@ const EditCustomerPage = () => {
               name="address"
               value={formData.address}
               onChange={handleInputChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-3"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
             />
           </div>
-          {/* Business Name field is removed as it does not apply to a client user */}
           
+          {/* Buttons stack vertically on mobile, horizontally on larger screens */}
           <div className="flex flex-col sm:flex-row gap-3 pt-4">
              <Button
                 onClick={() => router.back()}
-                className="w-full px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                className="w-full px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500"
                 disabled={isSaving}
              >
                 Cancel
             </Button>
             <Button
                 onClick={handleSave}
-                className="w-full px-4 py-2 bg-blue-600 text-gray-800 rounded-md hover:bg-blue-700 disabled:opacity-50"
+                // Added flex and justify-center to center the spinner
+                className="w-full flex justify-center items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
                 disabled={isSaving}
             >
-                {isSaving ? (
-                  <div className="flex justify-center items-center h-[80vh]">
-                    <LoadingSpinner />
-                  </div>
-                ) : 'Save Changes'}
+                {isSaving ? <LoadingSpinner /> : 'Save Changes'}
             </Button>
           </div>
         </div>
