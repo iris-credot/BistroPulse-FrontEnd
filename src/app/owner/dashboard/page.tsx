@@ -1,4 +1,3 @@
-
 "use client";
 import { Bar } from 'react-chartjs-2';
 import {
@@ -9,9 +8,13 @@ import {
   Title,
   Tooltip,
   Legend,
+  // --- IMPORT CHART OPTIONS TYPE ---
+  ChartOptions,
 } from 'chart.js';
 import { Card, CardContent } from '../../../../components/CardDashboard';
 import { Bell, Users, Utensils, LayoutDashboard } from 'lucide-react';
+// --- IMPORT FRAMER MOTION ---
+import { motion, Variants } from 'framer-motion';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -28,7 +31,8 @@ const Dashboard = () => {
     ],
   };
 
-  const barOptions = {
+  // --- ADDED TYPE AND ANIMATION TO CHART OPTIONS ---
+  const barOptions: ChartOptions<'bar'> = {
     responsive: true,
     plugins: {
       legend: {
@@ -39,57 +43,108 @@ const Dashboard = () => {
         text: 'Weekly Orders Overview',
       },
     },
+    animation: { // Animation for the chart itself
+      duration: 1000,
+      easing: 'easeOutQuad',
+    },
+    scales: {
+        y: {
+            beginAtZero: true
+        }
+    }
+  };
+
+  // --- VARIANTS FOR PAGE AND CARD ANIMATIONS ---
+
+  // Staggered container for the grid
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1, // Each child will animate 0.1s after the previous one
+      },
+    },
+  };
+
+  // Animation for each individual card
+  const itemVariants: Variants = {
+    hidden: { y: 20, opacity: 0 }, // Start 20px below and invisible
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    },
   };
 
   return (
-    <div className="p-6 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-      {/* Statistic Cards */}
-      <Card className="shadow-md">
-        <CardContent className="flex items-center gap-4 p-6">
-          <LayoutDashboard className="w-8 h-8 text-blue-600" />
-          <div>
-            <p className="text-sm text-gray-500 dark:text-white">Total Orders</p>
-            <p className="text-xl font-bold">2,345</p>
-          </div>
-        </CardContent>
-      </Card>
-      <Card className="shadow-md">
-        <CardContent className="flex items-center gap-4 p-6">
-          <Users className="w-8 h-8 text-green-600" />
-          <div>
-            <p className="text-sm text-gray-500 dark:text-white">New Users</p>
-            <p className="text-xl font-bold">425</p>
-          </div>
-        </CardContent>
-      </Card>
-      <Card className="shadow-md">
-        <CardContent className="flex items-center gap-4 p-6">
-          <Utensils className="w-8 h-8 text-yellow-600" />
-          <div>
-            <p className="text-sm text-gray-500 dark:text-white">Top Dish</p>
-            <p className="text-xl font-bold dark:text-white">Pizza</p>
-          </div>
-        </CardContent>
-      </Card>
-      <Card className="shadow-md">
-        <CardContent className="flex items-center gap-4 p-6">
-          <Bell className="w-8 h-8 text-red-600" />
-          <div>
-            <p className="text-sm text-gray-500 dark:text-white">Alerts</p>
-            <p className="text-xl font-bold">7</p>
-          </div>
-        </CardContent>
-      </Card>
+    <motion.div
+      className="p-6 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      {/* Statistic Cards with individual animations */}
+      <motion.div variants={itemVariants}>
+        <Card className="shadow-md">
+          <CardContent className="flex items-center gap-4 p-6">
+            <LayoutDashboard className="w-8 h-8 text-blue-600" />
+            <div>
+              <p className="text-sm text-gray-500 dark:text-white">Total Orders</p>
+              <p className="text-xl font-bold">2,345</p>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
 
-      {/* Chart Section */}
-      <div className="col-span-1 md:col-span-2 lg:col-span-4">
+      <motion.div variants={itemVariants}>
+        <Card className="shadow-md">
+          <CardContent className="flex items-center gap-4 p-6">
+            <Users className="w-8 h-8 text-green-600" />
+            <div>
+              <p className="text-sm text-gray-500 dark:text-white">New Users</p>
+              <p className="text-xl font-bold">425</p>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      <motion.div variants={itemVariants}>
+        <Card className="shadow-md">
+          <CardContent className="flex items-center gap-4 p-6">
+            <Utensils className="w-8 h-8 text-yellow-600" />
+            <div>
+              <p className="text-sm text-gray-500 dark:text-white">Top Dish</p>
+              <p className="text-xl font-bold dark:text-white">Pizza</p>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      <motion.div variants={itemVariants}>
+        <Card className="shadow-md">
+          <CardContent className="flex items-center gap-4 p-6">
+            <Bell className="w-8 h-8 text-red-600" />
+            <div>
+              <p className="text-sm text-gray-500 dark:text-white">Alerts</p>
+              <p className="text-xl font-bold">7</p>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      {/* Chart Section with its own animation */}
+      <motion.div className="col-span-1 md:col-span-2 lg:col-span-4" variants={itemVariants}>
         <Card className="shadow-md">
           <CardContent className="p-6">
             <Bar options={barOptions} data={barData} />
           </CardContent>
         </Card>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

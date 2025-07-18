@@ -9,6 +9,8 @@ import {
   Title,
   Tooltip,
   Legend,
+  // --- IMPORT CHART OPTIONS TYPE FOR TYPESAFETY ---
+  ChartOptions,
 } from 'chart.js';
 
 import { Card, CardContent } from '../../../../components/CardDashboard';
@@ -18,6 +20,8 @@ import {
   Wallet,
   Clock,
 } from 'lucide-react';
+// --- IMPORT FRAMER MOTION FOR ANIMATIONS ---
+import { motion, Variants } from 'framer-motion';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -34,7 +38,8 @@ const CustomerDashboard = () => {
     ],
   };
 
-  const barOptions = {
+  // --- ADDED TYPE AND ANIMATION TO CHART OPTIONS ---
+  const barOptions: ChartOptions<'bar'> = {
     responsive: true,
     plugins: {
       legend: {
@@ -45,60 +50,108 @@ const CustomerDashboard = () => {
         text: 'Weekly Spending Overview',
       },
     },
+    animation: { // Animates the chart bars on render
+      duration: 1000,
+      easing: 'easeOutQuad',
+    },
+    scales: {
+        y: {
+            beginAtZero: true
+        }
+    }
+  };
+
+  // --- VARIANTS FOR THE STAGGERED ANIMATION ---
+
+  // Container for the grid to manage staggered children
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1, // Each card animates 0.1s after the previous one
+      },
+    },
+  };
+
+  // Animation for each card item
+  const itemVariants: Variants = {
+    hidden: { y: 20, opacity: 0 }, // Starts slightly below and invisible
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    },
   };
 
   return (
-    <div className="p-6 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-      {/* Customer Stats */}
-      <Card className="shadow-md">
-        <CardContent className="flex items-center gap-4 p-6">
-          <ShoppingCart className="w-8 h-8 text-blue-600" />
-          <div>
-            <p className="text-sm text-gray-500 dark:text-white">My Orders</p>
-            <p className="text-xl font-bold">12</p>
-          </div>
-        </CardContent>
-      </Card>
+    <motion.div
+      className="p-6 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      {/* Customer Stats Cards with individual animations */}
+      <motion.div variants={itemVariants}>
+        <Card className="shadow-md">
+          <CardContent className="flex items-center gap-4 p-6">
+            <ShoppingCart className="w-8 h-8 text-blue-600" />
+            <div>
+              <p className="text-sm text-gray-500 dark:text-white">My Orders</p>
+              <p className="text-xl font-bold">12</p>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
 
-      <Card className="shadow-md">
-        <CardContent className="flex items-center gap-4 p-6">
-          <Heart className="w-8 h-8 text-pink-500" />
-          <div>
-            <p className="text-sm text-gray-500 dark:text-white">Favorites</p>
-            <p className="text-xl font-bold">8</p>
-          </div>
-        </CardContent>
-      </Card>
+      <motion.div variants={itemVariants}>
+        <Card className="shadow-md">
+          <CardContent className="flex items-center gap-4 p-6">
+            <Heart className="w-8 h-8 text-pink-500" />
+            <div>
+              <p className="text-sm text-gray-500 dark:text-white">Favorites</p>
+              <p className="text-xl font-bold">8</p>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
 
-      <Card className="shadow-md">
-        <CardContent className="flex items-center gap-4 p-6">
-          <Wallet className="w-8 h-8 text-yellow-500" />
-          <div>
-            <p className="text-sm text-gray-500 dark:text-white">Total Spent</p>
-            <p className="text-xl font-bold">₵ 1,200</p>
-          </div>
-        </CardContent>
-      </Card>
+      <motion.div variants={itemVariants}>
+        <Card className="shadow-md">
+          <CardContent className="flex items-center gap-4 p-6">
+            <Wallet className="w-8 h-8 text-yellow-500" />
+            <div>
+              <p className="text-sm text-gray-500 dark:text-white">Total Spent</p>
+              <p className="text-xl font-bold">₵ 1,200</p>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
 
-      <Card className="shadow-md">
-        <CardContent className="flex items-center gap-4 p-6">
-          <Clock className="w-8 h-8 text-purple-600" />
-          <div>
-            <p className="text-sm text-gray-500 dark:text-white">Last Order</p>
-            <p className="text-xl font-bold">2 days ago</p>
-          </div>
-        </CardContent>
-      </Card>
+      <motion.div variants={itemVariants}>
+        <Card className="shadow-md">
+          <CardContent className="flex items-center gap-4 p-6">
+            <Clock className="w-8 h-8 text-purple-600" />
+            <div>
+              <p className="text-sm text-gray-500 dark:text-white">Last Order</p>
+              <p className="text-xl font-bold">2 days ago</p>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
 
-      {/* Chart */}
-      <div className="col-span-1 md:col-span-2 lg:col-span-4">
+      {/* Chart card with its own animation in the sequence */}
+      <motion.div className="col-span-1 md:col-span-2 lg:col-span-4" variants={itemVariants}>
         <Card className="shadow-md">
           <CardContent className="p-6">
             <Bar options={barOptions} data={barData} />
           </CardContent>
         </Card>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

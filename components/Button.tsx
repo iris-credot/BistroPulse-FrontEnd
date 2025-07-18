@@ -1,10 +1,16 @@
-// src/components/ui/button.tsx
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Loader2 } from 'lucide-react';
+import { cn } from '../src/lib/utils'; // Make sure you have a cn utility
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background',
+  // --- BASE STYLES & ANIMATIONS ADDED HERE ---
+  `inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background 
+  transform-gpu transition-all duration-200 ease-out 
+  hover:scale-[1.02] hover:-translate-y-px 
+  active:scale-95
+  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 
+  disabled:opacity-50 disabled:pointer-events-none`,
   {
     variants: {
       variant: {
@@ -40,9 +46,11 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, isLoading, children, ...props }, ref) => {
+    // Note: I'm assuming you have a `cn` utility from shadcn/ui to merge classes.
+    // If not, you can just use string interpolation.
     return (
       <button
-        className={buttonVariants({ variant, size, className })}
+        className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         disabled={isLoading}
         {...props}
