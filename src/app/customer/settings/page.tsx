@@ -1,148 +1,182 @@
-"use client"; 
-import React, { useState} from "react";
+// In: /owner/settings/page.tsx (or wherever this file is located)
 
-import { useRouter } from "next/navigation";
-import Image from 'next/image'
+'use client';
 
+import React, { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
+import { useTheme } from '../../../../components/darkTheme';
 
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {   faPen } from "@fortawesome/free-solid-svg-icons";
-
-interface UserData {
-  firstName: string;
-  lastName: string;
-  bio: string;
-  address: string;
-  email: string;
-  phoneNumber: string;
-  dateOfBirth: string;
+// Interface for the Toggle component (unchanged)
+interface ToggleProps {
+  enabled: boolean;
+  onToggle: () => void;
 }
 
-interface FormField {
-  label: string;
-  key: keyof UserData;
-  type: string;
+// FIX 1: Make DropdownProps generic to be reusable
+// It can now work with any set of string values (like 'light'|'dark' or 'en'|'fr')
+interface DropdownProps<T extends string> {
+  value: T;
+  options: { label: string; value: T }[];
+  onChange: (value: T) => void;
+  title: string; // Add a title prop for accessibility
 }
 
-export default function SettingsPage() {
-  const router = useRouter();
- 
- 
+// FIX 2: Correct the values for each language
+const languageOptions = [
+  { label: 'English', value: 'en' },
+  { label: 'French', value: 'fr' },
+  { label: 'Kiswahili', value: 'sw' }, // Corrected value
+  { label: 'Kinyarwanda', value: 'rw' }, // Corrected value
+];
 
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [userData, setUserData] = useState<UserData>({
-    firstName: "",
-    lastName: "",
-    bio: "",
-    address: "",
-    email: "",
-    phoneNumber: "",
-    dateOfBirth: "",
-  });
+const Settings = () => {
+  const { darkMode, toggleDarkMode } = useTheme();
 
+  // FIX 3: Add state for the selected language
+  const [language, setLanguage] = useState<string>('en'); // Default to English
 
+  // State for other settings (unchanged)
+  const [twoFactor, setTwoFactor] = useState(true);
+  const [mobilePush, setMobilePush] = useState(true);
+  const [desktopNotification, setDesktopNotification] = useState(true);
+  const [emailNotifications, setEmailNotifications] = useState(true);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setSelectedFile(e.target.files[0]);
-    }
-  };
-
-  const formFields: FormField[] = [
-    { label: "First Name", key: "firstName", type: "text" },
-    { label: "Last Name", key: "lastName", type: "text" },
-    { label: "Bio", key: "bio", type: "text" },
-    { label: "Address", key: "address", type: "text" },
-    { label: "Email", key: "email", type: "email" },
-    { label: "Phone Number", key: "phoneNumber", type: "text" },
-    { label: "Date of Birth", key: "dateOfBirth", type: "date" },
-  ];
-
-  return (
-    <div className="flex flex-col justify-center p-5 gap-6 dark:text-white items-center dark:bg-transparent h-screen">
-      <h1 className="font-bold text-5xl">Settings</h1>
-     
-
-      <div className="w-full flex justify-center mb-6 mt-4 gap-10">
-        <div className="relative">
-          <Image
-            src=""
-            alt="Profile"
-            className="w-24 h-24 rounded-full object-cover"
-          />
-          <input
-          title="g"
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="hidden"
-            id="profileImageUpload"
-          />
-          <label
-            htmlFor="profileImageUpload"
-            className="absolute bottom-0 right-0 bg-white rounded-full p-1 shadow hover:bg-gray-100 dark:text-gray-800 cursor-pointer"
-          >
-            <FontAwesomeIcon icon={faPen} />
-          </label>
-        </div>
-        {selectedFile && (
-          <div className="w-[20%] mt-14">
-            <button
-              type="button"
-              className="mt-2 bg-green-500 text-white px-2 text-xs rounded"
-            >
-              Save Image
-            </button>
-          </div>
-        )}
-      </div>
-
-      <div className="bg-gray-50 w-full rounded-lg shadow max-w-4xl p-6 dark:bg-gray-800">
-        <form  className="flex flex-col space-y-4 w-full">
-          {formFields.map((field, idx) => (
-            <div
-              key={idx}
-              className="flex flex-col md:flex-row md:items-center gap-2"
-            >
-              <label className="md:w-[40%] w-full">{field.label}</label>
-              <input
-              title="d"
-                type={field.type}
-                value={userData[field.key]}
-                onChange={(e) =>
-                  setUserData({ ...userData, [field.key]: e.target.value })
-                }
-                className="border rounded-md p-2 md:w-[60%] w-full dark:text-black"
-              />
-            </div>
-          ))}
-
-          <div className="flex justify-end mt-4 items-center">
-            <button
-              type="submit"
-              className="bg-green-500 text-white rounded-lg px-4 py-2"
-            >
-              Save Changes
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <div className="flex md:flex-row gap-12 w-full mt-8 justify-center items-center">
-        <label className="w-[70%] sm:text-2xl text-lg font-semibold">
-          Update Password
-        </label>
-        <button
-          type="button"
-        onClick={()=>{ router.push('/admin/');}}
-          className="bg-blue-500 text-white rounded-lg px-2 py-2 w-[20%]"
-        >
-          Edit
-        </button>
-      </div>
-
-   
+  // Toggle component (unchanged)
+  const Toggle = ({ enabled, onToggle }: ToggleProps) => (
+    <div
+      className={`relative inline-flex h-6 w-11 items-center rounded-full cursor-pointer transition-colors ${
+        enabled ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'
+      }`}
+      onClick={onToggle}
+    >
+      <span
+        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+          enabled ? 'translate-x-6' : 'translate-x-1'
+        }`}
+      />
     </div>
   );
-}
+
+  // FIX 4: Update the Dropdown component to use the generic interface
+  const Dropdown = <T extends string>({ value, options, onChange, title }: DropdownProps<T>) => (
+    <div className="relative w-full sm:w-48">
+      <select
+        title={title}
+        value={value}
+        // The type assertion 'as T' makes this generically safe
+        onChange={(e) => onChange(e.target.value as T)}
+        className="appearance-none bg-white dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-600 rounded-lg px-3 sm:px-4 py-2 sm:py-2.5 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm w-full"
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <ChevronDown className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+      {/* Header */}
+      <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex justify-center items-center gap-4">
+          <h1 className="text-lg sm:text-2xl font-semibold">Settings</h1>
+        </div>
+      </div>
+
+      {/* Settings Sections */}
+      <div className="max-w-full sm:max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+          <div className="divide-y divide-gray-200 dark:divide-gray-700">
+            {/* Appearance Dropdown */}
+            <div className="p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
+              <div>
+                <h3 className="text-base sm:text-lg font-medium">Appearance</h3>
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  Select your preferred theme.
+                </p>
+              </div>
+              <Dropdown
+                title="Theme Selector"
+                value={darkMode ? 'dark' : 'light'}
+                options={[
+                  { label: 'Light Mode', value: 'light' },
+                  { label: 'Dark Mode', value: 'dark' },
+                ]}
+                onChange={toggleDarkMode}
+              />
+            </div>
+
+            {/* Language Dropdown */}
+            <div className="p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
+              <div>
+                <h3 className="text-base sm:text-lg font-medium">Language</h3>
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  Select your language
+                </p>
+              </div>
+              {/* FIX 5: Implement the language dropdown correctly */}
+              <Dropdown
+                title="Language Selector"
+                value={language}
+                options={languageOptions}
+                onChange={(value) => setLanguage(value)}
+              />
+            </div>
+
+            {/* Other settings sections remain unchanged */}
+            <div className="p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
+              <div>
+                <h3 className="text-base sm:text-lg font-medium">Two-factor Authentication</h3>
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  Keep your account secure by enabling 2FA
+                </p>
+              </div>
+              <Toggle enabled={twoFactor} onToggle={() => setTwoFactor(!twoFactor)} />
+            </div>
+
+            <div className="p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
+              <div>
+                <h3 className="text-base sm:text-lg font-medium">Mobile Push Notifications</h3>
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  Receive push notifications on mobile
+                </p>
+              </div>
+              <Toggle enabled={mobilePush} onToggle={() => setMobilePush(!mobilePush)} />
+            </div>
+
+            <div className="p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
+              <div>
+                <h3 className="text-base sm:text-lg font-medium">Desktop Notifications</h3>
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  Receive push notifications on Desktop
+                </p>
+              </div>
+              <Toggle
+                enabled={desktopNotification}
+                onToggle={() => setDesktopNotification(!desktopNotification)}
+              />
+            </div>
+
+            <div className="p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0 border-b-0">
+              <div>
+                <h3 className="text-base sm:text-lg font-medium">Email Notifications</h3>
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  Receive email updates
+                </p>
+              </div>
+              <Toggle
+                enabled={emailNotifications}
+                onToggle={() => setEmailNotifications(!emailNotifications)}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Settings;

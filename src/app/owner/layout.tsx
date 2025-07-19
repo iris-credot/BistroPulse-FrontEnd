@@ -87,7 +87,7 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
       </div>
       <div className="flex md:flex-row gap-12 w-full mb-3 justify-center items-center">
         <label className="text-base font-semibold">DarkMode</label>
-        <button type="button" onClick={toggleDarkMode} className={`flex justify-center items-center rounded-lg px-5 py-2 gap-3 border transition-all duration-200 transform hover:scale-105 active:scale-95 ${darkMode ? "bg-blue-500 text-white border-blue-500" : "bg-white text-black border-black"}`}>
+        <button type="button" onClick={toggleDarkMode} className={`flex justify-center items-center rounded-lg px-2 py-1 gap-3 border transition-all duration-200 transform hover:scale-105 active:scale-95 ${darkMode ? "bg-blue-500 text-white border-blue-500" : "bg-white text-black border-black"}`}>
           <FontAwesomeIcon icon={darkMode ? faMoon : faSun} />
           <span>{darkMode ? "On" : "Off"}</span>
         </button>
@@ -143,7 +143,7 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
                 )}
               </AnimatePresence>
             </div>
-            <div className="flex items-center space-x-2 cursor-pointer" onClick={() => router.push('/owner/settings')}>
+            <div className="flex items-center space-x-2 cursor-pointer" onClick={() => router.push('/owner/profile')}>
               <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">DS</div>
             </div>
             <button title='Toggle Menu' onClick={toggleSidebar} className="p-2 rounded-md md:hidden text-gray-600 dark:text-gray-300">

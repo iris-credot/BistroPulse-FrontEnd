@@ -104,7 +104,7 @@ export default function LandingPage() {
               <div className="relative" ref={dropdownRef}>
                 <button 
                   title='Change Language'
-                  className="p-2 rounded-full  dark:hover:bg-blue-500 transition-colors items-end"
+                  className="p-2 rounded-full  hover:bg-blue-500 transition-colors items-end"
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 >
                   <Globe className="w-8 h-8 text-blue-500 hover:text-white " />

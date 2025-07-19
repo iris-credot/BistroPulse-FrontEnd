@@ -89,12 +89,12 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
             </nav>
             <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
                 <div className="flex md:flex-row gap-12 w-full mb-3 justify-center items-center">
-                    <label className="text-base font-semibold">DarkMode</label>
-                    <button type="button" onClick={toggleDarkMode} className={`flex justify-center items-center rounded-lg px-5 py-2 gap-3 border transition-all duration-200 transform hover:scale-105 active:scale-95 ${darkMode ? "bg-blue-500 text-white border-blue-500" : "bg-white text-black border-black"}`}>
-                        <FontAwesomeIcon icon={darkMode ? faMoon : faSun} />
-                        <span>{darkMode ? "On" : "Off"}</span>
-                    </button>
-                </div>
+                       <label className="text-base font-semibold">DarkMode</label>
+                       <button type="button" onClick={toggleDarkMode} className={`flex justify-center items-center rounded-lg px-2 py-1 gap-3 border transition-all duration-200 transform hover:scale-105 active:scale-95 ${darkMode ? "bg-blue-500 text-white border-blue-500" : "bg-white text-black border-black"}`}>
+                         <FontAwesomeIcon icon={darkMode ? faMoon : faSun} />
+                         <span>{darkMode ? "On" : "Off"}</span>
+                       </button>
+                     </div>
                 <ul className="space-y-2">
                     <li onClick={handleLogout} className="w-full">
                         <button className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-red-500 transition-all duration-200 hover:bg-red-100 dark:hover:bg-red-900/50 hover:text-red-600 dark:hover:text-red-400 hover:scale-105 active:scale-100 cursor-pointer">
@@ -146,7 +146,7 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
                             </AnimatePresence>
                         </div>
 
-                        <div className="flex items-center space-x-2 cursor-pointer" onClick={() => { router.push('/customer/settings'); }}>
+                        <div className="flex items-center space-x-2 cursor-pointer" onClick={() => { router.push('/customer/profile'); }}>
                             <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">CU</div>
                         </div>
                         <button title='Toggle Menu' onClick={toggleSidebar} className="p-2 rounded-md md:hidden text-gray-600 dark:text-gray-300">

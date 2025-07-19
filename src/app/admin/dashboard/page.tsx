@@ -9,13 +9,24 @@ import {
   ArcElement,
   Tooltip,
   Legend,
-  // --- IMPORT CHART & PLUGIN TYPES ---
   ChartOptions,
-  
+  // --- FIX 2: IMPORT THE CHARTDATA TYPE ---
+  ChartData,
 } from 'chart.js';
-// --- IMPORT FRAMER MOTION TYPES ---
 import { motion, Variants } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import {
+  Users,
+  ClipboardList,
+  FolderKanban,
+  CalendarCheck,
+  ArrowUp,
+  ArrowDown,
+  ChevronLeft,
+  ChevronRight,
+  Calendar as CalendarIcon,
+} from 'lucide-react';
+
 
 ChartJS.register(
   CategoryScale,
@@ -25,6 +36,90 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
+const ScheduleCalendar = () => {
+  // --- FIX 1: 'setCurrentDate' IS NOW USED BY THE HANDLERS ---
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  const handlePrevMonth = () => {
+    setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
+  };
+  
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const monthName = currentDate.toLocaleString('default', { month: 'long' });
+  const today = new Date();
+
+  // Function to generate calendar days dynamically
+  const generateCalendarDays = () => {
+    const daysArray = [];
+    const firstDayOfMonth = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+    // Days from previous month
+    for (let i = firstDayOfMonth - 1; i >= 0; i--) {
+        daysArray.push({ day: daysInPrevMonth - i, inMonth: false });
+    }
+    // Days in current month
+    for (let day = 1; day <= daysInMonth; day++) {
+        const isSelected = day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+        const isToday = day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+        daysArray.push({ day, inMonth: true, isSelected, isToday });
+    }
+    // Fill out the grid
+    while (daysArray.length % 7 !== 0) {
+        daysArray.push({ day: daysArray.length - (firstDayOfMonth + daysInMonth) + 1, inMonth: false});
+    }
+    return daysArray;
+  };
+  
+  const days = generateCalendarDays();
+
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 h-full">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-bold text-lg text-gray-800 dark:text-white">My Calendar</h3>
+        <div className="p-2 bg-purple-100 dark:bg-purple-900/50 rounded-lg">
+          <CalendarIcon className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+        </div>
+      </div>
+      <div className="flex items-center justify-between mb-4">
+        <button title='e' onClick={handlePrevMonth} className="p-2 rounded-lg bg-purple-500 text-white hover:bg-purple-600 transition-colors">
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <div className="font-semibold text-gray-700 dark:text-gray-200">{monthName}, {year}</div>
+        <button title='d' onClick={handleNextMonth} className="p-2 rounded-lg bg-purple-500 text-white hover:bg-purple-600 transition-colors">
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
+      <div className="grid grid-cols-7 gap-2 text-center text-sm">
+        {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
+          <div key={day} className="font-medium text-gray-500 dark:text-gray-400">{day}</div>
+        ))}
+        {days.map(({ day, inMonth, isSelected, isToday }, index) => (
+          <div
+            key={index}
+            className={`p-2 rounded-lg cursor-pointer ${
+              !inMonth ? 'text-gray-300 dark:text-gray-600' : 'text-gray-700 dark:text-gray-300'
+            } ${
+              isSelected ? 'bg-purple-600 text-white font-bold' : ''
+            } ${
+              isToday ? 'bg-purple-100 dark:bg-purple-900/50' : ''
+            }`}
+          >
+            {day}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 
 export default function AdminDashboard() {
   const [greeting, setGreeting] = useState('');
@@ -42,9 +137,9 @@ export default function AdminDashboard() {
     };
     setGreeting(getCurrentGreeting());
   }, []);
-
-
-  const userStats = {
+  
+  // --- FIX 2: EXPLICITLY TYPE THE CHART DATA OBJECTS ---
+  const userStats: ChartData<'bar'> = {
     labels: ['Customers', 'Restaurants', 'Orders'],
     datasets: [
       {
@@ -56,7 +151,7 @@ export default function AdminDashboard() {
     ],
   };
 
-  const orderStatusData = {
+  const orderStatusData: ChartData<'doughnut'> = {
     labels: ['Pending', 'Preparing', 'Delivered', 'Cancelled'],
     datasets: [
       {
@@ -67,53 +162,23 @@ export default function AdminDashboard() {
     ],
   };
 
-  // --- FIX 1: EXPLICITLY TYPE THE VARIANTS OBJECT ---
   const containerVariants: Variants = {
     hidden: { opacity: 0, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut" // This is now correctly typed
-      }
-    }
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } }
   };
 
-  // --- FIX 2: EXPLICITLY TYPE THE BAR CHART OPTIONS ---
   const barChartOptions: ChartOptions<'bar'> = {
     responsive: true,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    animation: {
-      duration: 1000,
-      easing: 'easeOutQuad', // This is now correctly typed
-    },
-    scales: { // It's good practice to define scales
-        y: {
-            beginAtZero: true
-        }
-    }
+    plugins: { legend: { display: false } },
+    animation: { duration: 1000, easing: 'easeOutQuad' },
+    scales: { y: { beginAtZero: true } }
   };
 
-  // --- FIX 3: EXPLICITLY TYPE THE DOUGHNUT CHART OPTIONS ---
   const doughnutOptions: ChartOptions<'doughnut'> = {
     responsive: true,
-    animation: {
-      animateRotate: true,
-      animateScale: true,
-      duration: 1000,
-      easing: 'easeOutQuad', // This is now correctly typed
-    },
-    plugins: {
-        legend: {
-            position: 'top', // This is now correctly typed
-        }
-    },
-    cutout: '60%', // Makes the doughnut hole a bit smaller for better aesthetics
+    animation: { animateRotate: true, animateScale: true, duration: 1000, easing: 'easeOutQuad' },
+    plugins: { legend: { position: 'top' } },
+    cutout: '60%',
   };
 
 
@@ -124,42 +189,117 @@ export default function AdminDashboard() {
       initial="hidden"
       animate="visible"
     >
-      <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-        {greeting}, Alex
-      </h1>
-      {/* Stat Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 dark:text-white">
-        <div className="bg-white p-4 rounded-xl shadow space-y-2 dark:bg-gray-600">
-          <h2 className="text-sm font-medium text-gray-600 dark:text-white">Total Customers</h2>
-          <p className="text-3xl font-bold text-blue-600">1,200</p>
-        </div>
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-white flex items-center">
+            Hello Iris <span className="text-2xl ml-2">👋</span>
+        </h1>
+         <motion.h1
+        className="text-2xl font-bold text-gray-800 dark:text-white"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        {greeting}
+      </motion.h1>
+      </div>
 
-        <div className="bg-white p-4 rounded-xl shadow space-y-2 dark:bg-gray-600">
-          <h2 className="text-sm font-medium text-gray-600 dark:text-white">Total Restaurants</h2>
-          <p className="text-3xl font-bold text-green-600">85</p>
-        </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="bg-white p-5 rounded-xl shadow-sm dark:bg-gray-800">
+            <div className="flex items-start justify-between">
+                <div className="flex flex-col space-y-1">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Total Users</p>
+                    <p className="text-3xl font-bold text-gray-900 dark:text-white">560</p>
+                </div>
+                <div className="p-2 bg-blue-100 dark:bg-blue-900/50 rounded-lg">
+                    <Users className="w-6 h-6 text-blue-500 dark:text-blue-400" />
+                </div>
+            </div>
+            <div className="mt-4 flex items-center space-x-2 text-sm">
+                <div className="flex items-center text-green-600 bg-green-100 dark:bg-green-900/50 px-2 py-0.5 rounded-full">
+                    <ArrowUp className="w-3 h-3" />
+                    <span className="ml-1 font-semibold">12%</span>
+                </div>
+                <p className="text-gray-400 dark:text-gray-500">Update: July 19, 2025</p>
+            </div>
+          </div>
+          
+          <div className="bg-white p-5 rounded-xl shadow-sm dark:bg-gray-800">
+             <div className="flex items-start justify-between">
+                <div className="flex flex-col space-y-1">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Total Restaurant Managers</p>
+                    <p className="text-3xl font-bold text-gray-900 dark:text-white">1050</p>
+                </div>
+                <div className="p-2 bg-green-100 dark:bg-green-900/50 rounded-lg">
+                    <ClipboardList className="w-6 h-6 text-green-500 dark:text-green-400" />
+                </div>
+            </div>
+            <div className="mt-4 flex items-center space-x-2 text-sm">
+                <div className="flex items-center text-green-600 bg-green-100 dark:bg-green-900/50 px-2 py-0.5 rounded-full">
+                    <ArrowUp className="w-3 h-3" />
+                    <span className="ml-1 font-semibold">5%</span>
+                </div>
+                <p className="text-gray-400 dark:text-gray-500">Update: July 19, 2025</p>
+            </div>
+          </div>
 
-        <div className="bg-white p-4 rounded-xl shadow space-y-2 dark:bg-gray-600">
-          <h2 className="text-sm font-medium text-gray-600 dark:text-white">Total Orders</h2>
-          <p className="text-3xl font-bold text-orange-500">3,300</p>
+          <div className="bg-white p-5 rounded-xl shadow-sm dark:bg-gray-800">
+             <div className="flex items-start justify-between">
+                <div className="flex flex-col space-y-1">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Total Restaurants</p>
+                    <p className="text-3xl font-bold text-gray-900 dark:text-white">470</p>
+                </div>
+                <div className="p-2 bg-red-100 dark:bg-red-900/50 rounded-lg">
+                    <CalendarCheck className="w-6 h-6 text-red-500 dark:text-red-400" />
+                </div>
+            </div>
+            <div className="mt-4 flex items-center space-x-2 text-sm">
+                <div className="flex items-center text-red-600 bg-red-100 dark:bg-red-900/50 px-2 py-0.5 rounded-full">
+                    <ArrowDown className="w-3 h-3" />
+                    <span className="ml-1 font-semibold">8%</span>
+                </div>
+                <p className="text-gray-400 dark:text-gray-500">Update: July 19, 2025</p>
+            </div>
+          </div>
+
+          <div className="bg-white p-5 rounded-xl shadow-sm dark:bg-gray-800">
+             <div className="flex items-start justify-between">
+                <div className="flex flex-col space-y-1">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Total Clients</p>
+                    <p className="text-3xl font-bold text-gray-900 dark:text-white">250</p>
+                </div>
+                <div className="p-2 bg-purple-100 dark:bg-purple-900/50 rounded-lg">
+                    <FolderKanban className="w-6 h-6 text-purple-500 dark:text-purple-400" />
+                </div>
+            </div>
+            <div className="mt-4 flex items-center space-x-2 text-sm">
+                <div className="flex items-center text-green-600 bg-green-100 dark:bg-green-900/50 px-2 py-0.5 rounded-full">
+                    <ArrowUp className="w-3 h-3" />
+                    <span className="ml-1 font-semibold">12%</span>
+                </div>
+                <p className="text-gray-400 dark:text-gray-500">Update: July 19, 2025</p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="lg:col-span-1">
+          <ScheduleCalendar />
         </div>
       </div>
 
-      {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow dark:bg-gray-600">
+        <div className="bg-white p-6 rounded-xl shadow dark:bg-gray-800">
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">User Statistics</h3>
           <Bar data={userStats} options={barChartOptions} />
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow dark:bg-gray-600">
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Order Status</h3>
+        <div className="bg-white p-6 rounded-xl shadow dark:bg-gray-800">
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Restaurants Status</h3>
           <Doughnut data={orderStatusData} options={doughnutOptions} />
         </div>
       </div>
 
-      {/* Recent Activities */}
-      <div className="bg-white p-6 rounded-xl shadow mt-6 dark:bg-gray-600">
+      <div className="bg-white p-6 rounded-xl shadow mt-6 dark:bg-gray-800">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Recent Activities</h3>
         <ul className="space-y-3 text-sm text-gray-700 dark:text-white">
           <li>✅ New restaurant <strong>FreshBites</strong> registered</li>
