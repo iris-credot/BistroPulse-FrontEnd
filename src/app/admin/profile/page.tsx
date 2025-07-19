@@ -60,7 +60,7 @@ export default function SettingsPage() {
   ];
 
   return (
-    <div className="flex flex-col justify-center p-5 gap-6 dark:text-white items-center dark:bg-transparent h-screen">
+    <div className="flex flex-col justify-center p-5 gap-6 dark:text-white items-center dark:bg-transparent min-h-screen">
       <h1 className="font-bold text-5xl">Profile</h1>
      
 
