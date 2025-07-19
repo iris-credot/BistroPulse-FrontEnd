@@ -1,102 +1,100 @@
 {
-  
-    "nav": {
-      "brand": "BistroPulse",
-      "features": "Iby'ibanze",
-      "howItWorks": "Uko Bikora",
-      "restaurants": "Amaresitora",
-      "contact": "Twandikire",
-      "login": "Injira",
-      "signUp": "Iyandikishe",
-      "changeLanguageTitle": "Hindura Ururimi",
-      "lang": {
-        "en": "Icyongereza",
-        "fr": "Igifaransa",
-        "sw": "Igiswahili",
-        "rw": "Kinyarwanda"
+  "nav": {
+    "brand": "BistroPulse",
+    "features": "Iby'ibanze",
+    "howItWorks": "Uko Bikora",
+    "restaurants": "Amaresitora",
+    "contact": "Twandikire",
+    "login": "Injira",
+    "signUp": "Iyandikishe",
+    "changeLanguageTitle": "Hindura Ururimi",
+    "lang": {
+      "en": "Icyongereza",
+      "fr": "Igifaransa",
+      "sw": "Igiswahili",
+      "rw": "Kinyarwanda"
+    }
+  },
+  "hero": {
+    "title1": "Kugeza ku Muryango",
+    "title2": "Ku Muheno w'Umurabyo",
+    "subtitle": "Tumiza mu maresitora ukunda yo hafi yawe maze ibyo kurya bigere iwawe mu minota mike.",
+    "ctaButton": "Tumiza Nonaha"
+  },
+  "features": {
+    "title": "Kuki wahitamo BistroPulse?",
+    "subtitle": "Gutanga ibyo kurya tubikora vuba, byoroshye, kandi biryoshye",
+    "cards": {
+      "fastDelivery": {
+        "title": "Gutanga Ibyakurya Byihuse",
+        "description": "Bona ibyo kurya byawe mu minota itageze kuri 30 cyangwa ubone ku buntu"
+      },
+      "restaurants": {
+        "title": "Amaresitora 100+",
+        "description": "Hitamo mu byokurya byinshi bitandukanye n'ibyo abantu bakunda hafi yawe"
+      },
+      "liveTracking": {
+        "title": "Gukurikirana Ibyo Watumije ako kanya",
+        "description": "Kurikirana ibyo watumije mu gihe nyacyo kuva muri resitora kugeza iwawe"
       }
-    },
-    "hero": {
-      "title1": "Kugeza ku Muryango",
-      "title2": "Ku Muheno w'Umurabyo",
-      "subtitle": "Tumiza mu maresitora ukunda yo hafi yawe maze ibyo kurya bigere iwawe mu minota mike.",
-      "ctaButton": "Tumiza Nonaha"
-    },
-    "features": {
-      "title": "Kuki wahitamo BistroPulse?",
-      "subtitle": "Gutanga ibyo kurya tubikora vuba, byoroshye, kandi biryoshye",
-      "cards": {
-        "fastDelivery": {
-          "title": "Gutanga Ibyakurya Byihuse",
-          "description": "Bona ibyo kurya byawe mu minota itageze kuri 30 cyangwa ubone ku buntu"
-        },
-        "restaurants": {
-          "title": "Amaresitora 100+",
-          "description": "Hitamo mu byokurya byinshi bitandukanye n'ibyo abantu bakunda hafi yawe"
-        },
-        "liveTracking": {
-          "title": "Gukurikirana Ibyo Watumije ako kanya",
-          "description": "Kurikirana ibyo watumije mu gihe nyacyo kuva muri resitora kugeza iwawe"
-        }
+    }
+  },
+  "howItWorks": {
+    "title": "Uko BistroPulse Ikora",
+    "subtitle": "Bona ibyo kurya ukunda mu gukanda inshuro nkeya gusa",
+    "steps": {
+      "chooseRestaurant": {
+        "title": "Hitamo Resitora Yawe",
+        "description": "Reba amaresitora dukorana maze uhitemo iyo ukunda"
+      },
+      "selectMeal": {
+        "title": "Hitamo Ifunguro Ryawe",
+        "description": "Hitamo mu magana y'amafunguro aryoshye"
+      },
+      "fastDelivery": {
+        "title": "Gutanga Byihuse",
+        "description": "Kurikirana ibyo watumije bigana aho uri"
       }
-    },
-    "howItWorks": {
-      "title": "Uko BistroPulse Ikora",
-      "subtitle": "Bona ibyo kurya ukunda mu gukanda inshuro nkeya gusa",
-      "steps": {
-        "chooseRestaurant": {
-          "title": "Hitamo Resitora Yawe",
-          "description": "Reba amaresitora dukorana maze uhitemo iyo ukunda"
-        },
-        "selectMeal": {
-          "title": "Hitamo Ifunguro Ryawe",
-          "description": "Hitamo mu magana y'amafunguro aryoshye"
-        },
-        "fastDelivery": {
-          "title": "Gutanga Byihuse",
-          "description": "Kurikirana ibyo watumije bigana aho uri"
-        }
-      }
-    },
-    "restaurants": {
-      "title": "Amaresitora Akunzwe",
-      "subtitle": "Vumbura ahantu heza ho kurira hafi yawe",
-      "inLocation": "Muri {{location}}",
-      "list": {
-        "boutique": { "name": "Boutique Hotel", "tags": ["By'akataraboneka", "Mpuzamahanga", "Bivanze"] },
-        "repub": { "name": "Repub Lounge", "tags": ["Afurika", "Inyama zokeje", "Akabari"] },
-        "pili": { "name": "Pili Pili", "tags": ["Barbecue", "Pizza", "Aherekeye heza"] },
-        "meze": { "name": "Meze Fresh", "tags": ["Mexique", "Byihuse", "Byiza ku buzima"] },
-        "poivre": { "name": "Poivre Noir", "tags": ["Igifaransa", "Ibyo mu nyanja", "By'urukundo"] },
-        "brachetto": { "name": "Brachetto", "tags": ["Ubutaliyani", "Akabari ka Divayi", "Biryoshye cyane"] }
-      }
-    },
-    "cta": {
-      "title": "Witeguye Gutumiza?",
-      "subtitle": "Manura porogaramu yacu maze ubone igabanyirizwa rya 20% ku byo utumije bwa mbere",
-      "iosButton": "Manura kuri iOS"
-    },
-    "contact": {
-      "title": "Twandikire",
-      "subtitle": "Ufite ibibazo cyangwa ibitekerezo? Twishimira kubyakira!",
-      "phone": "+250 (785) 123-456",
-      "email": "support@bistropulse.com",
-      "address": "123 Food Street, Kigali, CA 94107",
-      "form": {
-        "title": "Twoherereze ubutumwa",
-        "namePlaceholder": "Izina Ryawe",
-        "emailPlaceholder": "Imeri Yawe",
-        "messagePlaceholder": "Ubutumwa Bwawe",
-        "successMessage": "Ubutumwa bwoherejwe neza ✅",
-        "errorMessage": "Ubutumwa ntibwoherejwe (ikibazo cya serivisi) ❌",
-        "sendingButton": "Kohereza...",
-        "sendButton": "Ohereza Ubutumwa"
-      }
-    },
-    "footer": {
-      "copyright": "© {{year}} BistroPulse. Uburenganzira bwose burasigasiriwe."
-    },
-    
+    }
+  },
+  "restaurants": {
+    "title": "Amaresitora Akunzwe",
+    "subtitle": "Vumbura ahantu heza ho kurira hafi yawe",
+    "inLocation": "Muri {{location}}",
+    "list": {
+      "boutique": { "name": "Boutique Hotel", "tags": ["By'akataraboneka", "Mpuzamahanga", "Bivanze"] },
+      "repub": { "name": "Repub Lounge", "tags": ["Afurika", "Inyama zokeje", "Akabari"] },
+      "pili": { "name": "Pili Pili", "tags": ["Barbecue", "Pizza", "Aherekeye heza"] },
+      "meze": { "name": "Meze Fresh", "tags": ["Mexique", "Byihuse", "Byiza ku buzima"] },
+      "poivre": { "name": "Poivre Noir", "tags": ["Igifaransa", "Ibyo mu nyanja", "By'urukundo"] },
+      "brachetto": { "name": "Brachetto", "tags": ["Ubutaliyani", "Akabari ka Divayi", "Biryoshye cyane"] }
+    }
+  },
+  "cta": {
+    "title": "Witeguye Gutumiza?",
+    "subtitle": "Manura porogaramu yacu maze ubone igabanyirizwa rya 20% ku byo utumije bwa mbere",
+    "iosButton": "Manura kuri iOS"
+  },
+  "contact": {
+    "title": "Twandikire",
+    "subtitle": "Ufite ibibazo cyangwa ibitekerezo? Twishimira kubyakira!",
+    "phone": "+250 (785) 123-456",
+    "email": "support@bistropulse.com",
+    "address": "123 Food Street, Kigali, CA 94107",
+    "form": {
+      "title": "Twoherereze ubutumwa",
+      "namePlaceholder": "Izina Ryawe",
+      "emailPlaceholder": "Imeri Yawe",
+      "messagePlaceholder": "Ubutumwa Bwawe",
+      "successMessage": "Ubutumwa bwoherejwe neza ✅",
+      "errorMessage": "Ubutumwa ntibwoherejwe (ikibazo cya serivisi) ❌",
+      "sendingButton": "Kohereza...",
+      "sendButton": "Ohereza Ubutumwa"
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} BistroPulse. Uburenganzira bwose burasigasiriwe."
+  },
   "header": {
     "brand": "BistroPulse",
     "changeLanguageTitle": "Hindura Ururimi",
@@ -122,7 +120,7 @@
     "off": "Birajimije",
     "logout": "Sohoka"
   },
-   "headerC": {
+  "headerC": {
     "brand": "BistroPulse",
     "changeLanguageTitle": "Hindura Ururimi",
     "toggleMenuTitle": "Hindura Ibikubiyemo",
@@ -172,7 +170,7 @@
     "off": "Birajimije",
     "logout": "Sohoka"
   },
-   "dashboard": {
+  "dashboard": {
     "greeting": {
       "hello": "Muraho {{name}}",
       "morning": "Mwaramutse neza",
@@ -192,7 +190,7 @@
       "nextMonth": "Ukwezi gutaha",
       "weekdays": ["Cyu", "Mbe", "Kab", "Gat", "Kan", "Gat", "Gat"],
       "months": [
-        "Mutarama", "Gashyantare", "Werurwe", "Mata", "Gicurasi", "Kamena", 
+        "Mutarama", "Gashyantare", "Werurwe", "Mata", "Gicurasi", "Kamena",
         "Nyakanga", "Kanama", "Nzeri", "Ukwakira", "Ugushyingo", "Ukuboza"
       ]
     },
@@ -217,7 +215,7 @@
       ]
     }
   },
-    "dashboardC": {
+  "dashboardC": {
     "greeting": {
       "hello": "Muraho Kiriya",
       "morning": "Mwaramutse",
@@ -272,6 +270,4 @@
     "customer_signed_up": "Umukiriya <strong>Jane Cooper</strong> yiyandikishije"
   },
   "week_days": ["Cy", "Mb", "Kb", "Gt", "Kn", "Gj", "Ga"]
-
-  
 }
