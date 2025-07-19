@@ -1,5 +1,6 @@
 'use client';
-import React, { useState, useEffect, useRef } from 'react'; // Import useEffect and useRef
+
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useRouter, usePathname } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,27 +8,27 @@ import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { useTheme } from '../../../components/darkTheme';
 import { LayoutDashboard, Utensils, Users, Bell, LogOut, ShoppingCart, History, Globe, Menu, X } from 'lucide-react';
 import Image from 'next/image';
-import { LanguageProvider } from '../../../components/LanguageProvider';
+import { useTranslation } from 'react-i18next'; // Ibyongewe
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 
 export default function OwnerLayout({ children }: { children: React.ReactNode }) {
+  const { t, i18n } = useTranslation(); // Ibyongewe
   const router = useRouter();
   const pathname = usePathname();
   const { darkMode, toggleDarkMode } = useTheme();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
-  
-  // --- Dropdown State and Ref ---
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const handleLanguageSelect = (language: string) => {
-    console.log(`Language selected: ${language}`);
+  // Byahinduwe
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
     setIsDropdownOpen(false);
   };
-  
-  // --- Click outside to close dropdown ---
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -75,21 +76,21 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
       <div className="flex-1">
         <nav className='mt-4'>
           <ul className="space-y-2">
-            <li><a href="/owner/dashboard" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><LayoutDashboard className="w-5 h-5" /><span>Overview</span></a></li>
-            <li><a href="/owner/customer-list" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><Users className="w-5 h-5" /><span>Customer List</span></a></li>
-            <li><a href="/owner/customer-order" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><ShoppingCart className="w-5 h-5" /><span>Order</span></a></li>
-            <li><a href="/owner/food-menu" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><Utensils className="w-5 h-5" /><span>Food Menu</span></a></li>
-            <li><a href="/owner/order-history" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><History className="w-5 h-5" /><span>Order History</span></a></li>
-            <li><a href="/owner/settings" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><History className="w-5 h-5" /><span>Settings</span></a></li>
-             <li><a href="/owner/notifications" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><Bell className="w-5 h-5" /><span>Notifications</span></a></li>
+            <li><a href="/owner/dashboard" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><LayoutDashboard className="w-5 h-5" /><span>{t('sidebarO.overview')}</span></a></li>
+            <li><a href="/owner/customer-list" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><Users className="w-5 h-5" /><span>{t('sidebarO.customerList')}</span></a></li>
+            <li><a href="/owner/customer-order" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><ShoppingCart className="w-5 h-5" /><span>{t('sidebarO.order')}</span></a></li>
+            <li><a href="/owner/food-menu" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><Utensils className="w-5 h-5" /><span>{t('sidebarO.foodMenu')}</span></a></li>
+            <li><a href="/owner/order-history" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><History className="w-5 h-5" /><span>{t('sidebarO.orderHistory')}</span></a></li>
+            <li><a href="/owner/settings" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><History className="w-5 h-5" /><span>{t('sidebarO.settings')}</span></a></li>
+             <li><a href="/owner/notifications" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><Bell className="w-5 h-5" /><span>{t('sidebarO.notifications')}</span></a></li>
           </ul>
         </nav>
       </div>
       <div className="flex md:flex-row gap-12 w-full mb-3 justify-center items-center">
-        <label className="text-base font-semibold">DarkMode</label>
+        <label className="text-base font-semibold">{t('sidebarO.darkMode')}</label>
         <button type="button" onClick={toggleDarkMode} className={`flex justify-center items-center rounded-lg px-2 py-1 gap-3 border transition-all duration-200 transform hover:scale-105 active:scale-95 ${darkMode ? "bg-blue-500 text-white border-blue-500" : "bg-white text-black border-black"}`}>
           <FontAwesomeIcon icon={darkMode ? faMoon : faSun} />
-          <span>{darkMode ? "On" : "Off"}</span>
+          <span>{darkMode ? t('sidebarO.on') : t('sidebarO.off')}</span>
         </button>
       </div>
       <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
@@ -97,7 +98,7 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
           <li onClick={handleLogout}>
             <a className="flex items-center space-x-3 px-3 py-2 rounded-lg text-red-500 transition-all duration-200 hover:bg-red-100 dark:hover:bg-red-900/50 hover:text-red-600 dark:hover:text-red-400 hover:scale-105 active:scale-100 cursor-pointer">
               <LogOut className="w-5 h-5" />
-              <span>Logout</span>
+              <span>{t('sidebarO.logout')}</span>
             </a>
           </li>
         </ul>
@@ -114,13 +115,12 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
         <div className="flex items-center justify-between px-4 sm:px-6 py-4">
           <div className="flex items-center space-x-2">
             <Image src="/icon.png" alt="BistroPulse Logo" width={32} height={32} priority />
-            <h1 className="text-xl ml-2 font-bold text-blue-500">Boutique Hotel</h1>
+            <h1 className="text-xl ml-2 font-bold text-blue-500">{t('headerO.brand')}</h1>
           </div>
           <div className="flex items-center space-x-4">
-            {/* --- Language Dropdown Container --- */}
             <div className="relative" ref={dropdownRef}>
               <button
-                title='Change Language'
+                title={t('headerO.changeLanguageTitle')}
                 className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
@@ -135,10 +135,10 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <button onClick={() => handleLanguageSelect('en')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">English</button>
-                    <button onClick={() => handleLanguageSelect('fr')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">French</button>
-                    <button onClick={() => handleLanguageSelect('sw')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Kiswahili</button>
-                    <button onClick={() => handleLanguageSelect('rw')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Kinyarwanda</button>
+                    <button onClick={() => changeLanguage('en')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">{t('headerO.lang.en')}</button>
+                    <button onClick={() => changeLanguage('fr')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">{t('headerO.lang.fr')}</button>
+                    <button onClick={() => changeLanguage('sw')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">{t('headerO.lang.sw')}</button>
+                    <button onClick={() => changeLanguage('rw')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">{t('headerO.lang.rw')}</button>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -146,7 +146,7 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
             <div className="flex items-center space-x-2 cursor-pointer" onClick={() => router.push('/owner/profile')}>
               <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">DS</div>
             </div>
-            <button title='Toggle Menu' onClick={toggleSidebar} className="p-2 rounded-md md:hidden text-gray-600 dark:text-gray-300">
+            <button title={t('headerO.toggleMenuTitle')} onClick={toggleSidebar} className="p-2 rounded-md md:hidden text-gray-600 dark:text-gray-300">
               <Menu className="w-8 h-8" />
             </button>
           </div>
@@ -168,7 +168,7 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
                 transition={{ type: "tween", ease: "easeOut", duration: 0.3 }}
               >
                 <div className="flex justify-end mb-4">
-                  <button title='Close Menu' onClick={toggleSidebar} className="p-2 rounded-md text-gray-600 dark:text-gray-300">
+                  <button title={t('headerO.closeMenuTitle')} onClick={toggleSidebar} className="p-2 rounded-md text-gray-600 dark:text-gray-300">
                     <X className="w-8 h-8" />
                   </button>
                 </div>
@@ -191,7 +191,7 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
               key={pathname}
               variants={mainVariants} initial="hidden" animate="visible" exit="exit"
             >
-              <LanguageProvider>{children}</LanguageProvider>
+              {children}
             </motion.div>
           </AnimatePresence>
         </main>

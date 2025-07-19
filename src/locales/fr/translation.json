@@ -1,0 +1,278 @@
+{
+  
+    "nav": {
+      "brand": "BistroPulse",
+      "features": "Fonctionnalités",
+      "howItWorks": "Comment ça marche",
+      "restaurants": "Restaurants",
+      "contact": "Contact",
+      "login": "Connexion",
+      "signUp": "S'inscrire",
+      "changeLanguageTitle": "Changer de langue",
+      "lang": {
+        "en": "Anglais",
+        "fr": "Français",
+        "sw": "Swahili",
+        "rw": "Kinyarwanda"
+      }
+    },
+    "hero": {
+      "title1": "Livraison de repas",
+      "title2": "À la vitesse de l'éclair",
+      "subtitle": "Commandez auprès de vos restaurants locaux préférés et faites-vous livrer à votre porte en quelques minutes.",
+      "ctaButton": "Commander maintenant"
+    },
+    "features": {
+      "title": "Pourquoi choisir BistroPulse ?",
+      "subtitle": "Nous rendons la livraison de repas rapide, facile et délicieuse",
+      "cards": {
+        "fastDelivery": {
+          "title": "Livraison ultra-rapide",
+          "description": "Recevez votre nourriture en moins de 30 minutes ou c'est gratuit"
+        },
+        "restaurants": {
+          "title": "100+ Restaurants",
+          "description": "Choisissez parmi une grande variété de cuisines et de favoris locaux"
+        },
+        "liveTracking": {
+          "title": "Suivi de commande en direct",
+          "description": "Suivez votre commande en temps réel du restaurant à votre porte"
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "Comment fonctionne BistroPulse",
+      "subtitle": "Obtenez votre plat préféré en quelques clics",
+      "steps": {
+        "chooseRestaurant": {
+          "title": "Choisissez votre restaurant",
+          "description": "Parcourez nos restaurants partenaires et sélectionnez votre préféré"
+        },
+        "selectMeal": {
+          "title": "Sélectionnez votre repas",
+          "description": "Faites votre choix parmi des centaines de plats délicieux"
+        },
+        "fastDelivery": {
+          "title": "Livraison rapide",
+          "description": "Suivez votre commande alors qu'elle se dirige vers vous"
+        }
+      }
+    },
+    "restaurants": {
+      "title": "Restaurants populaires",
+      "subtitle": "Découvrez d'incroyables restaurants locaux près de chez vous",
+      "inLocation": "À {{location}}",
+      "list": {
+        "boutique": { "name": "Boutique Hotel", "tags": ["Gastronomique", "International", "Fusion"] },
+        "repub": { "name": "Repub Lounge", "tags": ["Africain", "Grill", "Bar"] },
+        "pili": { "name": "Pili Pili", "tags": ["Barbecue", "Pizza", "Vue panoramique"] },
+        "meze": { "name": "Meze Fresh", "tags": ["Mexicain", "Fast Food", "Sain"] },
+        "poivre": { "name": "Poivre Noir", "tags": ["Français", "Fruits de mer", "Romantique"] },
+        "brachetto": { "name": "Brachetto", "tags": ["Italien", "Bar à vin", "Gourmet"] }
+      }
+    },
+    "cta": {
+      "title": "Prêt à commander ?",
+      "subtitle": "Téléchargez notre application et obtenez 20% de réduction sur votre première commande",
+      "iosButton": "Télécharger pour iOS"
+    },
+    "contact": {
+      "title": "Contactez-nous",
+      "subtitle": "Vous avez des questions ou des commentaires ? Nous serions ravis de vous entendre !",
+      "phone": "+250 (785) 123-456",
+      "email": "support@bistropulse.com",
+      "address": "123 Rue de la Nourriture, Kigali, CA 94107",
+      "form": {
+        "title": "Envoyez-nous un message",
+        "namePlaceholder": "Votre nom",
+        "emailPlaceholder": "Votre e-mail",
+        "messagePlaceholder": "Votre message",
+        "successMessage": "Message envoyé avec succès ✅",
+        "errorMessage": "Message non envoyé (erreur de service) ❌",
+        "sendingButton": "Envoi en cours...",
+        "sendButton": "Envoyer le message"
+      }
+    },
+    "footer": {
+      "copyright": "© {{year}} BistroPulse. Tous droits réservés."
+    },
+    
+  "header": {
+    "brand": "BistroPulse",
+    "changeLanguageTitle": "Changer de langue",
+    "toggleMenuTitle": "Basculer le menu",
+    "closeMenuTitle": "Fermer le menu",
+    "lang": {
+      "en": "Anglais",
+      "fr": "Français",
+      "sw": "Swahili",
+      "rw": "Kinyarwanda"
+    }
+  },
+  "sidebar": {
+    "dashboard": "Tableau de bord",
+    "restaurants": "Restaurants",
+    "representatives": "Représentants",
+    "users": "Utilisateurs",
+    "menu": "Menu",
+    "notifications": "Notifications",
+    "settings": "Paramètres",
+    "darkMode": "Mode sombre",
+    "on": "Activé",
+    "off": "Désactivé",
+    "logout": "Déconnexion"
+  },
+  
+  "headerC": {
+    "brand": "BistroPulse",
+    "changeLanguageTitle": "Changer de langue",
+    "toggleMenuTitle": "Basculer le menu",
+    "closeMenuTitle": "Fermer le menu",
+    "lang": {
+      "en": "Anglais",
+      "fr": "Français",
+      "sw": "Swahili",
+      "rw": "Kinyarwanda"
+    }
+  },
+  "sidebarC": {
+    "dashboard": "Tableau de bord",
+    "restaurants": "Restaurants",
+    "myOrders": "Mes commandes",
+    "myAddresses": "Mes adresses",
+    "orderHistory": "Historique des commandes",
+    "settings": "Paramètres",
+    "notifications": "Notifications",
+    "darkMode": "Mode sombre",
+    "on": "Activé",
+    "off": "Désactivé",
+    "logout": "Déconnexion"
+  },
+    "headerO": {
+    "brand": "Boutique Hotel",
+    "changeLanguageTitle": "Changer de langue",
+    "toggleMenuTitle": "Basculer le menu",
+    "closeMenuTitle": "Fermer le menu",
+    "lang": {
+      "en": "Anglais",
+      "fr": "Français",
+      "sw": "Swahili",
+      "rw": "Kinyarwanda"
+    }
+  },
+  "sidebarO": {
+    "overview": "Aperçu",
+    "customerList": "Liste des clients",
+    "order": "Commande",
+    "foodMenu": "Menu",
+    "orderHistory": "Historique des commandes",
+    "settings": "Paramètres",
+    "notifications": "Notifications",
+    "darkMode": "Mode sombre",
+    "on": "Activé",
+    "off": "Désactivé",
+    "logout": "Déconnexion"
+  },
+   "dashboard": {
+    "greeting": {
+      "hello": "Bonjour {{name}}",
+      "morning": "Bonjour",
+      "afternoon": "Bon après-midi",
+      "evening": "Bonsoir"
+    },
+    "statsCards": {
+      "totalUsers": { "title": "Utilisateurs totaux" },
+      "totalManagers": { "title": "Gérants de restaurant totaux" },
+      "totalRestaurants": { "title": "Restaurants totaux" },
+      "totalClients": { "title": "Clients totaux" },
+      "update": "Mise à jour : {{date}}"
+    },
+    "calendar": {
+      "title": "Mon calendrier",
+      "prevMonth": "Mois précédent",
+      "nextMonth": "Mois suivant",
+      "weekdays": ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
+      "months": [
+        "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", 
+        "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+      ]
+    },
+    "charts": {
+      "userStats": {
+        "title": "Statistiques des utilisateurs",
+        "label": "Nombre",
+        "labels": ["Clients", "Restaurants", "Commandes"]
+      },
+      "restaurantStatus": {
+        "title": "Statut des restaurants",
+        "labels": ["En attente", "En préparation", "Livré", "Annulé"]
+      }
+    },
+    "recentActivities": {
+      "title": "Activités récentes",
+      "activities": [
+        "✅ Nouveau restaurant <strong>FreshBites</strong> enregistré",
+        "✅ Commande <strong>#B14322</strong> livrée avec succès",
+        "❌ Restaurant <strong>Taco Villa</strong> suspendu pour violation des règles",
+        "✅ Client <strong>Jane Cooper</strong> s'est inscrit"
+      ]
+    }
+  },
+    "dashboardC": {
+    "greeting": {
+      "hello": "Bonjour Client",
+      "morning": "Bonjour",
+      "afternoon": "Bon après-midi",
+      "evening": "Bonsoir"
+    },
+    "cards": {
+      "orders": "Mes Commandes",
+      "favorites": "Favoris",
+      "totalSpent": "Total Dépensé",
+      "lastOrder": "Dernière Commande",
+      "lastOrderValue": "Il y a 2 jours"
+    },
+    "chart": {
+      "title": "Aperçu des Dépenses Hebdomadaires",
+      "label": "Dépenses (₵)",
+      "weekdays": ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]
+    },
+    "calendar": {
+      "title": "Mon Calendrier",
+      "weekdays": ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
+      "prevMonth": "Mois Précédent",
+      "nextMonth": "Mois Suivant"
+    }
+  },
+   "my_calendar": "Mon Calendrier",
+  "good_morning": "Bonjour",
+  "good_afternoon": "Bon après-midi",
+  "good_evening": "Bonsoir",
+  "hello_boutique": "Bonjour Boutique",
+  "new_users": "Nouveaux Utilisateurs",
+  "update": "Mise à jour",
+  "total_clients": "Total des Clients",
+  "total_dishes": "Total des Plats",
+  "orders": "Commandes",
+  "clients_statistics": "Statistiques des Clients",
+  "order_status": "État de la Commande",
+  "recent_activities": "Activités Récentes",
+  "chart_labels": {
+    "customers": "Clients",
+    "restaurants": "Restaurants",
+    "orders": "Commandes",
+    "pending": "En attente",
+    "preparing": "En préparation",
+    "delivered": "Livrée",
+    "cancelled": "Annulée"
+  },
+  "recent_activities_list": {
+    "new_restaurant": "Nouveau restaurant <strong>FreshBites</strong> enregistré",
+    "order_delivered": "Commande <strong>#B14322</strong> livrée avec succès",
+    "restaurant_suspended": "Restaurant <strong>Taco Villa</strong> suspendu pour violation des règles",
+    "customer_signed_up": "Client <strong>Jane Cooper</strong> s'est inscrit"
+  },
+  "week_days": ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"]
+
+  
+}

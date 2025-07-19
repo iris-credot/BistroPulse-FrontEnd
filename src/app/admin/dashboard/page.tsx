@@ -10,11 +10,11 @@ import {
   Tooltip,
   Legend,
   ChartOptions,
-  // --- FIX 2: IMPORT THE CHARTDATA TYPE ---
   ChartData,
 } from 'chart.js';
 import { motion, Variants } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Users,
   ClipboardList,
@@ -38,7 +38,7 @@ ChartJS.register(
 );
 
 const ScheduleCalendar = () => {
-  // --- FIX 1: 'setCurrentDate' IS NOW USED BY THE HANDLERS ---
+  const { t } = useTranslation();
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const handlePrevMonth = () => {
@@ -51,27 +51,23 @@ const ScheduleCalendar = () => {
   
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
-  const monthName = currentDate.toLocaleString('default', { month: 'long' });
+  const monthName = t(`dashboard.calendar.months.${month}`);
   const today = new Date();
 
-  // Function to generate calendar days dynamically
   const generateCalendarDays = () => {
     const daysArray = [];
     const firstDayOfMonth = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const daysInPrevMonth = new Date(year, month, 0).getDate();
 
-    // Days from previous month
     for (let i = firstDayOfMonth - 1; i >= 0; i--) {
         daysArray.push({ day: daysInPrevMonth - i, inMonth: false });
     }
-    // Days in current month
     for (let day = 1; day <= daysInMonth; day++) {
         const isSelected = day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
         const isToday = day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
         daysArray.push({ day, inMonth: true, isSelected, isToday });
     }
-    // Fill out the grid
     while (daysArray.length % 7 !== 0) {
         daysArray.push({ day: daysArray.length - (firstDayOfMonth + daysInMonth) + 1, inMonth: false});
     }
@@ -79,26 +75,27 @@ const ScheduleCalendar = () => {
   };
   
   const days = generateCalendarDays();
+  const weekdays = t('dashboard.calendar.weekdays', { returnObjects: true }) as string[];
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 h-full">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-bold text-lg text-gray-800 dark:text-white">My Calendar</h3>
+        <h3 className="font-bold text-lg text-gray-800 dark:text-white">{t('dashboard.calendar.title')}</h3>
         <div className="p-2 bg-purple-100 dark:bg-purple-900/50 rounded-lg">
           <CalendarIcon className="w-5 h-5 text-purple-600 dark:text-purple-400" />
         </div>
       </div>
       <div className="flex items-center justify-between mb-4">
-        <button title='e' onClick={handlePrevMonth} className="p-2 rounded-lg bg-purple-500 text-white hover:bg-purple-600 transition-colors">
+        <button title={t('dashboard.calendar.prevMonth')} onClick={handlePrevMonth} className="p-2 rounded-lg bg-purple-500 text-white hover:bg-purple-600 transition-colors">
           <ChevronLeft className="w-5 h-5" />
         </button>
         <div className="font-semibold text-gray-700 dark:text-gray-200">{monthName}, {year}</div>
-        <button title='d' onClick={handleNextMonth} className="p-2 rounded-lg bg-purple-500 text-white hover:bg-purple-600 transition-colors">
+        <button title={t('dashboard.calendar.nextMonth')} onClick={handleNextMonth} className="p-2 rounded-lg bg-purple-500 text-white hover:bg-purple-600 transition-colors">
           <ChevronRight className="w-5 h-5" />
         </button>
       </div>
       <div className="grid grid-cols-7 gap-2 text-center text-sm">
-        {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
+        {Array.isArray(weekdays) && weekdays.map(day => (
           <div key={day} className="font-medium text-gray-500 dark:text-gray-400">{day}</div>
         ))}
         {days.map(({ day, inMonth, isSelected, isToday }, index) => (
@@ -122,37 +119,43 @@ const ScheduleCalendar = () => {
 
 
 export default function AdminDashboard() {
+  const { t } = useTranslation();
   const [greeting, setGreeting] = useState('');
 
   useEffect(() => {
     const getCurrentGreeting = () => {
       const currentHour = new Date().getHours();
       if (currentHour < 12) {
-        return 'Good morning';
+        return t('dashboard.greeting.morning');
       } else if (currentHour < 18) {
-        return 'Good afternoon';
+        return t('dashboard.greeting.afternoon');
       } else {
-        return 'Good evening';
+        return t('dashboard.greeting.evening');
       }
     };
     setGreeting(getCurrentGreeting());
-  }, []);
+  }, [t]);
   
-  // --- FIX 2: EXPLICITLY TYPE THE CHART DATA OBJECTS ---
-  const userStats: ChartData<'bar'> = {
-    labels: ['Customers', 'Restaurants', 'Orders'],
+  // Helper function to safely get array from translations
+const getLabels = (key: string) => {
+    const labels = t(key, { returnObjects: true });
+    return Array.isArray(labels) ? labels : [];
+};
+
+const userStats: ChartData<'bar'> = {
+    labels: getLabels('dashboard.charts.userStats.labels'),
     datasets: [
       {
-        label: 'Count',
+        label: t('dashboard.charts.userStats.label'),
         data: [1200, 85, 3300],
         backgroundColor: ['#2563eb', '#10b981', '#f97316'],
         borderRadius: 5,
       },
     ],
-  };
+};
 
-  const orderStatusData: ChartData<'doughnut'> = {
-    labels: ['Pending', 'Preparing', 'Delivered', 'Cancelled'],
+const orderStatusData: ChartData<'doughnut'> = {
+    labels: getLabels('dashboard.charts.restaurantStatus.labels'),
     datasets: [
       {
         data: [300, 200, 2600, 200],
@@ -160,7 +163,9 @@ export default function AdminDashboard() {
         borderWidth: 1,
       },
     ],
-  };
+};
+
+  const recentActivities = t('dashboard.recentActivities.activities', { returnObjects: true }) as string[];
 
   const containerVariants: Variants = {
     hidden: { opacity: 0, scale: 0.95 },
@@ -191,7 +196,7 @@ export default function AdminDashboard() {
     >
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-800 dark:text-white flex items-center">
-            Hello Iris <span className="text-2xl ml-2">👋</span>
+            {t('dashboard.greeting.hello', { name: 'Iris' })} <span className="text-2xl ml-2">👋</span>
         </h1>
          <motion.h1
         className="text-2xl font-bold text-gray-800 dark:text-white"
@@ -208,7 +213,7 @@ export default function AdminDashboard() {
           <div className="bg-white p-5 rounded-xl shadow-sm dark:bg-gray-800">
             <div className="flex items-start justify-between">
                 <div className="flex flex-col space-y-1">
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Total Users</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{t('dashboard.statsCards.totalUsers.title')}</p>
                     <p className="text-3xl font-bold text-gray-900 dark:text-white">560</p>
                 </div>
                 <div className="p-2 bg-blue-100 dark:bg-blue-900/50 rounded-lg">
@@ -220,14 +225,14 @@ export default function AdminDashboard() {
                     <ArrowUp className="w-3 h-3" />
                     <span className="ml-1 font-semibold">12%</span>
                 </div>
-                <p className="text-gray-400 dark:text-gray-500">Update: July 19, 2025</p>
+                <p className="text-gray-400 dark:text-gray-500">{t('dashboard.statsCards.update', { date: 'July 19, 2025' })}</p>
             </div>
           </div>
           
           <div className="bg-white p-5 rounded-xl shadow-sm dark:bg-gray-800">
              <div className="flex items-start justify-between">
                 <div className="flex flex-col space-y-1">
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Total Restaurant Managers</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{t('dashboard.statsCards.totalManagers.title')}</p>
                     <p className="text-3xl font-bold text-gray-900 dark:text-white">1050</p>
                 </div>
                 <div className="p-2 bg-green-100 dark:bg-green-900/50 rounded-lg">
@@ -239,14 +244,14 @@ export default function AdminDashboard() {
                     <ArrowUp className="w-3 h-3" />
                     <span className="ml-1 font-semibold">5%</span>
                 </div>
-                <p className="text-gray-400 dark:text-gray-500">Update: July 19, 2025</p>
+                <p className="text-gray-400 dark:text-gray-500">{t('dashboard.statsCards.update', { date: 'July 19, 2025' })}</p>
             </div>
           </div>
 
           <div className="bg-white p-5 rounded-xl shadow-sm dark:bg-gray-800">
              <div className="flex items-start justify-between">
                 <div className="flex flex-col space-y-1">
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Total Restaurants</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{t('dashboard.statsCards.totalRestaurants.title')}</p>
                     <p className="text-3xl font-bold text-gray-900 dark:text-white">470</p>
                 </div>
                 <div className="p-2 bg-red-100 dark:bg-red-900/50 rounded-lg">
@@ -258,14 +263,14 @@ export default function AdminDashboard() {
                     <ArrowDown className="w-3 h-3" />
                     <span className="ml-1 font-semibold">8%</span>
                 </div>
-                <p className="text-gray-400 dark:text-gray-500">Update: July 19, 2025</p>
+                <p className="text-gray-400 dark:text-gray-500">{t('dashboard.statsCards.update', { date: 'July 19, 2025' })}</p>
             </div>
           </div>
 
           <div className="bg-white p-5 rounded-xl shadow-sm dark:bg-gray-800">
              <div className="flex items-start justify-between">
                 <div className="flex flex-col space-y-1">
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Total Clients</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{t('dashboard.statsCards.totalClients.title')}</p>
                     <p className="text-3xl font-bold text-gray-900 dark:text-white">250</p>
                 </div>
                 <div className="p-2 bg-purple-100 dark:bg-purple-900/50 rounded-lg">
@@ -277,7 +282,7 @@ export default function AdminDashboard() {
                     <ArrowUp className="w-3 h-3" />
                     <span className="ml-1 font-semibold">12%</span>
                 </div>
-                <p className="text-gray-400 dark:text-gray-500">Update: July 19, 2025</p>
+                <p className="text-gray-400 dark:text-gray-500">{t('dashboard.statsCards.update', { date: 'July 19, 2025' })}</p>
             </div>
           </div>
         </div>
@@ -289,23 +294,22 @@ export default function AdminDashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-xl shadow dark:bg-gray-800">
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">User Statistics</h3>
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">{t('dashboard.charts.userStats.title')}</h3>
           <Bar data={userStats} options={barChartOptions} />
         </div>
 
         <div className="bg-white p-6 rounded-xl shadow dark:bg-gray-800">
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Restaurants Status</h3>
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">{t('dashboard.charts.restaurantStatus.title')}</h3>
           <Doughnut data={orderStatusData} options={doughnutOptions} />
         </div>
       </div>
 
       <div className="bg-white p-6 rounded-xl shadow mt-6 dark:bg-gray-800">
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Recent Activities</h3>
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">{t('dashboard.recentActivities.title')}</h3>
         <ul className="space-y-3 text-sm text-gray-700 dark:text-white">
-          <li>✅ New restaurant <strong>FreshBites</strong> registered</li>
-          <li>✅ Order <strong>#B14322</strong> delivered successfully</li>
-          <li>❌ Restaurant <strong>Taco Villa</strong> suspended for policy violation</li>
-          <li>✅ Customer <strong>Jane Cooper</strong> signed up</li>
+          {Array.isArray(recentActivities) && recentActivities.map((activity, index) => (
+            <li key={index} dangerouslySetInnerHTML={{ __html: activity }} />
+          ))}
         </ul>
       </div>
     </motion.div>

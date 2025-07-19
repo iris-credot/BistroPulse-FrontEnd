@@ -1,0 +1,277 @@
+{
+  
+    "nav": {
+      "brand": "BistroPulse",
+      "features": "Vipengele",
+      "howItWorks": "Inavyofanya kazi",
+      "restaurants": "Migahawa",
+      "contact": "Mawasiliano",
+      "login": "Ingia",
+      "signUp": "Jisajili",
+      "changeLanguageTitle": "Badilisha Lugha",
+      "lang": {
+        "en": "Kiingereza",
+        "fr": "Kifaransa",
+        "sw": "Kiswahili",
+        "rw": "Kinyarwanda"
+      }
+    },
+    "hero": {
+      "title1": "Uletaji wa Chakula",
+      "title2": "Kwa Kasi ya Umeme",
+      "subtitle": "Agiza kutoka kwa migahawa yako uipendayo na uletewe chakula mlangoni pako kwa dakika chache.",
+      "ctaButton": "Agiza Sasa"
+    },
+    "features": {
+      "title": "Kwa nini uchague BistroPulse?",
+      "subtitle": "Tunafanya uletaji wa chakula kuwa wa haraka, rahisi, na mtamu",
+      "cards": {
+        "fastDelivery": {
+          "title": "Uletaji wa Haraka Sana",
+          "description": "Pata chakula chako chini ya dakika 30 au upewe bure"
+        },
+        "restaurants": {
+          "title": "Migahawa 100+",
+          "description": "Chagua kutoka kwa aina mbalimbali za vyakula na vipendwa vya ndani"
+        },
+        "liveTracking": {
+          "title": "Ufuatiliaji wa Agizo Moja kwa Moja",
+          "description": "Fuatilia agizo lako kwa wakati halisi kutoka mgahawani hadi mlangoni pako"
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "Jinsi BistroPulse Inavyofanya Kazi",
+      "subtitle": "Pata chakula chako ukipendacho kwa kubonyeza mara chache tu",
+      "steps": {
+        "chooseRestaurant": {
+          "title": "Chagua Mkahawa Wako",
+          "description": "Vinjari migahawa yetu washirika na uchague uupendao"
+        },
+        "selectMeal": {
+          "title": "Chagua Mlo Wako",
+          "description": "Chagua kutoka kwa mamia ya vyakula vitamu kwenye menyu"
+        },
+        "fastDelivery": {
+          "title": "Uletaji wa Haraka",
+          "description": "Fuatilia agizo lako linapoelekea kwako kwa kasi"
+        }
+      }
+    },
+    "restaurants": {
+      "title": "Migahawa Maarufu",
+      "subtitle": "Gundua sehemu za kulia za ndani za kushangaza karibu nawe",
+      "inLocation": "Katika {{location}}",
+      "list": {
+        "boutique": { "name": "Boutique Hotel", "tags": ["Chakula Bora", "Kimataifa", "Mchanganyiko"] },
+        "repub": { "name": "Repub Lounge", "tags": ["Kiafrika", "Choma", "Baa"] },
+        "pili": { "name": "Pili Pili", "tags": ["Barbekyu", "Pizza", "Mandhari Mazuri"] },
+        "meze": { "name": "Meze Fresh", "tags": ["Kimeksiko", "Chakula cha Haraka", "Afya"] },
+        "poivre": { "name": "Poivre Noir", "tags": ["Kifaransa", "Vyakula vya Baharini", "Kimapenzi"] },
+        "brachetto": { "name": "Brachetto", "tags": ["Kiitaliano", "Baa ya Mvinyo", "Gourmet"] }
+      }
+    },
+    "cta": {
+      "title": "Uko Tayari Kuagiza?",
+      "subtitle": "Pakua programu yetu na upate punguzo la 20% kwenye agizo lako la kwanza",
+      "iosButton": "Pakua kwa iOS"
+    },
+    "contact": {
+      "title": "Wasiliana Nasi",
+      "subtitle": "Una maswali au maoni? Tungependa kusikia kutoka kwako!",
+      "phone": "+250 (785) 123-456",
+      "email": "support@bistropulse.com",
+      "address": "123 Food Street, Kigali, CA 94107",
+      "form": {
+        "title": "Tutumie ujumbe",
+        "namePlaceholder": "Jina Lako",
+        "emailPlaceholder": "Barua Pepe Yako",
+        "messagePlaceholder": "Ujumbe Wako",
+        "successMessage": "Ujumbe umetumwa kikamilifu ✅",
+        "errorMessage": "Ujumbe haujatumwa (hitilafu ya huduma) ❌",
+        "sendingButton": "Inatuma...",
+        "sendButton": "Tuma Ujumbe"
+      }
+    },
+    "footer": {
+      "copyright": "© {{year}} BistroPulse. Haki zote zimehifadhiwa."
+    },
+    
+  "header": {
+    "brand": "BistroPulse",
+    "changeLanguageTitle": "Badilisha Lugha",
+    "toggleMenuTitle": "Badilisha Menyu",
+    "closeMenuTitle": "Funga Menyu",
+    "lang": {
+      "en": "Kiingereza",
+      "fr": "Kifaransa",
+      "sw": "Kiswahili",
+      "rw": "Kinyarwanda"
+    }
+  },
+  "sidebar": {
+    "dashboard": "Dashibodi",
+    "restaurants": "Migahawa",
+    "representatives": "Wawakilishi",
+    "users": "Watumiaji",
+    "menu": "Menyu",
+    "notifications": "Arifa",
+    "settings": "Mipangilio",
+    "darkMode": "Hali ya Giza",
+    "on": "Washa",
+    "off": "Zima",
+    "logout": "Ondoka"
+  },
+  "headerC": {
+"brand": "BistroPulse",
+"changeLanguageTitle": "Badilisha Lugha",
+"toggleMenuTitle": "Badilisha Menyu",
+"closeMenuTitle": "Funga Menyu",
+"lang": {
+"en": "Kiingereza",
+"fr": "Kifaransa",
+"sw": "Kiswahili",
+"rw": "Kinyarwanda"
+}
+},
+"sidebarC": {
+"dashboard": "Dashibodi",
+"restaurants": "Migahawa",
+"myOrders": "Oda Zangu",
+"myAddresses": "Anwani Zangu",
+"orderHistory": "Historia ya Oda",
+"settings": "Mipangilio",
+"notifications": "Arifa",
+"darkMode": "Hali ya Giza",
+"on": "Washa",
+"off": "Zima",
+"logout": "Ondoka"
+},
+  "headerO": {
+    "brand": "Boutique Hotel",
+    "changeLanguageTitle": "Badilisha Lugha",
+    "toggleMenuTitle": "Badilisha Menyu",
+    "closeMenuTitle": "Funga Menyu",
+    "lang": {
+      "en": "Kiingereza",
+      "fr": "Kifaransa",
+      "sw": "Kiswahili",
+      "rw": "Kinyarwanda"
+    }
+  },
+  "sidebarO": {
+    "overview": "Muhtasari",
+    "customerList": "Orodha ya Wateja",
+    "order": "Oda",
+    "foodMenu": "Menyu ya Chakula",
+    "orderHistory": "Historia ya Oda",
+    "settings": "Mipangilio",
+    "notifications": "Arifa",
+    "darkMode": "Hali ya Giza",
+    "on": "Washa",
+    "off": "Zima",
+    "logout": "Ondoka"
+  },
+   "dashboard": {
+    "greeting": {
+      "hello": "Habari {{name}}",
+      "morning": "Habari za asubuhi",
+      "afternoon": "Habari za mchana",
+      "evening": "Habari za jioni"
+    },
+    "statsCards": {
+      "totalUsers": { "title": "Jumla ya Watumiaji" },
+      "totalManagers": { "title": "Jumla ya Wasimamizi wa Migahawa" },
+      "totalRestaurants": { "title": "Jumla ya Migahawa" },
+      "totalClients": { "title": "Jumla ya Wateja" },
+      "update": "Sasisho: {{date}}"
+    },
+    "calendar": {
+      "title": "Kalenda Yangu",
+      "prevMonth": "Mwezi Uliopita",
+      "nextMonth": "Mwezi Ujao",
+      "weekdays": ["Jp", "Jt", "Jb", "Jt", "Al", "Ij", "Jm"],
+      "months": [
+        "Januari", "Februari", "Machi", "Aprili", "Mei", "Juni", 
+        "Julai", "Agosti", "Septemba", "Oktoba", "Novemba", "Desemba"
+      ]
+    },
+    "charts": {
+      "userStats": {
+        "title": "Takwimu za Watumiaji",
+        "label": "Idadi",
+        "labels": ["Wateja", "Migahawa", "Oda"]
+      },
+      "restaurantStatus": {
+        "title": "Hali ya Migahawa",
+        "labels": ["Inasubiri", "Inaandaliwa", "Imewasilishwa", "Imeghairiwa"]
+      }
+    },
+    "recentActivities": {
+      "title": "Shughuli za Hivi Karibuni",
+      "activities": [
+        "✅ Mkahawa mpya <strong>FreshBites</strong> umesajiliwa",
+        "✅ Oda <strong>#B14322</strong> imewasilishwa kwa mafanikio",
+        "❌ Mkahawa <strong>Taco Villa</strong> umesitishwa kwa ukiukaji wa sera",
+        "✅ Mteja <strong>Jane Cooper</strong> amejiandikisha"
+      ]
+    }
+  },
+   "dashboardC": {
+    "greeting": {
+      "hello": "Habari Mteja",
+      "morning": "Habari za asubuhi",
+      "afternoon": "Habari za mchana",
+      "evening": "Habari za jioni"
+    },
+    "cards": {
+      "orders": "Oda Zangu",
+      "favorites": "Vipendwa",
+      "totalSpent": "Jumla ya Matumizi",
+      "lastOrder": "Oda ya Mwisho",
+      "lastOrderValue": "Siku 2 zilizopita"
+    },
+    "chart": {
+      "title": "Muhtasari wa Matumizi ya Wiki",
+      "label": "Matumizi (₵)",
+      "weekdays": ["Jtatu", "Jumanne", "Jtatano", "Alhamisi", "Ijumaa", "Jmosi", "Jpili"]
+    },
+    "calendar": {
+      "title": "Kalenda Yangu",
+      "weekdays": ["J2", "J3", "J4", "J5", "Alh", "Iju", "J1"],
+      "prevMonth": "Mwezi Uliopita",
+      "nextMonth": "Mwezi Ujao"
+    }
+  },
+   "my_calendar": "Kalenda Yangu",
+  "good_morning": "Habari za asubuhi",
+  "good_afternoon": "Habari za mchana",
+  "good_evening": "Habari za jioni",
+  "hello_boutique": "Habari Boutique",
+  "new_users": "Watumiaji Wapya",
+  "update": "Sasisha",
+  "total_clients": "Jumla ya Wateja",
+  "total_dishes": "Jumla ya Sahani",
+  "orders": "Maagizo",
+  "clients_statistics": "Takwimu za Wateja",
+  "order_status": "Hali ya Agizo",
+  "recent_activities": "Shughuli za Hivi Karibuni",
+  "chart_labels": {
+    "customers": "Wateja",
+    "restaurants": "Migahawa",
+    "orders": "Maagizo",
+    "pending": "Inasubiri",
+    "preparing": "Inatayarishwa",
+    "delivered": "Imewasilishwa",
+    "cancelled": "Imeghairiwa"
+  },
+  "recent_activities_list": {
+    "new_restaurant": "Mgahawa mpya <strong>FreshBites</strong> umesajiliwa",
+    "order_delivered": "Agizo <strong>#B14322</strong> limewasilishwa kikamilifu",
+    "restaurant_suspended": "Mgahawa <strong>Taco Villa</strong> umesimamishwa kwa kukiuka sera",
+    "customer_signed_up": "Mteja <strong>Jane Cooper</strong> amejiandikisha"
+  },
+  "week_days": ["Jp", "Jt", "Jb", "Jt", "Al", "Ij", "Jm"]
+
+  
+}

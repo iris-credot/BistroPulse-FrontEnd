@@ -1,0 +1,277 @@
+{
+  
+    "nav": {
+      "brand": "BistroPulse",
+      "features": "Iby'ibanze",
+      "howItWorks": "Uko Bikora",
+      "restaurants": "Amaresitora",
+      "contact": "Twandikire",
+      "login": "Injira",
+      "signUp": "Iyandikishe",
+      "changeLanguageTitle": "Hindura Ururimi",
+      "lang": {
+        "en": "Icyongereza",
+        "fr": "Igifaransa",
+        "sw": "Igiswahili",
+        "rw": "Kinyarwanda"
+      }
+    },
+    "hero": {
+      "title1": "Kugeza ku Muryango",
+      "title2": "Ku Muheno w'Umurabyo",
+      "subtitle": "Tumiza mu maresitora ukunda yo hafi yawe maze ibyo kurya bigere iwawe mu minota mike.",
+      "ctaButton": "Tumiza Nonaha"
+    },
+    "features": {
+      "title": "Kuki wahitamo BistroPulse?",
+      "subtitle": "Gutanga ibyo kurya tubikora vuba, byoroshye, kandi biryoshye",
+      "cards": {
+        "fastDelivery": {
+          "title": "Gutanga Ibyakurya Byihuse",
+          "description": "Bona ibyo kurya byawe mu minota itageze kuri 30 cyangwa ubone ku buntu"
+        },
+        "restaurants": {
+          "title": "Amaresitora 100+",
+          "description": "Hitamo mu byokurya byinshi bitandukanye n'ibyo abantu bakunda hafi yawe"
+        },
+        "liveTracking": {
+          "title": "Gukurikirana Ibyo Watumije ako kanya",
+          "description": "Kurikirana ibyo watumije mu gihe nyacyo kuva muri resitora kugeza iwawe"
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "Uko BistroPulse Ikora",
+      "subtitle": "Bona ibyo kurya ukunda mu gukanda inshuro nkeya gusa",
+      "steps": {
+        "chooseRestaurant": {
+          "title": "Hitamo Resitora Yawe",
+          "description": "Reba amaresitora dukorana maze uhitemo iyo ukunda"
+        },
+        "selectMeal": {
+          "title": "Hitamo Ifunguro Ryawe",
+          "description": "Hitamo mu magana y'amafunguro aryoshye"
+        },
+        "fastDelivery": {
+          "title": "Gutanga Byihuse",
+          "description": "Kurikirana ibyo watumije bigana aho uri"
+        }
+      }
+    },
+    "restaurants": {
+      "title": "Amaresitora Akunzwe",
+      "subtitle": "Vumbura ahantu heza ho kurira hafi yawe",
+      "inLocation": "Muri {{location}}",
+      "list": {
+        "boutique": { "name": "Boutique Hotel", "tags": ["By'akataraboneka", "Mpuzamahanga", "Bivanze"] },
+        "repub": { "name": "Repub Lounge", "tags": ["Afurika", "Inyama zokeje", "Akabari"] },
+        "pili": { "name": "Pili Pili", "tags": ["Barbecue", "Pizza", "Aherekeye heza"] },
+        "meze": { "name": "Meze Fresh", "tags": ["Mexique", "Byihuse", "Byiza ku buzima"] },
+        "poivre": { "name": "Poivre Noir", "tags": ["Igifaransa", "Ibyo mu nyanja", "By'urukundo"] },
+        "brachetto": { "name": "Brachetto", "tags": ["Ubutaliyani", "Akabari ka Divayi", "Biryoshye cyane"] }
+      }
+    },
+    "cta": {
+      "title": "Witeguye Gutumiza?",
+      "subtitle": "Manura porogaramu yacu maze ubone igabanyirizwa rya 20% ku byo utumije bwa mbere",
+      "iosButton": "Manura kuri iOS"
+    },
+    "contact": {
+      "title": "Twandikire",
+      "subtitle": "Ufite ibibazo cyangwa ibitekerezo? Twishimira kubyakira!",
+      "phone": "+250 (785) 123-456",
+      "email": "support@bistropulse.com",
+      "address": "123 Food Street, Kigali, CA 94107",
+      "form": {
+        "title": "Twoherereze ubutumwa",
+        "namePlaceholder": "Izina Ryawe",
+        "emailPlaceholder": "Imeri Yawe",
+        "messagePlaceholder": "Ubutumwa Bwawe",
+        "successMessage": "Ubutumwa bwoherejwe neza ✅",
+        "errorMessage": "Ubutumwa ntibwoherejwe (ikibazo cya serivisi) ❌",
+        "sendingButton": "Kohereza...",
+        "sendButton": "Ohereza Ubutumwa"
+      }
+    },
+    "footer": {
+      "copyright": "© {{year}} BistroPulse. Uburenganzira bwose burasigasiriwe."
+    },
+    
+  "header": {
+    "brand": "BistroPulse",
+    "changeLanguageTitle": "Hindura Ururimi",
+    "toggleMenuTitle": "Hindura Ibikubiyemo",
+    "closeMenuTitle": "Funga Ibikubiyemo",
+    "lang": {
+      "en": "Icyongereza",
+      "fr": "Igifaransa",
+      "sw": "Igiswahili",
+      "rw": "Ikinyarwanda"
+    }
+  },
+  "sidebar": {
+    "dashboard": "Imbonerahamwe",
+    "restaurants": "Resitora",
+    "representatives": "Abahagarariye",
+    "users": "Abakoresha",
+    "menu": "Ibikubiyemo",
+    "notifications": "Imenyesha",
+    "settings": "Igenamiterere",
+    "darkMode": "Uburyo bwijimye",
+    "on": "Birakije",
+    "off": "Birajimije",
+    "logout": "Sohoka"
+  },
+   "headerC": {
+    "brand": "BistroPulse",
+    "changeLanguageTitle": "Hindura Ururimi",
+    "toggleMenuTitle": "Hindura Ibikubiyemo",
+    "closeMenuTitle": "Funga Ibikubiyemo",
+    "lang": {
+      "en": "Icyongereza",
+      "fr": "Igifaransa",
+      "sw": "Igiswahili",
+      "rw": "Ikinyarwanda"
+    }
+  },
+  "sidebarC": {
+    "dashboard": "Imbonerahamwe",
+    "restaurants": "Resitora",
+    "myOrders": "Ibyo natumije",
+    "myAddresses": "Aderesi zanjye",
+    "orderHistory": "Amateka y'ibyo natumije",
+    "settings": "Igenamiterere",
+    "notifications": "Imenyesha",
+    "darkMode": "Uburyo bwijimye",
+    "on": "Birakije",
+    "off": "Birajimije",
+    "logout": "Sohoka"
+  },
+  "headerO": {
+    "brand": "Boutique Hotel",
+    "changeLanguageTitle": "Hindura Ururimi",
+    "toggleMenuTitle": "Hindura Ibikubiyemo",
+    "closeMenuTitle": "Funga Ibikubiyemo",
+    "lang": {
+      "en": "Icyongereza",
+      "fr": "Igifaransa",
+      "sw": "Igiswahili",
+      "rw": "Ikinyarwanda"
+    }
+  },
+  "sidebarO": {
+    "overview": "Incamake",
+    "customerList": "Urutonde rw'abakiriya",
+    "order": "Gutumiza",
+    "foodMenu": "Urutonde rw'ibiryo",
+    "orderHistory": "Amateka y'ibyatumijwe",
+    "settings": "Igenamiterere",
+    "notifications": "Imenyesha",
+    "darkMode": "Uburyo bwijimye",
+    "on": "Birakije",
+    "off": "Birajimije",
+    "logout": "Sohoka"
+  },
+   "dashboard": {
+    "greeting": {
+      "hello": "Muraho {{name}}",
+      "morning": "Mwaramutse neza",
+      "afternoon": "Mwiriwe neza",
+      "evening": "Mwirirwe neza"
+    },
+    "statsCards": {
+      "totalUsers": { "title": "Abakoresha bose" },
+      "totalManagers": { "title": "Abayobozi ba resitora bose" },
+      "totalRestaurants": { "title": "Resitora zose" },
+      "totalClients": { "title": "Abakiriya bose" },
+      "update": "Ivugurura: {{date}}"
+    },
+    "calendar": {
+      "title": "Ingengabihe yanjye",
+      "prevMonth": "Ukwezi gushize",
+      "nextMonth": "Ukwezi gutaha",
+      "weekdays": ["Cyu", "Mbe", "Kab", "Gat", "Kan", "Gat", "Gat"],
+      "months": [
+        "Mutarama", "Gashyantare", "Werurwe", "Mata", "Gicurasi", "Kamena", 
+        "Nyakanga", "Kanama", "Nzeri", "Ukwakira", "Ugushyingo", "Ukuboza"
+      ]
+    },
+    "charts": {
+      "userStats": {
+        "title": "Ibarurishamibare ry'abakoresha",
+        "label": "Umubare",
+        "labels": ["Abakiriya", "Resitora", "Ibyatumijwe"]
+      },
+      "restaurantStatus": {
+        "title": " uko resitora zihagaze",
+        "labels": ["Bitegereje", "Bitegurwa", "Byagejejweho", "Byahagaritswe"]
+      }
+    },
+    "recentActivities": {
+      "title": "Ibikorwa biheruka",
+      "activities": [
+        "✅ Resitora nshya <strong>FreshBites</strong> yiyandikishije",
+        "✅ Ibyatumijwe <strong>#B14322</strong> byagejejweho neza",
+        "❌ Resitora <strong>Taco Villa</strong> yahagaritswe kubera kutubahiriza amategeko",
+        "✅ Umukiriya <strong>Jane Cooper</strong> yiyandikishije"
+      ]
+    }
+  },
+    "dashboardC": {
+    "greeting": {
+      "hello": "Muraho Kiriya",
+      "morning": "Mwaramutse",
+      "afternoon": "Mwiriwe",
+      "evening": "Mwiriwe neza"
+    },
+    "cards": {
+      "orders": "Ibyo Natumije",
+      "favorites": "Ibyo Nkunda",
+      "totalSpent": "Amafaranga Yakoreshejwe",
+      "lastOrder": "Iheruka Natumije",
+      "lastOrderValue": "Hashize iminsi 2"
+    },
+    "chart": {
+      "title": "Uko Wakoresheje Amafaranga mu Cyumweru",
+      "label": "Amafaranga (Frw)",
+      "weekdays": ["Mbe", "Mbi", "Mta", "Mne", "Mta", "Gat", "Cyu"]
+    },
+    "calendar": {
+      "title": "Karenda Yanjye",
+      "weekdays": ["Cyu", "Mbe", "Mbi", "Mta", "Mne", "Mta", "Gat"],
+      "prevMonth": "Ukwezi Gushize",
+      "nextMonth": "Ukwezi Gutaha"
+    }
+  },
+  "my_calendar": "Kalandari Yanjye",
+  "good_morning": "Mwaramutse",
+  "good_afternoon": "Mwiriwe",
+  "good_evening": "Mwiriwe neza",
+  "hello_boutique": "Muraho Boutique",
+  "new_users": "Abakoresha bashya",
+  "update": "Ivugurura",
+  "total_clients": "Abakiriya bose",
+  "total_dishes": "Ibyokurya byose",
+  "orders": "Ibyatumijwe",
+  "clients_statistics": "Imibare y'abakiriya",
+  "order_status": "Uko ibyatumijwe bihagaze",
+  "recent_activities": "Ibikorwa biheruka",
+  "chart_labels": {
+    "customers": "Abakiriya",
+    "restaurants": "Resitora",
+    "orders": "Ibyatumijwe",
+    "pending": "Bitegereje",
+    "preparing": "Birimo gutegurwa",
+    "delivered": "Byatanzwe",
+    "cancelled": "Byahagaritswe"
+  },
+  "recent_activities_list": {
+    "new_restaurant": "Resitora nshya <strong>FreshBites</strong> yiyandikishije",
+    "order_delivered": "Ibyatumijwe <strong>#B14322</strong> byatanzwe neza",
+    "restaurant_suspended": "Resitora <strong>Taco Villa</strong> yahagaritswe kubera kutubahiriza amategeko",
+    "customer_signed_up": "Umukiriya <strong>Jane Cooper</strong> yiyandikishije"
+  },
+  "week_days": ["Cy", "Mb", "Kb", "Gt", "Kn", "Gj", "Ga"]
+
+  
+}

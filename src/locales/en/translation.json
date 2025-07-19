@@ -1,0 +1,283 @@
+{
+  
+    "nav": {
+      "brand": "BistroPulse",
+      "features": "Features",
+      "howItWorks": "How It Works",
+      "restaurants": "Restaurants",
+      "contact": "Contact",
+      "login": "Login",
+      "signUp": "Sign Up",
+      "changeLanguageTitle": "Change Language",
+      "lang": {
+        "en": "English",
+        "fr": "French",
+        "sw": "Kiswahili",
+        "rw": "Kinyarwanda"
+      }
+    },
+    "hero": {
+      "title1": "Food Delivery",
+      "title2": "At Lightning Speed",
+      "subtitle": "Order from your favorite local restaurants and get food delivered to your doorstep in minutes.",
+      "ctaButton": "Order Now"
+    },
+    "features": {
+      "title": "Why Choose BistroPulse?",
+      "subtitle": "We make food delivery fast, easy, and delicious",
+      "cards": {
+        "fastDelivery": {
+          "title": "Lightning Fast Delivery",
+          "description": "Get your food delivered in under 30 minutes or get it free"
+        },
+        "restaurants": {
+          "title": "100+ Restaurants",
+          "description": "Choose from a wide variety of cuisines and local favorites"
+        },
+        "liveTracking": {
+          "title": "Live Order Tracking",
+          "description": "Track your order in real-time from restaurant to your door"
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "How BistroPulse Works",
+      "subtitle": "Get your favorite food in just a few taps",
+      "steps": {
+        "chooseRestaurant": {
+          "title": "Choose Your Restaurant",
+          "description": "Browse through our partner restaurants and select your favorite"
+        },
+        "selectMeal": {
+          "title": "Select Your Meal",
+          "description": "Pick from hundreds of delicious menu items"
+        },
+        "fastDelivery": {
+          "title": "Fast Delivery",
+          "description": "Track your order as it speeds to your location"
+        }
+      }
+    },
+    "restaurants": {
+      "title": "Popular Restaurants",
+      "subtitle": "Discover amazing local eateries near you",
+      "inLocation": "In {{location}}",
+      "list": {
+        "boutique": { "name": "Boutique Hotel", "tags": ["Fine Dining", "International", "Fusion"] },
+        "repub": { "name": "Repub Lounge", "tags": ["African", "Grill", "Bar"] },
+        "pili": { "name": "Pili Pili", "tags": ["Barbecue", "Pizza", "Scenic View"] },
+        "meze": { "name": "Meze Fresh", "tags": ["Mexican", "Fast Food", "Healthy"] },
+        "poivre": { "name": "Poivre Noir", "tags": ["French", "Seafood", "Romantic"] },
+        "brachetto": { "name": "Brachetto", "tags": ["Italian", "Wine Bar", "Gourmet"] }
+      }
+    },
+    "cta": {
+      "title": "Ready to Order?",
+      "subtitle": "Download our app and get 20% off your first order",
+      "iosButton": "Download for iOS"
+    },
+    "contact": {
+      "title": "Contact Us",
+      "subtitle": "Have questions or feedback? We'd love to hear from you!",
+      "phone": "+250 (785) 123-456",
+      "email": "support@bistropulse.com",
+      "address": "123 Food Street, Kigali, CA 94107",
+      "form": {
+        "title": "Send us a message",
+        "namePlaceholder": "Your Name",
+        "emailPlaceholder": "Your Email",
+        "messagePlaceholder": "Your Message",
+        "successMessage": "Message sent successfully ✅",
+        "errorMessage": "Message not sent (service error) ❌",
+        "sendingButton": "Sending...",
+        "sendButton": "Send Message"
+      }
+    },
+    "footer": {
+      "copyright": "© {{year}} BistroPulse. All rights reserved."
+    },
+    
+  "header": {
+    "brand": "BistroPulse",
+    "changeLanguageTitle": "Change Language",
+    "toggleMenuTitle": "Toggle Menu",
+    "closeMenuTitle": "Close Menu",
+    "lang": {
+      "en": "English",
+      "fr": "French",
+      "sw": "Swahili",
+      "rw": "Kinyarwanda"
+    }
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "restaurants": "Restaurants",
+    "representatives": "Representatives",
+    "users": "Users",
+    "menu": "Menu",
+    "notifications": "Notifications",
+    "settings": "Settings",
+    "darkMode": "Dark Mode",
+    "on": "On",
+    "off": "Off",
+    "logout": "Logout"
+  },
+  
+  "headerC": {
+    "brand": "BistroPulse",
+    "changeLanguageTitle": "Change Language",
+    "toggleMenuTitle": "Toggle Menu",
+    "closeMenuTitle": "Close Menu",
+    "lang": {
+      "en": "English",
+      "fr": "French",
+      "sw": "Swahili",
+      "rw": "Kinyarwanda"
+    }
+  },
+  "sidebarC": {
+    "dashboard": "Dashboard",
+    "restaurants": "Restaurants",
+    "myOrders": "My Orders",
+    "myAddresses": "My Addresses",
+    "orderHistory": "Order History",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "darkMode": "Dark Mode",
+    "on": "On",
+    "off": "Off",
+    "logout": "Logout"
+  },
+    "headerO": {
+    "brand": "Boutique Hotel",
+    "changeLanguageTitle": "Change Language",
+    "toggleMenuTitle": "Toggle Menu",
+    "closeMenuTitle": "Close Menu",
+    "lang": {
+      "en": "English",
+      "fr": "French",
+      "sw": "Swahili",
+      "rw": "Kinyarwanda"
+    }
+  },
+  "sidebarO": {
+    "overview": "Overview",
+    "customerList": "Customer List",
+    "order": "Orders",
+    "foodMenu": "Food Menu",
+    "orderHistory": "Order History",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "darkMode": "Dark Mode",
+    "on": "On",
+    "off": "Off",
+    "logout": "Logout"
+  },
+  
+  "dashboard": {
+    "greeting": {
+      "hello": "Hello {{name}}",
+      "morning": "Good morning",
+      "afternoon": "Good afternoon",
+      "evening": "Good evening"
+    },
+    "statsCards": {
+      "totalUsers": { "title": "Total Users" },
+      "totalManagers": { "title": "Total Restaurant Managers" },
+      "totalRestaurants": { "title": "Total Restaurants" },
+      "totalClients": { "title": "Total Clients" },
+      "update": "Updated on: {{date}}"
+    },
+    "calendar": {
+      "title": "My Calendar",
+      "prevMonth": "Previous Month",
+      "nextMonth": "Next Month",
+      "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      "months": [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ]
+    },
+    "charts": {
+      "userStats": {
+        "title": "User Statistics",
+        "label": "Count",
+        "labels": ["Clients", "Restaurants", "Orders"]
+      },
+      "restaurantStatus": {
+        "title": "Restaurant Status",
+        "labels": ["Pending", "Preparing", "Delivered", "Cancelled"]
+      }
+    },
+    "recentActivities": {
+      "title": "Recent Activities",
+      "activities": [
+        "✅ New restaurant <strong>FreshBites</strong> registered",
+        "✅ Order <strong>#B14322</strong> successfully delivered",
+        "❌ Restaurant <strong>Taco Villa</strong> suspended for rule violation",
+        "✅ Client <strong>Jane Cooper</strong> signed up"
+      ]
+    
+  }
+},
+  "dashboardC": {
+    "greeting": {
+      "hello": "Hello Client",
+      "morning": "Good morning",
+      "afternoon": "Good afternoon",
+      "evening": "Good evening"
+    },
+    "cards": {
+      "orders": "My Orders",
+      "favorites": "Favorites",
+      "totalSpent": "Total Spent",
+      "lastOrder": "Last Order",
+      "lastOrderValue": "2 days ago"
+    },
+    "chart": {
+      "title": "Weekly Spending Overview",
+      "label": "Spending (₵)",
+      "weekdays": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    },
+    "calendar": {
+      "title": "My Calendar",
+      "weekdays": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+      "prevMonth": "Previous Month",
+      "nextMonth": "Next Month"
+    }
+  },
+ 
+  "my_calendar": "My Calendar",
+  "good_morning": "Good morning",
+  "good_afternoon": "Good afternoon",
+  "good_evening": "Good evening",
+  "hello_boutique": "Hello Boutique",
+  "new_users": "New Users",
+  "update": "Update",
+  "total_clients": "Total Clients",
+  "total_dishes": "Total Dishes",
+  "orders": "Orders",
+  "clients_statistics": "Clients Statistics",
+  "order_status": "Order Status",
+  "recent_activities": "Recent Activities",
+  "chart_labels": {
+    "customers": "Customers",
+    "restaurants": "Restaurants",
+    "orders": "Orders",
+    "pending": "Pending",
+    "preparing": "Preparing",
+    "delivered": "Delivered",
+    "cancelled": "Cancelled"
+  },
+  "recent_activities_list": {
+    "new_restaurant": "New restaurant <strong>FreshBites</strong> registered",
+    "order_delivered": "Order <strong>#B14322</strong> delivered successfully",
+    "restaurant_suspended": "Restaurant <strong>Taco Villa</strong> suspended for policy violation",
+    "customer_signed_up": "Customer <strong>Jane Cooper</strong> signed up"
+  },
+  "week_days": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
+
+
+
+  
+}
