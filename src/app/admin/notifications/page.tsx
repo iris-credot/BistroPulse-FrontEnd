@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Bell, CheckCircle, AlertTriangle, Info, Store, BookOpen } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import toast from 'react-hot-toast';
-
+import LoadingSpinner from 'components/loadingSpinner';
 // --- TYPE DEFINITIONS ---
 
 // Represents the raw data from the API
@@ -203,7 +203,7 @@ const NotificationsPage = () => {
 
       <main>
         {loading ? (
-          <div className="text-center text-gray-500">Loading notifications...</div>
+          <div className="text-center text-gray-500"><LoadingSpinner/></div>
         ) : error ? (
           <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
             <p className="font-bold">Error</p>

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
-import axios from "axios";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { LayoutDashboard, Utensils, Users, Bell, LogOut, ShoppingCart, History, Globe, Menu, X } from 'lucide-react';
@@ -38,21 +38,25 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         };
     }, []);
 
-    const handleLogout = async () => {
-        try {
-            await axios.post(
-                "https://bistroupulse-backend.onrender.com/api/user/logout",
-                {},
-                { withCredentials: true }
-            );
-            localStorage.removeItem('token');
-            localStorage.removeItem('userId');
-            router.push('/login');
-        } catch (error) {
-            console.error('Logout failed:', error);
-            alert('Failed to logout');
-        }
-    };
+    const handleLogout = () => {
+    try {
+        console.log("Performing local logout: clearing storage.");
+
+        // Remove the user's token and ID from browser storage.
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+
+        // Redirect the user to the login page.
+        router.push('/login');
+
+    } catch (error) {
+        // This catch block will run if localStorage is inaccessible or another error occurs.
+        console.error('An error occurred during local logout:', error);
+
+        // As a fallback, still try to navigate the user away.
+        router.push('/login');
+    }
+};
 
     const headerVariants: Variants = {
         hidden: { y: -100, opacity: 0 },

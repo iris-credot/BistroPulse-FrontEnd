@@ -7,7 +7,7 @@ import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
 import { Power, Search, Filter, MoreVertical, Eye, Edit, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
-
+import LoadingSpinner from 'components/loadingSpinner';
 // --- CHANGE 1: Updated the FoodItem interface to match the API response ---
 // It now uses 'image' instead of 'imageUrl' and 'isAvailable' (boolean) instead of 'status' (string).
 interface FoodItem {
@@ -171,7 +171,7 @@ const FoodManagement = () => {
           Select Restaurant
         </label>
         {restaurantsLoading ? (
-          <div className="text-center p-3">Loading restaurants...</div>
+          <div className="text-center p-3"><LoadingSpinner/></div>
         ) : (
           <select
             id="restaurant-select"
@@ -243,7 +243,7 @@ const FoodManagement = () => {
 
           {/* Menu Table */}
           {menuLoading ? (
-            <div className="text-center p-10">Loading menu...</div>
+            <div className="text-center p-10"><LoadingSpinner/></div>
           ) : filteredItems.length === 0 ? (
             <div className="text-center p-10 text-gray-500 dark:text-gray-400">No menu items match your criteria.</div>
           ) : (
