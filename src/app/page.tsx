@@ -9,6 +9,15 @@ import { FaBolt, FaUtensils, FaMotorcycle, FaStar, FaPhoneAlt, FaEnvelope, FaMap
 import { Globe } from 'lucide-react';
 import { MdDeliveryDining, MdFoodBank } from 'react-icons/md';
 
+interface Restaurant {
+  _id: string;
+  name: string;
+  image?: string | null;
+  address?: { city: string };
+  categories?: string[];
+  description: string;
+}
+
 export default function LandingPage() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
@@ -19,6 +28,12 @@ export default function LandingPage() {
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // --- State for storing restaurant data from the API ---
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [isLoadingRestaurants, setIsLoadingRestaurants] = useState(true);
+  const [restaurantsError, setRestaurantsError] = useState<string | null>(null);
+
 
   // --- Handlers ---
   const changeLanguage = (lng: string) => {
@@ -66,6 +81,37 @@ export default function LandingPage() {
     };
   }, []);
 
+
+  // --- useEffect to fetch restaurants from the API ---
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      try {
+        setIsLoadingRestaurants(true);
+        setRestaurantsError(null);
+        const response = await fetch('https://bistroupulse-backend.onrender.com/api/restaurant');
+        if (!response.ok) {
+          throw new Error('Failed to fetch restaurants. Please try again later.');
+        }
+        const data = await response.json();
+
+        if (data && Array.isArray(data.restaurants)) {
+            setRestaurants(data.restaurants);
+        } else {
+            throw new Error("Unexpected API response format.");
+        }
+        
+      } catch (error) {
+        console.error("Error fetching restaurants:", error);
+       
+      } finally {
+        setIsLoadingRestaurants(false);
+      }
+    };
+
+    fetchRestaurants();
+  }, []);
+
+
   // --- Data for mapping (using translation keys) ---
   const features = [
     { key: 'fastDelivery', icon: <FaBolt className="text-4xl text-blue-600" /> },
@@ -77,15 +123,6 @@ export default function LandingPage() {
     { step: "1", key: "chooseRestaurant", icon: <MdFoodBank className="text-3xl text-blue-600" /> },
     { step: "2", key: "selectMeal", icon: <FaUtensils className="text-3xl text-blue-600" /> },
     { step: "3", key: "fastDelivery", icon: <FaMotorcycle className="text-3xl text-blue-600" /> }
-  ];
-
-  const restaurantList = [
-    { key: 'boutique', image: "/boutique.png", location: "Kigali" },
-    { key: 'repub', image: "/second.png", location: "Musanze" },
-    { key: 'pili', image: "/third.png", location: "Kayonza" },
-    { key: 'meze', image: "/fourth.png", location: "Bugesera" },
-    { key: 'poivre', image: "/fifth.png", location: "Muhazi" },
-    { key: 'brachetto', image: "/sixth.png", location: "Gisenyi" },
   ];
 
   return (
@@ -186,55 +223,68 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
-      {/* Popular Restaurants */}
-     <section id="restaurants" className="py-20 bg-white">
+      
+      {/* Popular Restaurants Section */}
+      <section id="restaurants" className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('restaurants.title')}</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t('restaurants.subtitle')}</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {restaurantList.map((restaurant) => {
-              // Get the translation result. It could be an array OR a string (if not loaded yet).
-              const tagsResult = t(`restaurants.list.${restaurant.key}.tags`, { returnObjects: true });
 
-              return (
-                <div key={restaurant.key} className="bg-gray-50 rounded-xl overflow-hidden hover:shadow-lg transition cursor-pointer hover:transform hover:-translate-y-2"
-                  onClick={() => router.push(`/restaurants/${t(`restaurants.list.${restaurant.key}.name`).toLowerCase().replace(/\s+/g, '-')}`)}>
-                  <div className="relative h-48 w-full">
-                    <Image src={restaurant.image} alt={t(`restaurants.list.${restaurant.key}.name`)} fill className="object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" />
-                  </div>
-                  <div className="p-6">
-                    <div className="flex justify-between items-start mb-2 text-black">
-                      <h3 className="text-xl font-bold">{t(`restaurants.list.${restaurant.key}.name`)}</h3>
-                      <div className="flex items-center bg-blue-100 px-2 py-1 rounded">
-                        <FaStar className="text-yellow-400 mr-1" />
-                        <span>4.8</span>
+          {isLoadingRestaurants && <div className="text-center text-gray-600">Loading restaurants...</div>}
+          {restaurantsError && <div className="text-center text-red-600 bg-red-100 p-4 rounded-lg">{restaurantsError}</div>}
+          
+          {!isLoadingRestaurants && !restaurantsError && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {/* --- THE FIX: Use .slice(0, 6) to get only the first 6 items --- */}
+              {restaurants.slice(0, 6).map((restaurant) => {
+                const backendUrl = 'https://bistroupulse-backend.onrender.com';
+                const placeholderImage = '/placeholder-image.png';
+                
+                let imageUrl = placeholderImage;
+
+                if (restaurant.image) {
+                  if (restaurant.image.startsWith('http')) {
+                    imageUrl = restaurant.image;
+                  } else {
+                    imageUrl = `${backendUrl}/${restaurant.image}`;
+                  }
+                }
+
+                return (
+                  <div key={restaurant._id} className="bg-gray-50 rounded-xl overflow-hidden hover:shadow-lg transition cursor-pointer hover:transform hover:-translate-y-2"
+                    onClick={() => router.push(`/restaurants/${restaurant.name.toLowerCase().replace(/\s+/g, '-')}`)}>
+                    
+                    <div className="relative h-48 w-full">
+                      <Image src={imageUrl} alt={restaurant.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                    </div>
+                    
+                    <div className="p-6">
+                      <div className="flex justify-between items-start mb-2 text-black">
+                        <h3 className="text-xl font-bold">{restaurant.name}</h3>
+                        <div className="flex items-center bg-blue-100 px-2 py-1 rounded">
+                          <FaStar className="text-yellow-400 mr-1" />
+                          <span>4.5</span> 
+                        </div>
+                      </div>
+                      <div className="flex items-center text-gray-600 mb-3">
+                        <FaMapMarkerAlt className="mr-2 text-blue-500" />
+                        <span>{restaurant.address?.city || 'Location Unavailable'}</span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {restaurant.categories?.map((tag, tagIndex) => (
+                          <span key={tagIndex} className="bg-gray-200 px-2 py-1 rounded text-sm text-black">
+                            {tag}
+                          </span>
+                        ))}
                       </div>
                     </div>
-                    <div className="flex items-center text-gray-600 mb-3">
-                      <FaMapMarkerAlt className="mr-2 text-blue-500" />
-                      <span>{t('restaurants.inLocation', { location: restaurant.location })}</span>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {/*
-                        THE CORRECTED PATTERN:
-                        1. First, check if the result is ACTUALLY an array.
-                        2. Only if the check passes, proceed to map over it.
-                        This prevents the runtime crash.
-                      */}
-                      {Array.isArray(tagsResult) && tagsResult.map((tag, tagIndex) => (
-                        <span key={tagIndex} className="bg-gray-200 px-2 py-1 rounded text-sm text-black">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
 

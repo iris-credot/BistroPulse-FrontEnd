@@ -1,212 +1,203 @@
-'use client';
-import React, { useState } from "react";
+"use client";
 
-import { IoSearch } from "react-icons/io5";
-import { FiFilter } from "react-icons/fi";
-
-import clsx from "clsx";
+import { MapPin, Plus, Edit, Trash2, Loader2 } from 'lucide-react';
+import Link from 'next/link';
 import { Button } from '../../../../components/Button';
-import { Input } from '../../../../components/Input';
-import { Order } from "../../../../types/order";
+import { useEffect, useState } from 'react';
+
+// --- NEW: Interface for an address coming from the API ---
+interface Address {
+  _id: string;
+  title: string;
+  address: string;
+  isDefault?: boolean;
+}
+
+export default function MyAddresses() {
+  const [addresses, setAddresses] = useState<Address[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // --- NEW: Function to fetch addresses from the API ---
+  const fetchAddresses = async () => {
+    try {
+      const storedUser = localStorage.getItem('user');
+      const token = localStorage.getItem('token');
+      if (!storedUser || !token) {
+        throw new Error("Authentication required. Please log in.");
+      }
+      const user = JSON.parse(storedUser);
+      const userId = user?._id;
+      if (!userId) {
+        throw new Error("User ID not found.");
+      }
+
+      const response = await fetch(`https://bistroupulse-backend.onrender.com/api/user/getOne/${userId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch addresses.');
+      }
+      
+      const data = await response.json();
+      console.log(data);
+      // Assuming the API returns a user object with an 'addresses' array
+      setAddresses(data.user.addresses || []);
+
+    } catch (err) {
+      console.log(err);
+        setError("Order ID not found in URL.");
 
 
-
-const orders: Order[] = [
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 90.0, status: "Delivered", customer: { name: 'Jane Cooper', avatar: 'https://i.pravatar.cc/40?img=4' } },
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 75.0, status: "Cancelled" , customer: { name: 'Jane Cooper', avatar: 'https://i.pravatar.cc/40?img=4' }},
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 110.0, status: "Cancelled", customer: { name: 'Jane Cooper', avatar: 'https://i.pravatar.cc/40?img=4' } },
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 80.0, status: "Delivered", customer: { name: 'Jane Cooper', avatar: 'https://i.pravatar.cc/40?img=4' } },
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 80.0, status: "Cancelled" , customer: { name: 'Jane Cooper', avatar: 'https://i.pravatar.cc/40?img=4' }},
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 30.0, status: "Delivered", customer: { name: 'Jane Cooper', avatar: 'https://i.pravatar.cc/40?img=4' } },
-  { id: "B13789", details: "Beef onion pizza (2x), Beef burger...", date: "Feb 08, 2022", price: 70.0, status: "Cancelled" , customer: { name: 'Jane Cooper', avatar: 'https://i.pravatar.cc/40?img=4' }},
-];
-
-const filters = ["All", "This Week", "This Month", "This Year"];
-
-export default function OrdersPage() {
-  const [selectedFilter, setSelectedFilter] = useState("All");
-  const [showFilter, setShowFilter] = useState(false);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 200]);
-  const [selectedStatus, setSelectedStatus] = useState("");
-  const [filteredOrders, setFilteredOrders] = useState<Order[]>(orders);
-
-  const applyFilter = () => {
-    const result = orders.filter((order) => {
-      const inRange = order.price >= priceRange[0] && order.price <= priceRange[1];
-      const matchStatus = selectedStatus ? order.status === selectedStatus : true;
-      return inRange && matchStatus;
-    });
-    setFilteredOrders(result);
-    setShowFilter(false);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const clearFilter = () => {
-    setPriceRange([0, 200]);
-    setSelectedStatus("");
-    setFilteredOrders(orders);
-    setShowFilter(false);
+  // --- NEW: Fetch addresses when the component mounts ---
+  useEffect(() => {
+    fetchAddresses();
+  }, []);
+
+  // --- NEW: Function to handle deleting an address ---
+  const handleDelete = async (addressId: string) => {
+    if (!confirm('Are you sure you want to delete this address?')) return;
+
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`https://bistroupulse-backend.onrender.com/api/user/address/${addressId}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to delete address.');
+        
+        // Refresh the list after deleting
+        fetchAddresses(); 
+    } catch (err) {
+        console.log(err)
+    }
   };
+
+  // --- NEW: Function to set an address as default ---
+  const handleSetDefault = async (addressId: string) => {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`https://bistroupulse-backend.onrender.com/api/user/address/default/${addressId}`, {
+            method: 'PUT',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to set as default.');
+        
+        // Refresh the list to show the change
+        fetchAddresses();
+    } catch (err) {
+       console.log(err)
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-40">
+        <Loader2 className="animate-spin text-blue-500" size={32} />
+        <span className="ml-2 dark:text-white">Loading addresses...</span>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12 border-2 border-dashed border-red-400 bg-red-50 dark:bg-red-900/20 rounded-lg">
+        <h3 className="text-lg font-medium text-red-700 dark:text-red-300">Error</h3>
+        <p className="text-red-600 dark:text-red-400 mt-1">{error}</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="p-6 relative">
-      <h1 className="text-xl font-semibold mb-4">Orders</h1>
-
-      {/* Filter Buttons */}
-      <div className="flex gap-3 mb-4">
-        {filters.map((filter) => (
-          <Button
-            key={filter}
-            onClick={() => setSelectedFilter(filter)}
-            className={clsx(
-              "px-4 py-2 rounded-md text-sm",
-              selectedFilter === filter
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-            )}
-          >
-            {filter}
-          </Button>
-        ))}
+    <div className="max-w-4xl mx-auto">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">My Addresses</h1>
+        <Link 
+          href="/customer/add-address" 
+          className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+        >
+          <Plus size={18} />
+          Add New Address
+        </Link>
       </div>
 
-      {/* Search + Filter + Export */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="relative">
-          <IoSearch className="absolute top-2.5 left-3 text-gray-400" />
-          <Input
-            type="text"
-            placeholder="Search"
-            className="pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm w-64 focus:outline-none"
-          />
-        </div>
-
-        <div className="flex items-center gap-3">
-          <Button
-            onClick={() => setShowFilter(!showFilter)}
-            className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-sm rounded-md"
-          >
-            <FiFilter />
-            Filter
-          </Button>
-        
-        </div>
-      </div>
-
-      {/* Floating Filter Panel */}
-      {showFilter && (
-        <div className="absolute top-40 right-6 z-50 bg-white p-5 rounded-xl shadow-lg w-72 border">
-          <h3 className="text-lg font-semibold mb-4 text-blue-600">Filter</h3>
-
-          {/* Price Range */}
-          <label className="block text-sm mb-1">Price Range</label>
-          <div className="flex justify-between text-sm mb-2 text-gray-600">
-            <span>₵ {priceRange[0]}</span>
-            <span>₵ {priceRange[1]}</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Input  title="ff"
-              type="range"
-              min="0"
-              max="200"
-              value={priceRange[0]}
-              onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
-              className="w-full accent-black"
-            />
-            <Input  title="ff"
-              type="range"
-              min="0"
-              max="200"
-              value={priceRange[1]}
-              onChange={(e) => setPriceRange([priceRange[0], +e.target.value])}
-              className="w-full accent-black"
-            />
-          </div>
-
-          {/* Status Dropdown */}
-          <label className="block text-sm mt-4 mb-1">Status</label>
-          <select  title="ff"
-            value={selectedStatus}
-            onChange={(e) => setSelectedStatus(e.target.value)}
-            className="w-full border border-gray-300 p-2 rounded"
-          >
-            <option value="">Select Status</option>
-            <option value="Complete">Complete</option>
-            <option value="Cancelled">Cancelled</option>
-          </select>
-
-          {/* Buttons */}
-          <div className="mt-4 flex gap-2">
-            <Button
-              onClick={clearFilter}
-              className="w-1/2 border border-gray-300 py-2 rounded hover:bg-gray-100"
+      {addresses.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {addresses.map((address) => (
+            <div 
+              key={address._id} 
+              className={`border rounded-lg p-4 flex flex-col justify-between ${
+                address.isDefault 
+                  ? 'border-blue-500 bg-blue-50 dark:bg-gray-800 dark:border-blue-500' 
+                  : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'
+              }`}
             >
-              Clear
-            </Button>
-            <Button
-              onClick={applyFilter}
-              className="w-1/2 bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-            >
-              Apply
-            </Button>
-          </div>
+              <div>
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-blue-100 dark:bg-blue-900/50 rounded-full mt-1">
+                    <MapPin className="text-blue-500 dark:text-blue-400" size={18} />
+                  </div>
+                  
+                  <div className="flex-1">
+                    <div className="flex justify-between items-start">
+                      <h3 className="font-medium text-gray-800 dark:text-white">{address.title}</h3>
+                      {address.isDefault && (
+                        <span className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 text-xs px-2 py-1 rounded-full">
+                          Default
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mt-1 text-sm">{address.address}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex gap-3 mt-4 pt-4 border-t dark:border-gray-700">
+                <Link
+                  href={`/customer/edit-address/${address._id}`}
+                  className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400"
+                >
+                  <Edit size={16} />
+                  Edit
+                </Link>
+
+                {!address.isDefault && (
+                  <Button onClick={() => handleDelete(address._id)} className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400">
+                    <Trash2 size={16} />
+                    Delete
+                  </Button>
+                )}
+                {!address.isDefault && (
+                  <Button onClick={() => handleSetDefault(address._id)} className="ml-auto text-sm text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
+                    Set as Default
+                  </Button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-12 border-2 border-dashed dark:border-gray-700 rounded-lg">
+          <MapPin size={48} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
+          <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">No saved addresses</h3>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Add your first address to get started</p>
+          <Link 
+            href="/customer/add-address" 
+            className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg mt-4 transition-colors"
+          >
+            <Plus size={18} />
+            Add Address
+          </Link>
         </div>
       )}
-
-      {/* Table */}
-      <div className="overflow-x-auto border rounded-lg">
-        <table className="w-full text-sm text-left">
-          <thead className="bg-gray-100 border-b text-gray-600 uppercase text-xs">
-            <tr>
-              <th className="p-3"><input  title="ff" type="checkbox" /></th>
-              <th className="p-3">Order ID</th>
-              <th className="p-3">Details</th>
-              <th className="p-3">Date</th>
-              <th className="p-3">Price <span className="text-xs">↑↓</span></th>
-              <th className="p-3">Status</th>
-              
-            </tr>
-          </thead>
-          <tbody>
-            {filteredOrders.map((order, idx) => (
-              <tr key={idx} className="border-b hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td className="p-3"><input title="ff" type="checkbox" /></td>
-                <td className="p-3 font-medium">{order.id}</td>
-                <td className="p-3 truncate">{order.details}</td>
-                <td className="p-3">{order.date}</td>
-                <td className="p-3">₵ {order.price.toFixed(2)}</td>
-                <td className="p-3">
-                  <span className={clsx(
-                    "text-sm font-medium",
-                    order.status === "Delivered" ? "text-green-600" : "text-red-500"
-                  )}>
-                    {order.status}
-                  </span>
-                </td>
-               
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Pagination */}
-      <div className="flex justify-between items-center mt-4 text-sm">
-        <p>1 of 9</p>
-        <div className="flex items-center gap-1">
-          {[1, 2, 3, 4, 5].map((page) => (
-            <Button
-              key={page}
-              className={clsx(
-                "px-3 py-1 rounded-md",
-                page === 1 ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-200"
-              )}
-            >
-              {page}
-            </Button>
-          ))}
-          <span className="px-2 text-gray-500">›</span>
-        </div>
-      </div>
     </div>
   );
 }
