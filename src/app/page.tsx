@@ -254,7 +254,7 @@ export default function LandingPage() {
 
                 return (
                   <div key={restaurant._id} className="bg-gray-50 rounded-xl overflow-hidden hover:shadow-lg transition cursor-pointer hover:transform hover:-translate-y-2"
-                    onClick={() => router.push(`/restaurants/${restaurant.name.toLowerCase().replace(/\s+/g, '-')}`)}>
+                    >
                     
                     <div className="relative h-48 w-full">
                       <Image src={imageUrl} alt={restaurant.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" />
