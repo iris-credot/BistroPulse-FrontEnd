@@ -6,9 +6,29 @@ import { useRouter } from 'next/navigation';
 import { Button } from "../../../../components/Button";
 import { Input } from "../../../../components/Input";
 import toast from "react-hot-toast";
-import { Restaurant } from "../../../../types/restaurant";
+import { OwnerFromAPI } from "types/owner";
 import LoadingSpinner from "../../../../components/loadingSpinner";
-
+interface Restaurant {
+  id: string;
+  owner:OwnerFromAPI;
+  name: string;
+  email: string;
+  description: string;
+    image: string;
+  openingHours: string;
+  representative: string;
+  address: {
+    street?: string;
+    city?: string;
+    country?: string;
+    state?: string;
+    zipCode?: string;
+  };
+  createdAt:string;
+  phone: string;
+  rating: number; // Included for type safety
+  status: "Open" | "Closed"; // Included for type safety
+};
 // Interface for the raw API response for a single restaurant
 interface RestaurantFromAPI {
   _id: string;
@@ -58,6 +78,7 @@ export default function RestaurantTable() {
         }
 
         const data = await response.json();
+        console.log(data);
         if (!data.restaurants || !Array.isArray(data.restaurants)) {
             throw new Error("API response is missing the 'restaurants' array.");
         }
@@ -208,6 +229,7 @@ export default function RestaurantTable() {
             {/* Mobile Card View */}
             <div className="grid grid-cols-1 gap-4 md:hidden">
               {currentItems.map(rest => (
+                
                 <div key={rest.id} className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 space-y-2 relative border dark:border-gray-700">
                     <div className="flex justify-between items-start">
                         <p className="font-semibold text-gray-800 dark:text-white">{rest.name}</p>

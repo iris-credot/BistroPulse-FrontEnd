@@ -4,6 +4,8 @@ import { useLanguage } from './LanguageProvider';
 const languages = [
   { code: 'en', label: 'English' },
   { code: 'fr', label: 'French' },
+   { code: 'rw', label: 'Kinyarwanda' },
+    { code: 'sw', label: 'Swahili' },
   { code: 'es', label: 'Spanish' },
   { code: 'de', label: 'German' },
   { code: 'ar', label: 'Arabic' },

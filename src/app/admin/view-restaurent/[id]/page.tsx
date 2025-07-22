@@ -6,7 +6,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from '../../../../../components/Button';
 import { useRouter } from 'next/navigation'; 
 import LoadingSpinner from "../../../../../components/loadingSpinner";
-import RestaurantAgentOverview from "../../view-agentRestau/page"; // Assuming this is the correct path
+import RestaurantAgentOverview from "../../view-agentRestau/[id]/page"; // Assuming this is the correct path
 import { Restaurant } from "../../../../../types/restaurant";
 import { useParams } from 'next/navigation'; 
 
@@ -50,6 +50,7 @@ const RestaurantOverviewPage: React.FC = () => {
         }
 
         const data = await response.json();
+        console.log(data);
         // API response might have the main object under a 'restaurant' key
         if (!data.restaurant) {
              throw new Error("Restaurant data not found in API response.");
@@ -104,7 +105,7 @@ const RestaurantOverviewPage: React.FC = () => {
             <span className={restaurant.status === 'Open' ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
               {restaurant.status}
             </span>
-            <Button onClick={() => router.push(`/admin/edit-restaurent/${restaurant.id}`)} className="bg-blue-500 dark:bg-gray-900 text-white px-4 py-1 rounded hover:bg-blue-600 flex items-center gap-1">
+            <Button onClick={() => router.push(`/admin/edit-restaurent/${restaurant._id}`)} className="bg-blue-500 dark:bg-gray-900 text-white px-4 py-1 rounded hover:bg-blue-600 flex items-center gap-1">
               <FiEdit3 /> Edit
             </Button>
           </div>
@@ -112,7 +113,10 @@ const RestaurantOverviewPage: React.FC = () => {
 
         <div className="overflow-hidden rounded-xl">
           <Image
-            src={restaurant.image || "/fifth.png"} // Use API image or fallback
+            src={ restaurant.image && restaurant.image.startsWith("http")
+            ? restaurant.image
+      : "/fifth.png"
+} // Use API image or fallback
             alt="Restaurant"
             width={700}
             height={400}
@@ -158,7 +162,7 @@ const RestaurantOverviewPage: React.FC = () => {
       <div className=" w-1/3 space-y-6">
         {/* --- Step 7: Pass the fetched owner ID to the child component --- */}
         {restaurant.owner? (
-            <RestaurantAgentOverview  />
+            <RestaurantAgentOverview ownerId={restaurant.owner._id} />
         ) : (
             <div className="bg-white p-6 rounded-xl shadow-md text-center">
                 No Representative Assigned.

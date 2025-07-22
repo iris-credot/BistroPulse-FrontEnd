@@ -6,8 +6,14 @@ const nextConfig: NextConfig = {
   // Image optimization
   
    images: {
-    domains: ['i.pravatar.cc'],
+    domains: ['i.pravatar.cc','wallpapercave.com'],  
     remotePatterns: [
+       {
+        protocol: 'https',
+        hostname: 'bistroupulse-backend.onrender.com',
+        port: '', // You can leave this empty if there's no specific port
+        pathname: '/uploads/**', // Be more specific if you can, e.g., '/uploads/**'
+      },
       {
         protocol: 'https',
         hostname: 'i0.wp.com',

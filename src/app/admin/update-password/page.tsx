@@ -38,14 +38,32 @@ export default function UpdatePasswordPage() {
       return;
     }
 
-    // Replace with your actual API endpoint and logic
     try {
-      // Mock API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      
-      console.log('Password updated successfully with data:', formData);
+       const token = localStorage.getItem('token');
+      const response = await fetch('https://bistroupulse-backend.onrender.com/api/user/password', {
+        method: 'POST',
+       
+        headers: {
+            'Authorization': `Bearer ${token}`
+          },
+        
+        body: JSON.stringify({
+          currentPassword: formData.current_password,
+          newPassword: formData.new_password,
+        }),
+      });
+
+      if (!response.ok) {
+        // Handle non-successful responses
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update password.');
+      }
+       toast.success('Password updated successfully!');
+
+      const result = await response.json();
+      console.log('Password updated successfully with data:', result);
       toast.success('Password updated successfully!');
-      
+
       // Clear form data after successful submission
       setFormData({
         current_password: '',
@@ -54,7 +72,7 @@ export default function UpdatePasswordPage() {
       });
 
     } catch (error) {
-      toast.error('Failed to update password. Please try again.');
+      
       console.error(error);
     } finally {
       setLoading(false);

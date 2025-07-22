@@ -140,32 +140,32 @@ const ViewCustomerPage = () => {
         <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-500 dark:text-white">Name</label>
-            <p className="mt-1 p-2 text-gray-800 bg-gray-900 dark:text-white rounded-md">{customer.names}</p>
+            <p className="mt-1 p-2  bg-gray-900 text-white rounded-md">{customer.names}</p>
           </div>
           
           <div>
             <label className="block text-sm font-medium text-gray-500 dark:text-white">Email Address</label>
-            <p className="mt-1 p-2 text-gray-800 bg-gray-900 dark:text-white rounded-md">{customer.email}</p>
+            <p className="mt-1 p-2  bg-gray-900 text-white rounded-md">{customer.email}</p>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-500 dark:text-white">Phone</label>
-            <p className="mt-1 p-2 text-gray-800 bg-gray-900 dark:text-white rounded-md">{customer.phoneNumber}</p>
+            <p className="mt-1 p-2  bg-gray-900 text-white rounded-md">{customer.phoneNumber}</p>
           </div>
           
           <div>
             <label className="block text-sm font-medium text-gray-500 dark:text-white">Business Name</label>
-            <p className="mt-1 p-2 text-gray-800 bg-gray-900 dark:text-white rounded-md">{customer.restaurant}</p>
+            <p className="mt-1 p-2  bg-gray-900 text-white rounded-md">{customer.restaurant}</p>
           </div>
           
           <div>
             <label className="block text-sm font-medium text-gray-500 dark:text-white">Location</label>
-            <p className="mt-1 p-2 text-gray-800 bg-gray-900 dark:text-white rounded-md">{customer.address}</p>
+            <p className="mt-1 p-2  bg-gray-900 text-white rounded-md">{customer.address}</p>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-500 dark:text-white">Account Created</label>
-            <p className="mt-1 p-2 text-gray-800 bg-gray-900 dark:text-white rounded-md">{customer.created}</p>
+            <p className="mt-1 p-2  bg-gray-900 text-white rounded-md">{customer.created}</p>
           </div>
           
           <div>
@@ -177,7 +177,7 @@ const ViewCustomerPage = () => {
           
           <div>
             <label className="block text-sm font-medium text-gray-500 dark:text-white">Category</label>
-            <p className="mt-1 p-2 text-gray-800 bg-gray-900 dark:text-white rounded-md">{customer.category}</p>
+            <p className="mt-1 p-2  bg-gray-900 text-white rounded-md">{customer.category}</p>
           </div>
         </div>
       </div>
