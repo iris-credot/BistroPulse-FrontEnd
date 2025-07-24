@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 
 const CustomerList = () => {
   const router = useRouter();
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -43,7 +44,7 @@ const CustomerList = () => {
           throw new Error("Authentication token not found. Please log in.");
         }
 
-        const response = await fetch("https://bistroupulse-backend.onrender.com/api/owner", {
+        const response = await fetch(`${apiBaseUrl}/owner`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -90,7 +91,7 @@ const CustomerList = () => {
       }
     };
     fetchOwners();
-  }, []);
+  }, [apiBaseUrl]);
 
   // --- UPDATED FILTER LOGIC ---
   const filteredCustomers = customers.filter(customer => {
@@ -151,7 +152,7 @@ const CustomerList = () => {
       setSelectedCustomers(prev => prev.filter(id => id !== customerId));
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`https://bistroupulse-backend.onrender.com/api/owner/${customerId}`, { 
+        const response = await fetch(`${apiBaseUrl}/owner/${customerId}`, { 
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         });

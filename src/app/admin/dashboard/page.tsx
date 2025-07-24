@@ -133,6 +133,7 @@ const ScheduleCalendar = () => {
 };
 
 export default function AdminDashboard() {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const { t } = useTranslation();
   const [greeting, setGreeting] = useState('');
   const [loading, setLoading] = useState(true);
@@ -163,10 +164,10 @@ export default function AdminDashboard() {
     };
 
     const [clientsRes, usersRes, restaurantsRes, ownersRes] = await Promise.all([
-      fetch('https://bistroupulse-backend.onrender.com/api/user/allClients', { headers }),
-      fetch('https://bistroupulse-backend.onrender.com/api/user/all', { headers }),
-      fetch('https://bistroupulse-backend.onrender.com/api/restaurant', { headers }),
-      fetch('https://bistroupulse-backend.onrender.com/api/owner', { headers }),
+      fetch(`${apiBaseUrl}/user/allClients`, { headers }),
+      fetch(`${apiBaseUrl}/user/all`, { headers }),
+      fetch(`${apiBaseUrl}/restaurant`, { headers }),
+      fetch(`${apiBaseUrl}/owner`, { headers }),
     ]);
 
         if (!clientsRes.ok || !usersRes.ok || !restaurantsRes.ok || !ownersRes.ok) {
@@ -189,7 +190,7 @@ setTotalManagers(ownersData.owners.length);
     };
 
     fetchAllData();
-  }, []);
+  }, [apiBaseUrl]);
 
   const userStats: ChartData<'bar'> = {
     labels: t('dashboard.charts.userStats.labels', { returnObjects: true }) as string[],

@@ -24,7 +24,7 @@ interface FoodItem {
 }
 
 const FoodDetails = () => {
- 
+ const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const params = useParams();
   const id = params.id as string; // Get the food item ID from the URL
 
@@ -55,7 +55,7 @@ const FoodDetails = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`https://bistroupulse-backend.onrender.com/api/menu/${id}`, {
+        const response = await fetch(`${apiBaseUrl}/menu/${id}`, {
           headers: getAuthHeaders(),
         });
 
@@ -75,7 +75,7 @@ const FoodDetails = () => {
     };
 
     fetchFoodItem();
-  }, [id]);
+  }, [id,apiBaseUrl]);
 
   // Function to handle toggling the availability status
   const handleAvailabilityChange = useCallback(async (isAvailable: boolean) => {
@@ -85,7 +85,7 @@ const FoodDetails = () => {
     setFoodItem({ ...foodItem, isAvailable });
 
     try {
-      const response = await fetch(`https://bistroupulse-backend.onrender.com/api/menu/${foodItem._id}`, {
+      const response = await fetch(`${apiBaseUrl}/menu/${foodItem._id}`, {
         method: 'PATCH',
         headers: getAuthHeaders(),
         body: JSON.stringify({ isAvailable }),
@@ -103,7 +103,7 @@ const FoodDetails = () => {
       const message = err instanceof Error ? err.message : "An unknown error occurred.";
       toast.error(message);
     }
-  }, [foodItem]);
+  }, [foodItem,apiBaseUrl]);
 
 
   // Show loading state

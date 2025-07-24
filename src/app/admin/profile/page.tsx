@@ -21,7 +21,7 @@ interface UserFromAPI {
 
 // --- NEW: Centralized constants for clarity and maintenance ---
 const DEFAULT_AVATAR = "/default-avatar.png";
-const API_BASE_URL = "https://bistroupulse-backend.onrender.com";
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // --- NEW: Helper function to ensure the image URL is always valid ---
 const getSafeImageUrl = (path?: string): string => {
@@ -35,7 +35,7 @@ const getSafeImageUrl = (path?: string): string => {
   }
   // If it's a relative path from the backend, prepend the base API URL
   // This handles cases like "uploads/..."
-  return `${API_BASE_URL}/${path}`;
+  return `${apiBaseUrl}/${path}`;
 };
 
 export default function SettingsPage() {
@@ -64,7 +64,7 @@ export default function SettingsPage() {
           return;
         }
 
-        const response = await fetch(`${API_BASE_URL}/api/user/getOne/${userId}`, {
+        const response = await fetch(`${apiBaseUrl}/user/getOne/${userId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -133,7 +133,7 @@ export default function SettingsPage() {
       const token = localStorage.getItem('token');
       if (!user._id) throw new Error("User ID is missing.");
 
-      const response = await fetch(`${API_BASE_URL}/api/user/profile/${user._id}`, {
+      const response = await fetch(`${apiBaseUrl}/user/profile/${user._id}`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData,

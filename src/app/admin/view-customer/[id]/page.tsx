@@ -12,6 +12,7 @@ import { OwnerFromAPI } from '../../../../../types/owner';
 
 
 const ViewCustomerPage = () => {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const router = useRouter();
   const params = useParams(); // Hook to get URL parameters
   const id = params.id as string; // Get the specific ID, e.g., '6876619c153b780ad46c14ab'
@@ -38,7 +39,7 @@ const ViewCustomerPage = () => {
           throw new Error("Authentication token not found. Please log in.");
         }
 
-        const response = await fetch(`https://bistroupulse-backend.onrender.com/api/owner/${id}`, {
+        const response = await fetch(`${apiBaseUrl}/owner/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -88,7 +89,7 @@ const ViewCustomerPage = () => {
     };
 
     fetchCustomerData();
-  }, [id]); // Re-run the effect if the ID in the URL changes
+  }, [id,apiBaseUrl]); // Re-run the effect if the ID in the URL changes
 
  if (loading) {
     return (

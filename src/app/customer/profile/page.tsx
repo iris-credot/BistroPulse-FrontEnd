@@ -21,7 +21,8 @@ interface UserFromAPI {
 
 // --- NEW: Centralized constants for clarity and maintenance ---
 const DEFAULT_AVATAR = "/default-avatar.png";
-const API_BASE_URL = "https://bistroupulse-backend.onrender.com";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API;
 
 // --- NEW: Helper function to ensure the image URL is always valid ---
 const getSafeImageUrl = (path?: string): string => {

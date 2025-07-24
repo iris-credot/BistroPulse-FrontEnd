@@ -66,7 +66,7 @@ const calculateOrderTotal = (items: ApiMenuItem[], fallbackPrice: number | null 
 
 const CustomerOrder: NextPage = () => {
     const router = useRouter();
-    
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     const [allOrders, setAllOrders] = useState<Order[]>([]);
     const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -96,7 +96,7 @@ const CustomerOrder: NextPage = () => {
                     throw new Error("User ID not found. Please log in again.");
                 }
 
-                const response = await fetch(`https://bistroupulse-backend.onrender.com/api/order/user/${userId}`, {
+                const response = await fetch(`${apiBaseUrl}/order/user/${userId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
@@ -137,7 +137,7 @@ const CustomerOrder: NextPage = () => {
         };
 
         fetchOrders();
-    }, []);
+    }, [apiBaseUrl]);
 
     useEffect(() => {
         let result = allOrders;

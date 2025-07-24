@@ -105,6 +105,7 @@ const NotificationItem = ({
 // --- MAIN NOTIFICATION PAGE COMPONENT ---
 
 const NotificationsPage = () => {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -121,8 +122,8 @@ const NotificationsPage = () => {
       };
 
       const endpoints = [
-        'https://bistroupulse-backend.onrender.com/api/notify/getByRest',
-        'https://bistroupulse-backend.onrender.com/api/notify/getByMenu'
+        `${apiBaseUrl}/notify/getByRest`,
+        `${apiBaseUrl}/notify/getByMenu`
       ];
 
       try {
@@ -173,7 +174,7 @@ const NotificationsPage = () => {
     };
 
     fetchNotifications();
-  }, []); // Empty dependency array ensures this runs once on mount
+  }, [apiBaseUrl]); // Empty dependency array ensures this runs once on mount
 
   const handleMarkAsRead = (id: string) => {
     setNotifications(

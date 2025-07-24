@@ -18,7 +18,7 @@ interface OwnerData {
 
 export default function CreateOwnerPage() {
   const router = useRouter();
-  
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function CreateOwnerPage() {
     setLoading(true);
 
     try {
-      const res = await fetch('https://bistroupulse-backend.onrender.com/api/user/signup', {
+      const res = await fetch(`${apiBaseUrl}/user/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: formData.user_email, password: formData.user_password }),
@@ -87,7 +87,7 @@ export default function CreateOwnerPage() {
     }
 
     try {
-      const res = await fetch('https://bistroupulse-backend.onrender.com/api/owner', {
+      const res = await fetch(`${apiBaseUrl}/owner`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

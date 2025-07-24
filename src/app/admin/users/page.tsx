@@ -24,6 +24,7 @@ interface UserFromAPI {
 }
 
 const CustomerList = () => {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const router = useRouter();
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
@@ -52,7 +53,7 @@ const CustomerList = () => {
           throw new Error("Authentication token not found. Please log in.");
         }
 
-        const response = await fetch("https://bistroupulse-backend.onrender.com/api/user/allClients", {
+        const response = await fetch(`${apiBaseUrl}/user/allClients`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -98,7 +99,7 @@ const CustomerList = () => {
     };
 
     fetchClients();
-  }, []);
+  }, [apiBaseUrl]);
 
   const filteredCustomers = customers.filter(customer => {
     const searchLower = searchTerm.toLowerCase();
@@ -150,7 +151,7 @@ const CustomerList = () => {
 
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`https://bistroupulse-backend.onrender.com/api/user/delete/${customerId}`, {
+        const response = await fetch(`${apiBaseUrl}/user/delete/${customerId}`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });

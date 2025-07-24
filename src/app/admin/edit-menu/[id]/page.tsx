@@ -20,6 +20,7 @@ interface FoodItem {
 }
 
 const EditFoodPage = () => {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
@@ -46,7 +47,7 @@ const EditFoodPage = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`https://bistroupulse-backend.onrender.com/api/menu/${id}`, {
+        const response = await fetch(`${apiBaseUrl}/menu/${id}`, {
           headers: getAuthHeaders(),
         });
         if (!response.ok) {
@@ -63,7 +64,7 @@ const EditFoodPage = () => {
       }
     };
     fetchFoodItem();
-  }, [id]);
+  }, [id,apiBaseUrl]);
 
   if (loading) {
     return <div className="p-6 text-center">Loading...</div>;
@@ -104,7 +105,7 @@ const EditFoodPage = () => {
     }
 
     try {
-      const response = await fetch(`https://bistroupulse-backend.onrender.com/api/menu/${id}`, {
+      const response = await fetch(`${apiBaseUrl}/menu/${id}`, {
         method: 'PATCH',
         headers: getAuthHeaders(true), // Pass true to signal FormData content type
         body: formData,

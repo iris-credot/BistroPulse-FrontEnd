@@ -54,8 +54,9 @@ interface UserApiResponse {
 
 // --- AddMenuPage Component ---
 export default function AddMenuPage() {
+    
     const router = useRouter();
-
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     // --- State Management ---
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
     const [user, setUser] = useState<User | null>(null);
@@ -90,8 +91,8 @@ export default function AddMenuPage() {
                 if (!token || !userId) throw new Error("Authentication required. Please log in.");
 
                 const [restaurantRes, userRes] = await Promise.all([
-                    fetch('https://bistroupulse-backend.onrender.com/api/restaurant', { headers: { 'Authorization': `Bearer ${token}` } }),
-                    fetch(`https://bistroupulse-backend.onrender.com/api/user/getOne/${userId}`, { headers: { 'Authorization': `Bearer ${token}` } })
+                    fetch(`${apiBaseUrl}/restaurant`, { headers: { 'Authorization': `Bearer ${token}` } }),
+                    fetch(`${apiBaseUrl}/user/getOne/${userId}`, { headers: { 'Authorization': `Bearer ${token}` } })
                 ]);
 
                 if (!restaurantRes.ok) throw new Error('Failed to fetch restaurants.');
@@ -113,7 +114,7 @@ export default function AddMenuPage() {
         };
 
         fetchInitialData();
-    }, []);
+    }, [apiBaseUrl]);
 
     // --- Effect 2: Fetch menu items ONLY when a restaurant is selected ---
     useEffect(() => {
@@ -129,7 +130,7 @@ export default function AddMenuPage() {
                 const token = localStorage.getItem('token');
                 if (!token) throw new Error("Token not found.");
                 
-                const response = await fetch(`https://bistroupulse-backend.onrender.com/api/menu/restaurant/${selectedRestaurant}`, { 
+                const response = await fetch(`${apiBaseUrl}/menu/restaurant/${selectedRestaurant}`, { 
                     headers: { 'Authorization': `Bearer ${token}` } 
                 });
 
@@ -148,7 +149,7 @@ export default function AddMenuPage() {
         };
 
         fetchMenuItems();
-    }, [selectedRestaurant]);
+    }, [selectedRestaurant,apiBaseUrl]);
 
     // --- Derived State and Memoized Calculations ---
     const categories: string[] = useMemo(() => 
@@ -219,7 +220,7 @@ export default function AddMenuPage() {
                 // REMOVED: deliveryAddress from the payload
             };
 
-            const response = await fetch('https://bistroupulse-backend.onrender.com/api/order', {
+            const response = await fetch(`${apiBaseUrl}/order`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify(orderPayload)

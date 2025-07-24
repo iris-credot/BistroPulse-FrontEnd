@@ -28,6 +28,7 @@ interface UpdateUserPayload {
 }
 
 const EditCustomerPage = () => {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
@@ -51,7 +52,7 @@ const EditCustomerPage = () => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error("You are not authenticated.");
 
-        const response = await fetch(`https://bistroupulse-backend.onrender.com/api/user/getOne/${id}`, {
+        const response = await fetch(`${apiBaseUrl}/user/getOne/${id}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -89,7 +90,7 @@ const EditCustomerPage = () => {
     };
 
     fetchUserData();
-  }, [id]);
+  }, [apiBaseUrl,id]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (formData) {
@@ -115,7 +116,7 @@ const EditCustomerPage = () => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error("You are not authenticated.");
 
-        const response = await fetch(`https://bistroupulse-backend.onrender.com/api/user/profile/${id}`, {
+        const response = await fetch(`${apiBaseUrl}/user/profile/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

@@ -13,6 +13,7 @@ import { Restaurant } from "../../../../../types/restaurant";
 import RestaurantAgentOverview from "../../../../../components/restaurantAgent"; // Corrected import
 
 const RestaurantOverviewPage: React.FC = () => {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const router = useRouter();
   const params = useParams();
   const restaurantId = params.id as string;
@@ -35,7 +36,7 @@ const RestaurantOverviewPage: React.FC = () => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error("Authentication token not found.");
 
-        const response = await fetch(`https://bistroupulse-backend.onrender.com/api/restaurant/${restaurantId}`, {
+        const response = await fetch(`${apiBaseUrl}/restaurant/${restaurantId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -57,7 +58,7 @@ const RestaurantOverviewPage: React.FC = () => {
     };
 
     fetchRestaurantDetails();
-  }, [restaurantId]);
+  }, [restaurantId,apiBaseUrl]);
 
   // Helper function to format the address
   const formatAddress = (addr: Restaurant['address']) => {

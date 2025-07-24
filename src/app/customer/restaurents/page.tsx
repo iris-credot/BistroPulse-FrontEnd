@@ -40,6 +40,7 @@ interface RestaurantFromAPI {
 }
 
 export default function RestaurantTable() {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const router = useRouter();
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState(true);
@@ -64,7 +65,7 @@ export default function RestaurantTable() {
         const token = localStorage.getItem('token');
         if (!token) throw new Error("Authentication token not found.");
 
-        const response = await fetch("https://bistroupulse-backend.onrender.com/api/restaurant", {
+        const response = await fetch(`${apiBaseUrl}/restaurant`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -100,7 +101,7 @@ export default function RestaurantTable() {
       }
     };
     fetchRestaurants();
-  }, []);
+  }, [apiBaseUrl]);
 
   // --- UPDATED FILTER LOGIC ---
   const filteredRestaurants = restaurants.filter(rest => {
@@ -132,7 +133,7 @@ export default function RestaurantTable() {
         setSelectedMenuId(null);
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`https://bistroupulse-backend.onrender.com/api/restaurant/${restaurantId}`, {
+            const response = await fetch(`${apiBaseUrl}/restaurant/${restaurantId}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

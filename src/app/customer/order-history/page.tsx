@@ -14,6 +14,7 @@ interface Address {
 }
 
 export default function MyAddresses() {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -32,7 +33,7 @@ export default function MyAddresses() {
         throw new Error("User ID not found.");
       }
 
-      const response = await fetch(`https://bistroupulse-backend.onrender.com/api/user/getOne/${userId}`, {
+      const response = await fetch(`${apiBaseUrl}/user/getOne/${userId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -66,7 +67,7 @@ export default function MyAddresses() {
 
     try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`https://bistroupulse-backend.onrender.com/api/user/address/${addressId}`, {
+        const response = await fetch(`${apiBaseUrl}/user/address/${addressId}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -84,7 +85,7 @@ export default function MyAddresses() {
   const handleSetDefault = async (addressId: string) => {
     try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`https://bistroupulse-backend.onrender.com/api/user/address/default/${addressId}`, {
+        const response = await fetch(`${apiBaseUrl}/user/address/default/${addressId}`, {
             method: 'PUT',
             headers: { 'Authorization': `Bearer ${token}` }
         });

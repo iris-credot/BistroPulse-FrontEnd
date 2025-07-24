@@ -7,6 +7,7 @@ import { FaUtensils, FaArrowRight } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 
 export default function CuisineSelectionPage() {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const router = useRouter();
   const [favoriteCuisines, setFavoriteCuisines] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -41,7 +42,7 @@ export default function CuisineSelectionPage() {
   setIsLoading(true);
 
   try {
-    const response = await fetch('https://bistroupulse-backend.onrender.com/api/client', {
+    const response = await fetch(`${apiBaseUrl}/client`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

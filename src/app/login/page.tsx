@@ -18,6 +18,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function LoginForm() {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +35,7 @@ export default function LoginForm() {
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     try {
-      const res = await fetch('https://bistroupulse-backend.onrender.com/api/user/login', {
+      const res = await fetch(`${apiBaseUrl}/user/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),

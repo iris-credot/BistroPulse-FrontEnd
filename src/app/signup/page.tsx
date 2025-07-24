@@ -6,6 +6,7 @@ import { Mail, Lock } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 export default function SignupPage() {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const router = useRouter()
 
   // Form state
@@ -26,7 +27,7 @@ export default function SignupPage() {
     }
 
     try {
-      const response = await fetch('https://bistroupulse-backend.onrender.com/api/user/signup', {
+      const response = await fetch(`${apiBaseUrl}/user/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

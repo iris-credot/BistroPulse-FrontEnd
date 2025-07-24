@@ -6,6 +6,7 @@ import LoadingSpinner from '../../../../components/loadingSpinner'; // Assuming 
 import PasswordStrengthIndicator from '../../../../components/passwordStrength'; // A new component for strength
 
 export default function UpdatePasswordPage() {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const [formData, setFormData] = useState({
     current_password: '',
     new_password: '',
@@ -40,7 +41,7 @@ export default function UpdatePasswordPage() {
 
     try {
        const token = localStorage.getItem('token');
-      const response = await fetch('https://bistroupulse-backend.onrender.com/api/user/password', {
+      const response = await fetch(`${apiBaseUrl}/user/password`, {
         method: 'POST',
        
         headers: {

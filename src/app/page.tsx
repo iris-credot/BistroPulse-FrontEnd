@@ -19,6 +19,7 @@ interface Restaurant {
 }
 
 export default function LandingPage() {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const { t, i18n } = useTranslation();
   const router = useRouter();
 
@@ -88,7 +89,7 @@ export default function LandingPage() {
       try {
         setIsLoadingRestaurants(true);
         setRestaurantsError(null);
-        const response = await fetch('https://bistroupulse-backend.onrender.com/api/restaurant');
+        const response = await fetch(`${apiBaseUrl}/restaurant`);
         if (!response.ok) {
           throw new Error('Failed to fetch restaurants. Please try again later.');
         }
@@ -109,7 +110,7 @@ export default function LandingPage() {
     };
 
     fetchRestaurants();
-  }, []);
+  }, [apiBaseUrl]);
 
 
   // --- Data for mapping (using translation keys) ---
@@ -239,7 +240,7 @@ export default function LandingPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* --- THE FIX: Use .slice(0, 6) to get only the first 6 items --- */}
               {restaurants.slice(0, 6).map((restaurant) => {
-                const backendUrl = 'https://bistroupulse-backend.onrender.com';
+               const apiBaseUrll = process.env.NEXT_PUBLIC_API;
                 const placeholderImage = '/placeholder-image.png';
                 
                 let imageUrl = placeholderImage;
@@ -248,7 +249,7 @@ export default function LandingPage() {
                   if (restaurant.image.startsWith('http')) {
                     imageUrl = restaurant.image;
                   } else {
-                    imageUrl = `${backendUrl}/${restaurant.image}`;
+                    imageUrl = `${apiBaseUrll}/${restaurant.image}`;
                   }
                 }
 

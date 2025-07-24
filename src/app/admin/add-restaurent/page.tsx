@@ -30,7 +30,7 @@ interface Address {
 
 const AddRestaurantForm: React.FC = () => {
   const router = useRouter();
-
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   // Form input states
   const [restaurantName, setRestaurantName] = useState("");
   const [email, setEmail] = useState("");
@@ -61,7 +61,7 @@ const AddRestaurantForm: React.FC = () => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error("Authorization token not found.");
 
-        const response = await fetch("https://bistroupulse-backend.onrender.com/api/owner", {
+        const response = await fetch(`${apiBaseUrl}/owner`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -88,7 +88,7 @@ const AddRestaurantForm: React.FC = () => {
     };
 
     fetchRepresentatives();
-  }, []);
+  }, [apiBaseUrl]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) setImage(e.target.files[0]);
@@ -141,7 +141,7 @@ const AddRestaurantForm: React.FC = () => {
         if (image) formData.append("image", image);
 
       const token = localStorage.getItem('token');
-      const response = await fetch("https://bistroupulse-backend.onrender.com/api/restaurant", {
+      const response = await fetch(`${apiBaseUrl}/restaurant`, {
         method: "POST",
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData,

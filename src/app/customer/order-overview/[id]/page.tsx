@@ -34,6 +34,7 @@ interface EnrichedOrder {
 }
 
 export default function OrderTrackingPage() {
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     const params = useParams();
     const orderId = params.id as string;
 
@@ -56,7 +57,7 @@ export default function OrderTrackingPage() {
                 const token = localStorage.getItem('token');
                 if (!token) throw new Error("Authentication token not found.");
 
-                const response = await fetch(`https://bistroupulse-backend.onrender.com/api/order/${orderId}`, {
+                const response = await fetch(`${apiBaseUrl}/order/${orderId}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 
@@ -105,7 +106,7 @@ export default function OrderTrackingPage() {
         };
 
         fetchOrderDetails();
-    }, [orderId]);
+    }, [orderId,apiBaseUrl]);
 
     if (isLoading) return <div className="min-h-screen flex items-center justify-center dark:bg-gray-900 dark:text-white"><LoadingSpinner/></div>;
     if (error) return <div className="min-h-screen flex items-center justify-center text-red-500 dark:bg-gray-900">{error}</div>;

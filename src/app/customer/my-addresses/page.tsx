@@ -27,7 +27,7 @@ interface Restaurant {
 
 const FoodManagement = () => {
   const router = useRouter();
-
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   // State for data fetching and selection
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [selectedRestaurantId, setSelectedRestaurantId] = useState<string>('');
@@ -60,7 +60,7 @@ const FoodManagement = () => {
       setRestaurantsLoading(true);
       setError(null);
       try {
-        const response = await fetch('https://bistroupulse-backend.onrender.com/api/restaurant', {
+        const response = await fetch(`${apiBaseUrl}/restaurant`, {
           headers: getAuthHeaders(),
         });
         if (!response.ok) {
@@ -77,7 +77,7 @@ const FoodManagement = () => {
       }
     };
     fetchRestaurants();
-  }, []);
+  }, [apiBaseUrl]);
 
   // Effect 2: Fetch menu items when a restaurant is selected (No changes needed here)
   useEffect(() => {
@@ -90,7 +90,7 @@ const FoodManagement = () => {
       setError(null);
       setActiveDropdown(null);
       try {
-        const response = await fetch(`https://bistroupulse-backend.onrender.com/api/menu/restaurant/${selectedRestaurantId}`, {
+        const response = await fetch(`${apiBaseUrl}/menu/restaurant/${selectedRestaurantId}`, {
           headers: getAuthHeaders(),
         });
         if (!response.ok) {
@@ -113,7 +113,7 @@ const FoodManagement = () => {
       }
     };
     fetchMenu();
-  }, [selectedRestaurantId]);
+  }, [selectedRestaurantId,apiBaseUrl]);
 
   // --- CHANGE 2: Updated filtering logic to use 'isAvailable' ---
   // This correctly translates the boolean 'isAvailable' to the 'Active'/'Deactive' status for filtering.

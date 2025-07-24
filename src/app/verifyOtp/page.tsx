@@ -19,6 +19,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function VerifyAccountForm() {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     const router = useRouter()
   
   const {
@@ -32,7 +33,7 @@ export default function VerifyAccountForm() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const response = await fetch('https://bistroupulse-backend.onrender.com/api/user/verifyotp', {
+      const response = await fetch(`${apiBaseUrl}/user/verifyotp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -18,6 +18,7 @@ type EditableRestaurant = Omit<Restaurant, 'id' | 'owner' | 'rating' | 'represen
 };
 
 const EditRestaurantPage = () => {
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     const router = useRouter();
     const params = useParams();
     const restaurantId = Array.isArray(params.id) ? params.id[0] : params.id;
@@ -44,7 +45,7 @@ const EditRestaurantPage = () => {
                 const token = localStorage.getItem('token');
                 if (!token) throw new Error("Authentication token not found.");
 
-                const response = await fetch(`https://bistroupulse-backend.onrender.com/api/restaurant/${restaurantId}`, {
+                const response = await fetch(`${apiBaseUrl}/restaurant/${restaurantId}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 
@@ -64,7 +65,7 @@ const EditRestaurantPage = () => {
         };
 
         fetchRestaurant();
-    }, [restaurantId]);
+    }, [restaurantId,apiBaseUrl]);
 
     // Handler for text input changes (including nested address)
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -121,7 +122,7 @@ const EditRestaurantPage = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`https://bistroupulse-backend.onrender.com/api/restaurant/${restaurantId}`, {
+            const response = await fetch(`${apiBaseUrl}/restaurant/${restaurantId}`, {
                 method: 'PUT',
                 headers: { 'Authorization': `Bearer ${token}` },
                 body: formData, // Send as FormData

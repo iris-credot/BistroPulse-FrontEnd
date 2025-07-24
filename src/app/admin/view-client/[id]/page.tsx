@@ -21,6 +21,7 @@ interface UserFromAPI {
 }
 
 const ViewCustomerPage = () => {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
@@ -43,7 +44,7 @@ const ViewCustomerPage = () => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error("Authentication token not found.");
 
-        const response = await fetch(`https://bistroupulse-backend.onrender.com/api/user/getOne/${id}`, {
+        const response = await fetch(`${apiBaseUrl}/user/getOne/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -93,7 +94,7 @@ const ViewCustomerPage = () => {
     };
 
     fetchCustomerData();
-  }, [id]);
+  }, [id,apiBaseUrl]);
 
  if (loading) {
     return (
