@@ -8,13 +8,14 @@ import { Input } from "../../../../components/Input";
 import toast from "react-hot-toast";
 import { OwnerFromAPI } from "types/owner";
 import LoadingSpinner from "../../../../components/loadingSpinner";
+
 interface Restaurant {
   id: string;
-  owner:OwnerFromAPI;
+  owner: OwnerFromAPI;
   name: string;
   email: string;
   description: string;
-    image: string;
+  image: string;
   openingHours: string;
   representative: string;
   address: {
@@ -24,11 +25,12 @@ interface Restaurant {
     state?: string;
     zipCode?: string;
   };
-  createdAt:string;
+  createdAt: string; // Included for sorting
   phone: string;
-  rating: number; // Included for type safety
-  status: "Open" | "Closed"; // Included for type safety
+  rating: number;
+  status: "Open" | "Closed";
 };
+
 // Interface for the raw API response for a single restaurant
 interface RestaurantFromAPI {
   _id: string;
@@ -37,6 +39,7 @@ interface RestaurantFromAPI {
   owner?: { user?: { names?: string; username?: string; }; };
   address?: { street?: string; city?: string; country?: string; state?: string; zipCode?: string; };
   phone?: string;
+  createdAt: string; // Assuming the API returns this field
 }
 
 export default function RestaurantTable() {
@@ -49,7 +52,7 @@ export default function RestaurantTable() {
   const [selectedMenuId, setSelectedMenuId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  
+
   // --- STATE FOR FILTER VISIBILITY AND VALUES ---
   const [filterVisible, setFilterVisible] = useState(false);
   const [filters, setFilters] = useState({
@@ -79,23 +82,35 @@ export default function RestaurantTable() {
         }
 
         const data = await response.json();
-        console.log(data);
         if (!data.restaurants || !Array.isArray(data.restaurants)) {
             throw new Error("API response is missing the 'restaurants' array.");
         }
-        
-        const transformedRestaurants: Restaurant[] = data.restaurants.map((rest: RestaurantFromAPI) => ({
-          id: rest._id,
-          name: rest.name,
-          email:rest.email,
-          representative: rest.owner?.user?.names || rest.owner?.user?.username || 'N/A',
-          address: rest.address || { city: 'N/A' }, 
-          phone: rest.phone || 'N/A',
-        }));
+
+        const transformedRestaurants: Restaurant[] = data.restaurants
+          .map((rest: RestaurantFromAPI) => ({
+            id: rest._id,
+            name: rest.name,
+            email: rest.email,
+            representative: rest.owner?.user?.names || rest.owner?.user?.username || 'N/A',
+            address: rest.address || { city: 'N/A' },
+            phone: rest.phone || 'N/A',
+            createdAt: rest.createdAt, // Keep the createdAt field
+            // Add other required fields from the Restaurant interface with default values
+            owner: {} as OwnerFromAPI,
+            description: '',
+            image: '',
+            openingHours: '',
+            rating: 0,
+            status: "Closed" ,
+          }))
+          // --- SORT BY LATEST HERE ---
+         .sort((a: Restaurant, b: Restaurant) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
         setRestaurants(transformedRestaurants);
       } catch (err) {
-        console.log(err);
         console.error(err);
+        // It's better to show a user-friendly error
+        setError("Failed to load restaurants. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -113,7 +128,7 @@ export default function RestaurantTable() {
       rest.name.toLowerCase().includes(searchLower) ||
       rest.representative.toLowerCase().includes(searchLower);
 
-    const matchesFilters = 
+    const matchesFilters =
       (filters.name === "" || rest.name.toLowerCase().includes(filterNameLower)) &&
       (filters.location === "" || (rest.address?.city && rest.address.city.toLowerCase().includes(filterLocationLower)));
 
@@ -124,7 +139,6 @@ export default function RestaurantTable() {
   useEffect(() => {
       setCurrentPage(1);
   }, [searchTerm, filters]);
-
 
   const handleDelete = async (restaurantId: string, restaurantName: string) => {
     if (window.confirm(`Are you sure you want to delete ${restaurantName}?`)) {
@@ -140,7 +154,8 @@ export default function RestaurantTable() {
             if (!response.ok) throw new Error("Failed to delete restaurant.");
             toast.success("Restaurant deleted successfully.");
         } catch (err) {
-          console.log(err);
+           toast.error("Failed to delete restaurant.");
+           console.log(err)
            setRestaurants(originalRestaurants);
         }
     }
@@ -199,7 +214,7 @@ export default function RestaurantTable() {
           </Button>
         </div>
       </div>
-      
+
       {/* --- FILTER UI --- */}
       {filterVisible && (
         <div className="absolute right-6 mt-2 w-72 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 p-4 z-20 dark:border-gray-700">
@@ -230,7 +245,7 @@ export default function RestaurantTable() {
             {/* Mobile Card View */}
             <div className="grid grid-cols-1 gap-4 md:hidden">
               {currentItems.map(rest => (
-                
+
                 <div key={rest.id} className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 space-y-2 relative border dark:border-gray-700">
                     <div className="flex justify-between items-start">
                         <p className="font-semibold text-gray-800 dark:text-white">{rest.name}</p>
@@ -295,7 +310,7 @@ export default function RestaurantTable() {
           <div className="text-center p-4 text-gray-500">No restaurants match your criteria.</div>
         )}
       </div>
-      
+
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex flex-col sm:flex-row justify-between items-center px-4 py-3 border-t border-gray-200 dark:border-gray-700 mt-4">

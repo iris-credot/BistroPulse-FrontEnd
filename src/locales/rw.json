@@ -172,7 +172,7 @@
   },
   "dashboard": {
     "greeting": {
-      "hello": "Muraho {{name}}",
+      "hello": "Muraho",
       "morning": "Mwaramutse neza",
       "afternoon": "Mwiriwe neza",
       "evening": "Mwirirwe neza"
@@ -248,7 +248,7 @@
   "hello_boutique": "Muraho Boutique",
   "new_users": "Abakoresha bashya",
   "update": "Ivugurura",
-  "total_clients": "Abakiriya bose",
+  "total_clients": "Resitora zose",
   "total_dishes": "Ibyokurya byose",
   "orders": "Ibyatumijwe",
   "clients_statistics": "Imibare y'abakiriya",

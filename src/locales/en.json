@@ -172,7 +172,7 @@
   },
   "dashboard": {
     "greeting": {
-      "hello": "Hello {{name}}",
+      "hello": "Hello",
       "morning": "Good morning",
       "afternoon": "Good afternoon",
       "evening": "Good evening"
@@ -246,9 +246,9 @@
   "good_afternoon": "Good afternoon",
   "good_evening": "Good evening",
   "hello_boutique": "Hello Boutique",
-  "new_users": "New Users",
+  "new_users": "Total Clients",
   "update": "Update",
-  "total_clients": "Total Clients",
+  "total_clients": "Total Restaurants",
   "total_dishes": "Total Dishes",
   "orders": "Orders",
   "clients_statistics": "Clients Statistics",

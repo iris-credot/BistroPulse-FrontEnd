@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { LayoutDashboard, Utensils, Users, Bell, LogOut, ShoppingCart, History, Globe, Menu, X } from 'lucide-react';
@@ -11,20 +10,76 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+    
     const { t, i18n } = useTranslation();
     const router = useRouter();
     const pathname = usePathname();
     const { darkMode, toggleDarkMode } = useTheme();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    // --- NEW: State for user profile data ---
+    const [userImage, setUserImage] = useState<string | null>(null);
+    const [userInitials, setUserInitials] = useState<string>('..');
+    const [isLoadingProfile, setIsLoadingProfile] = useState(true);
+
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
         setIsDropdownOpen(false);
     };
+
+    // --- NEW: useEffect to fetch user profile data ---
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const token = localStorage.getItem('token');
+            const userId = localStorage.getItem('userId');
+             const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+            if (!token || !userId || !apiBaseUrl) {
+                console.warn("User data or API config not found for profile fetching.");
+                setUserInitials('??');
+                setIsLoadingProfile(false);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/user/getOne/${userId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user profile');
+                }
+
+                const data = await response.json();
+                console.log(data)
+                // Assuming the response is { user: { image: 'url', name: 'User Name' } }
+                if (data.user) {
+                    setUserImage(data.user.image || null);
+                    
+                    // Generate initials as a fallback
+                    const name = data.user.name || '';
+                    const nameParts = name.split(' ');
+                    const initials = nameParts.length > 1
+                        ? `${nameParts[0][0]}${nameParts[nameParts.length - 1][0]}`
+                        : name.substring(0, 2);
+                    setUserInitials(initials.toUpperCase() || '??');
+                }
+
+            } catch (error) {
+                console.error("Error fetching user profile:", error);
+                setUserInitials('E'); // 'E' for Error
+            } finally {
+                setIsLoadingProfile(false);
+            }
+        };
+
+        fetchUserData();
+    }, []);
+
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -33,30 +88,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             }
         };
         document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
+        return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
     const handleLogout = () => {
-    try {
-        console.log("Performing local logout: clearing storage.");
-
-        // Remove the user's token and ID from browser storage.
-        localStorage.removeItem('token');
-        localStorage.removeItem('userId');
-
-        // Redirect the user to the login page.
-        router.push('/login');
-
-    } catch (error) {
-        // This catch block will run if localStorage is inaccessible or another error occurs.
-        console.error('An error occurred during local logout:', error);
-
-        // As a fallback, still try to navigate the user away.
-        router.push('/login');
-    }
-};
+        try {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userId');
+            router.push('/login');
+        } catch (error) {
+            console.error('An error occurred during local logout:', error);
+            router.push('/login');
+        }
+    };
 
     const headerVariants: Variants = {
         hidden: { y: -100, opacity: 0 },
@@ -146,9 +190,26 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                 )}
                             </AnimatePresence>
                         </div>
-                        <div className="flex items-center space-x-2 cursor-pointer" onClick={() => { router.push('/admin/profile'); }}>
-                            <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">DS</div>
+                        
+                        {/* --- MODIFIED: Dynamic User Profile Icon --- */}
+                        <div className="flex items-center space-x-2 cursor-pointer" onClick={() => router.push('/admin/profile')}>
+                            {isLoadingProfile ? (
+                                <div className="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-700 animate-pulse"></div>
+                            ) : userImage ? (
+                                <Image
+                                    src={userImage}
+                                    alt="User Profile"
+                                    width={32}
+                                    height={32}
+                                    className="w-10 h-10 rounded-full object-cover"
+                                />
+                            ) : (
+                                <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">
+                                    {userInitials}
+                                </div>
+                            )}
                         </div>
+
                         <button title={t('header.toggleMenuTitle')} onClick={toggleSidebar} className="p-2 rounded-md md:hidden text-gray-600 dark:text-gray-300">
                             <Menu className="w-8 h-8" />
                         </button>

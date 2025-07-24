@@ -114,11 +114,20 @@ const ScheduleCalendar = () => {
   );
 };
 
+interface UserFromAPI {
+  _id: string;
+  names?: string;
 
+}
 const CustomerDashboard = () => {
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API;
   // --- ADDED: i18n hook ---
   const { t } = useTranslation();
   const [greeting, setGreeting] = useState('');
+    const [user, setUser] = useState<UserFromAPI | null>(null);
+    
+    const [loading, setLoading] = useState(true);
+
 
   // --- MODIFIED: Use translated greetings and add 't' to dependency array ---
   useEffect(() => {
@@ -131,6 +140,45 @@ const CustomerDashboard = () => {
     setGreeting(getCurrentGreeting());
   }, [t]);
 
+
+   useEffect(() => {
+    const fetchUserData = async () => {
+      setLoading(true);
+     
+      try {
+        const userId = localStorage.getItem('userId');
+        const token = localStorage.getItem('token');
+
+    
+
+        const response = await fetch(`${API_BASE_URL}/api/user/getOne/${userId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch user profile.");
+        }
+
+        const data = await response.json();
+        const userData = data.user || data;
+        setUser(userData);
+        
+        // --- MODIFIED: Use the helper to set a safe URL ---
+      
+
+      } catch (err) {
+       console.log(err)
+       
+        
+        // Fallback to default avatar on error
+       
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [API_BASE_URL]);
   // --- MODIFIED: Use translated chart data ---
   const barData = {
     labels: t('dashboardC.chart.weekdays', { returnObjects: true }) as string[],
@@ -170,7 +218,16 @@ const CustomerDashboard = () => {
         <div className="mb-6">
         {/* --- MODIFIED: Translated heading --- */}
         <h1 className="text-3xl font-bold text-gray-800 dark:text-white flex items-center">
-            {t('dashboardC.greeting.hello')} <span className="text-2xl ml-2">👋</span>
+            {t('dashboardC.greeting.hello')}
+
+              {loading ? (
+    // If loading, show a skeleton placeholder
+    <span className="h-8 w-48 bg-gray-300 dark:bg-gray-700 rounded animate-pulse ml-2"></span>
+  ) : (
+    // If not loading, show the actual business name
+    <> {user?.names}</>
+  )}
+             <span className="text-2xl ml-2">👋</span>
         </h1>
           <motion.h1
             className="text-2xl font-bold text-gray-800 dark:text-white"

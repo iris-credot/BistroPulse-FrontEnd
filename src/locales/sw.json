@@ -172,7 +172,7 @@
   },
   "dashboard": {
     "greeting": {
-      "hello": "Habari {{name}}",
+      "hello": "Habari",
       "morning": "Habari za asubuhi",
       "afternoon": "Habari za mchana",
       "evening": "Habari za jioni"

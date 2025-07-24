@@ -37,6 +37,11 @@ ChartJS.register(
   Legend
 );
 
+interface UserFromAPI {
+  _id: string;
+  names?: string;
+
+}
 const ScheduleCalendar = () => {
   const { t } = useTranslation();
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -133,6 +138,7 @@ const ScheduleCalendar = () => {
 };
 
 export default function AdminDashboard() {
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API;
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const { t } = useTranslation();
   const [greeting, setGreeting] = useState('');
@@ -142,6 +148,9 @@ export default function AdminDashboard() {
   const [totalManagers, setTotalManagers] = useState(0);
   const [totalRestaurants, setTotalRestaurants] = useState(0);
   const [error, setError] = useState<string | null>(null);
+   const [user, setUser] = useState<UserFromAPI | null>(null);
+      
+     
 
   useEffect(() => {
     const getGreeting = () => {
@@ -191,7 +200,44 @@ setTotalManagers(ownersData.owners.length);
 
     fetchAllData();
   }, [apiBaseUrl]);
+   useEffect(() => {
+    const fetchUserData = async () => {
+      setLoading(true);
+     
+      try {
+        const userId = localStorage.getItem('userId');
+        const token = localStorage.getItem('token');
 
+    
+
+        const response = await fetch(`${API_BASE_URL}/api/user/getOne/${userId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch user profile.");
+        }
+
+        const data = await response.json();
+        const userData = data.user || data;
+        setUser(userData);
+        
+        // --- MODIFIED: Use the helper to set a safe URL ---
+      
+
+      } catch (err) {
+       console.log(err)
+       
+        
+        // Fallback to default avatar on error
+       
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [API_BASE_URL]);
   const userStats: ChartData<'bar'> = {
     labels: t('dashboard.charts.userStats.labels', { returnObjects: true }) as string[],
     datasets: [
@@ -274,7 +320,15 @@ setTotalManagers(ownersData.owners.length);
     <motion.div className="p-6 space-y-8" variants={containerVariants} initial="hidden" animate="visible">
       <div>
         <h1 className="text-3xl font-bold text-gray-800 dark:text-white flex items-center">
-          {t('dashboard.greeting.hello', { name: 'Iris' })} <span className="ml-2 text-2xl">👋</span>
+          {t('dashboard.greeting.hello')} 
+          
+               {loading ? (
+    // If loading, show a skeleton placeholder
+    <span className="h-8 w-48 bg-gray-300 dark:bg-gray-700 rounded animate-pulse ml-2"></span>
+  ) : (
+    // If not loading, show the actual business name
+    <> {user?.names}</>
+  )} <span className="ml-2 text-2xl">👋</span>
         </h1>
         <motion.h2
           className="text-2xl font-bold text-gray-800 dark:text-white mt-1"

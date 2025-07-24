@@ -17,7 +17,9 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
     const router = useRouter();
     const pathname = usePathname();
     const { darkMode, toggleDarkMode } = useTheme();
-
+  const [userImage, setUserImage] = useState<string | null>(null);
+    const [userInitials, setUserInitials] = useState<string>('..');
+    const [isLoadingProfile, setIsLoadingProfile] = useState(true);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -29,7 +31,53 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
         i18n.changeLanguage(lng);
         setIsDropdownOpen(false);
     };
+  useEffect(() => {
+        const fetchUserData = async () => {
+            const token = localStorage.getItem('token');
+            const userId = localStorage.getItem('userId');
+             const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+            if (!token || !userId || !apiBaseUrl) {
+                console.warn("User data or API config not found for profile fetching.");
+                setUserInitials('??');
+                setIsLoadingProfile(false);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/user/getOne/${userId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user profile');
+                }
+
+                const data = await response.json();
+                console.log(data)
+                // Assuming the response is { user: { image: 'url', name: 'User Name' } }
+                if (data.user) {
+                    setUserImage(data.user.image || null);
+                    
+                    // Generate initials as a fallback
+                    const name = data.user.name || '';
+                    const nameParts = name.split(' ');
+                    const initials = nameParts.length > 1
+                        ? `${nameParts[0][0]}${nameParts[nameParts.length - 1][0]}`
+                        : name.substring(0, 2);
+                    setUserInitials(initials.toUpperCase() || '??');
+                }
+
+            } catch (error) {
+                console.error("Error fetching user profile:", error);
+                setUserInitials('E'); // 'E' for Error
+            } finally {
+                setIsLoadingProfile(false);
+            }
+        };
+
+        fetchUserData();
+    }, []);
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -149,9 +197,23 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
                             </AnimatePresence>
                         </div>
 
-                        <div className="flex items-center space-x-2 cursor-pointer" onClick={() => { router.push('/customer/profile'); }}>
-                            <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">CU</div>
-                        </div>
+                        <div className="flex items-center space-x-2 cursor-pointer" onClick={() => router.push('/customer/profile')}>
+                                                   {isLoadingProfile ? (
+                                                       <div className="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-700 animate-pulse"></div>
+                                                   ) : userImage ? (
+                                                       <Image
+                                                           src={userImage}
+                                                           alt="User Profile"
+                                                           width={32}
+                                                           height={32}
+                                                           className="w-10 h-10 rounded-full object-cover"
+                                                       />
+                                                   ) : (
+                                                       <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">
+                                                           {userInitials}
+                                                       </div>
+                                                   )}
+                                               </div>
                         <button title={t('headerC.toggleMenuTitle')} onClick={toggleSidebar} className="p-2 rounded-md md:hidden text-gray-600 dark:text-gray-300">
                             <Menu className="w-8 h-8" />
                         </button>

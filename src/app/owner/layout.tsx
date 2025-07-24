@@ -1,33 +1,102 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-
 import { useRouter, usePathname } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { useTheme } from '../../../components/darkTheme';
 import { LayoutDashboard, Utensils, Users, Bell, LogOut, ShoppingCart, History, Globe, Menu, X } from 'lucide-react';
 import Image from 'next/image';
-import { useTranslation } from 'react-i18next'; // Ibyongewe
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 
 export default function OwnerLayout({ children }: { children: React.ReactNode }) {
-  const { t, i18n } = useTranslation(); // Ibyongewe
+  const { t, i18n } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
   const { darkMode, toggleDarkMode } = useTheme();
-
+  
+  // --- STATE FOR USER AND OWNER PROFILE ---
+  const [userImage, setUserImage] = useState<string | null>(null);
+  const [userInitials, setUserInitials] = useState<string>('..');
+  const [businessName, setBusinessName] = useState<string>('Loading...'); // ** NEW STATE for Business Name **
+  const [isLoadingProfile, setIsLoadingProfile] = useState(true);
+  
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Byahinduwe
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
     setIsDropdownOpen(false);
   };
+
+  // --- MODIFIED: This useEffect now fetches both user and owner data ---
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      const token = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+      if (!token || !userId || !apiBaseUrl) {
+        console.warn("User data or API config not found for profile fetching.");
+        setUserInitials('??');
+        setBusinessName('Owner Dashboard'); // Set default on failure
+        setIsLoadingProfile(false);
+        return;
+      }
+
+      try {
+        // --- Fetch 1: Get User's basic info (image, name) ---
+        const userResponse = await fetch(`${apiBaseUrl}/user/getOne/${userId}`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+
+        if (!userResponse.ok) throw new Error('Failed to fetch user profile');
+        
+        const userData = await userResponse.json();
+        if (userData.user) {
+          setUserImage(userData.user.image || null);
+          const name = userData.user.name || '';
+          const nameParts = name.split(' ');
+          const initials = nameParts.length > 1
+            ? `${nameParts[0][0]}${nameParts[nameParts.length - 1][0]}`
+            : name.substring(0, 2);
+          setUserInitials(initials.toUpperCase() || '??');
+        }
+
+        // --- Fetch 2: Get Owner's info (businessName) using the same userId ---
+        const ownerResponse = await fetch(`${apiBaseUrl}/owner/user/${userId}`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+
+        if (!ownerResponse.ok) {
+            // This is not a critical error; the user might just not be an owner.
+            console.warn("Could not fetch owner profile for this user.");
+            setBusinessName('My Dashboard'); // Set a generic default
+        } else {
+            const ownerData = await ownerResponse.json();
+            // Set the business name if it exists, otherwise provide a fallback.
+            if (ownerData.owner && ownerData.owner.businessName) {
+                setBusinessName(ownerData.owner.businessName);
+            } else {
+                setBusinessName('My Business');
+            }
+        }
+
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+        setUserInitials('E'); // 'E' for Error
+        setBusinessName('Owner Dashboard'); // Fallback name on error
+      } finally {
+        setIsLoadingProfile(false);
+      }
+    };
+
+    fetchProfileData();
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -36,30 +105,19 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
- const handleLogout = () => {
+  const handleLogout = () => {
     try {
-        console.log("Performing local logout: clearing storage.");
-
-        // Remove the user's token and ID from browser storage.
-        localStorage.removeItem('token');
-        localStorage.removeItem('userId');
-
-        // Redirect the user to the login page.
-        router.push('/login');
-
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId'); // Also remove userId for consistency
+      router.push('/login');
     } catch (error) {
-        // This catch block will run if localStorage is inaccessible or another error occurs.
-        console.error('An error occurred during local logout:', error);
-
-        // As a fallback, still try to navigate the user away.
-        router.push('/login');
+      console.error('An error occurred during local logout:', error);
+      router.push('/login');
     }
-};
+  };
 
   const headerVariants: Variants = {
     hidden: { y: -100, opacity: 0 },
@@ -82,11 +140,11 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
           <ul className="space-y-2">
             <li><a href="/owner/dashboard" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><LayoutDashboard className="w-5 h-5" /><span>{t('sidebarO.overview')}</span></a></li>
             <li><a href="/owner/customer-list" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><Users className="w-5 h-5" /><span>{t('sidebarO.customerList')}</span></a></li>
+            <li><a href="/owner/restaurants" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><Utensils className="w-5 h-5" /><span>Restaurants</span></a></li>
             <li><a href="/owner/customer-order" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><ShoppingCart className="w-5 h-5" /><span>{t('sidebarO.order')}</span></a></li>
             <li><a href="/owner/food-menu" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><Utensils className="w-5 h-5" /><span>{t('sidebarO.foodMenu')}</span></a></li>
-            <li><a href="/owner/order-history" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><History className="w-5 h-5" /><span>{t('sidebarO.orderHistory')}</span></a></li>
             <li><a href="/owner/settings" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><History className="w-5 h-5" /><span>{t('sidebarO.settings')}</span></a></li>
-             <li><a href="/owner/notifications" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><Bell className="w-5 h-5" /><span>{t('sidebarO.notifications')}</span></a></li>
+            <li><a href="/owner/notifications" onClick={() => isSidebarOpen && toggleSidebar()} className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white hover:text-black hover:scale-105 active:scale-100"><Bell className="w-5 h-5" /><span>{t('sidebarO.notifications')}</span></a></li>
           </ul>
         </nav>
       </div>
@@ -119,7 +177,8 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
         <div className="flex items-center justify-between px-4 sm:px-6 py-4">
           <div className="flex items-center space-x-2">
             <Image src="/icon.png" alt="BistroPulse Logo" width={32} height={32} priority />
-            <h1 className="text-xl ml-2 font-bold text-blue-500">{t('headerO.brand')}</h1>
+            {/* ** MODIFIED: Display dynamic business name ** */}
+            <h1 className="text-xl ml-2 font-bold text-blue-500">{businessName}</h1>
           </div>
           <div className="flex items-center space-x-4">
             <div className="relative" ref={dropdownRef}>
@@ -148,7 +207,21 @@ export default function OwnerLayout({ children }: { children: React.ReactNode })
               </AnimatePresence>
             </div>
             <div className="flex items-center space-x-2 cursor-pointer" onClick={() => router.push('/owner/profile')}>
-              <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">DS</div>
+              {isLoadingProfile ? (
+                <div className="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-700 animate-pulse"></div>
+              ) : userImage ? (
+                <Image
+                  src={userImage}
+                  alt="User Profile"
+                  width={32}
+                  height={32}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">
+                  {userInitials}
+                </div>
+              )}
             </div>
             <button title={t('headerO.toggleMenuTitle')} onClick={toggleSidebar} className="p-2 rounded-md md:hidden text-gray-600 dark:text-gray-300">
               <Menu className="w-8 h-8" />

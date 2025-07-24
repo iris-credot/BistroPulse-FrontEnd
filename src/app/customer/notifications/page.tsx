@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Bell, CheckCircle, AlertTriangle, Info, Store, BookOpen } from 'lucide-react';
+import { Bell, CheckCircle,  Info, Store, BookOpen } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import toast from 'react-hot-toast';
 import LoadingSpinner from 'components/loadingSpinner';
+
 // --- TYPE DEFINITIONS ---
 
 // Represents the raw data from the API
@@ -17,7 +18,7 @@ interface ApiNotification {
 }
 
 // Extended type for client-side state management (includes read/archived status)
-type NotificationCategory = 'restaurant' | 'menu' | 'system' | 'update' | 'message' | 'alert' | 'unknown';
+type NotificationCategory = 'Restaurant' | 'Menu' | 'Order' | 'Notification' ;
 
 interface Notification {
   id: string;
@@ -44,18 +45,15 @@ const generateTitle = (type: string): string => {
 
 const NotificationIcon = ({ category }: { category: NotificationCategory }) => {
   switch (category) {
-    case 'restaurant':
+    case 'Restaurant':
       return <Store className="text-purple-500" />;
-    case 'menu':
+    case 'Menu':
         return <BookOpen className="text-indigo-500" />;
-    case 'system':
+    case 'Order':
       return <CheckCircle className="text-green-500" />;
-    case 'update':
+    case 'Notification':
       return <Info className="text-blue-500" />;
-    case 'message':
-      return <Bell className="text-yellow-500" />;
-    case 'alert':
-      return <AlertTriangle className="text-red-500" />;
+   
     default:
       return <Bell />;
   }
@@ -116,6 +114,10 @@ const NotificationsPage = () => {
       setError(null);
       
       const token = localStorage.getItem('token');
+      // Retrieve the user ID from local storage.
+      // IMPORTANT: Replace 'userId' with the actual key you use to store the ID.
+      const userId = localStorage.getItem('userId');
+
       const headers = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -125,6 +127,11 @@ const NotificationsPage = () => {
         `${apiBaseUrl}/notify/getByRest`,
         `${apiBaseUrl}/notify/getByMenu`
       ];
+
+      // If an ID is found in local storage, add the specific user notification endpoint.
+      if (userId) {
+        endpoints.push(`${apiBaseUrl}/notify/get/${userId}`);
+      }
 
       try {
         // Fetch from all endpoints concurrently
@@ -174,7 +181,7 @@ const NotificationsPage = () => {
     };
 
     fetchNotifications();
-  }, [apiBaseUrl]); // Empty dependency array ensures this runs once on mount
+  }, [apiBaseUrl]); // Dependency array ensures this runs once when the component mounts
 
   const handleMarkAsRead = (id: string) => {
     setNotifications(

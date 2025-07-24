@@ -76,7 +76,7 @@ const CustomerOrder: NextPage = () => {
   
     const [searchTerm, setSearchTerm] = useState('');
 
-    useEffect(() => {
+      useEffect(() => {
         const fetchOrders = async () => {
             setIsLoading(true);
             setError(null);
@@ -109,27 +109,33 @@ const CustomerOrder: NextPage = () => {
 
                 const data: { orders: ApiOrder[] } = await response.json();
                 
-                const mappedOrders: Order[] = data.orders.map((apiOrder: ApiOrder) => ({
-                    id: apiOrder._id,
-                    date: new Date(apiOrder.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                    }),
-                    customer: {
-                        name: apiOrder.restaurant?.name || 'Restaurant N/A',
-                        avatar: apiOrder.restaurant?.image || 'https://i.pravatar.cc/40',
-                    },
-                    // --- THE FIX: Use the new calculation function for the price ---
-                    price: calculateOrderTotal(apiOrder.items, apiOrder.totalPrice),
-                    status: apiOrder.status,
+                // --- THE FIX: Sort the orders by date before mapping ---
+                const mappedOrders: Order[] = data.orders
+                    .sort((a: ApiOrder, b: ApiOrder) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                    .map((apiOrder: ApiOrder) => ({
+                        id: apiOrder._id,
+                        date: new Date(apiOrder.createdAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                        }),
+                        customer: {
+                            name: apiOrder.restaurant?.name || 'Restaurant N/A',
+                            avatar: apiOrder.restaurant?.image || 'https://i.pravatar.cc/40',
+                        },
+                        price: calculateOrderTotal(apiOrder.items, apiOrder.totalPrice),
+                        status: apiOrder.status,
                 }));
 
                 setAllOrders(mappedOrders);
                 setFilteredOrders(mappedOrders);
 
             } catch (err) {
-                
+                if (err instanceof Error) {
+                    setError(err.message);
+                } else {
+                    setError("An unknown error occurred.");
+                }
                 console.error("Fetch orders error:", err);
             } finally {
                 setIsLoading(false);
