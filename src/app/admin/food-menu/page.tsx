@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter } from "next/navigation";
 import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
-import { Power, Search, Filter, MoreVertical, Eye, Edit, Trash2 } from 'lucide-react';
+import { Search, Filter, MoreVertical, Eye, Edit, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import LoadingSpinner from 'components/loadingSpinner';
 // --- CHANGE 1: Updated the FoodItem interface to match the API response ---
@@ -148,14 +148,7 @@ const FoodManagement = () => {
   };
 
   // --- CHANGE 3: Updated toggleStatus to flip the 'isAvailable' boolean ---
-  const toggleStatus = (id: string) => {
-    setFoodItems(prevItems => prevItems.map(item =>
-      item._id === id
-        ? { ...item, isAvailable: !item.isAvailable }
-        : item
-    ));
-    setActiveDropdown(null);
-  };
+
   
   // Note: A stray setActiveDropdown(null) call was removed from here.
 
@@ -285,12 +278,10 @@ const FoodManagement = () => {
                         </Button>
                         {activeDropdown === item._id && (
                           <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 rounded-md shadow-lg border border-gray-200 dark:border-gray-600 z-10">
-                            <Button onClick={() => router.push(`/admin/view-menu/${item._id}`)} className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center gap-2"><Eye className="w-4 h-4" /> View</Button>
-                            <Button onClick={() => router.push(`/admin/edit-menu/${item._id}`)} className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center gap-2"><Edit className="w-4 h-4" /> Edit</Button>
+                            <Button onClick={() => router.push(`/admin/view-menu/${item._id}`)} className="w-full px-4 py-2 text-sm text-left text-white dark:text-black hover:bg-gray-700 dark:hover:bg-gray-600 flex items-center gap-2"><Eye className="w-4 h-4" /> View</Button>
+                            <Button onClick={() => router.push(`/admin/edit-menu/${item._id}`)} className="w-full px-4 py-2 text-sm text-left text-white  dark:text-black hover:bg-gray-700 dark:hover:bg-gray-600 flex items-center gap-2"><Edit className="w-4 h-4" /> Edit</Button>
                             {/* --- CHANGE 6: Updated Activate/Deactivate button to use 'isAvailable' --- */}
-                            <Button onClick={() => toggleStatus(item._id)} className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center gap-2">
-                              <Power className="w-4 h-4" /> {item.isAvailable ? 'Deactivate' : 'Activate'}
-                            </Button>
+                           
                             <Button onClick={() => deleteItem(item._id)} className="w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-red-100 dark:hover:bg-red-900 dark:text-red-400 flex items-center gap-2"><Trash2 className="w-4 h-4" /> Delete</Button>
                           </div>
                         )}

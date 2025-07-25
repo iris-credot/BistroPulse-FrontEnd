@@ -274,7 +274,7 @@ const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
                         </Button>
                         {activeDropdown === item._id && (
                           <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 rounded-md shadow-lg border border-gray-200 dark:border-gray-600 z-10">
-                            <Button onClick={() => router.push(`/customer/view-menu/${item._id}`)} className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center gap-2"><Eye className="w-4 h-4" /> View</Button>
+                            <Button onClick={() => router.push(`/customer/view-menu/${item._id}`)} className="w-full px-4 py-2 text-sm text-left text-white dark:text-black hover:bg-gray-700 dark:hover:bg-gray-600 flex items-center gap-2"><Eye className="w-4 h-4" /> View</Button>
 
                           </div>
                         )}

@@ -331,8 +331,8 @@ const CustomerList = () => {
                                 <Button onClick={() => toggleDropdown(customer.id)} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"><MoreVertical className="w-5 h-5 text-gray-500" /></Button>
                                 {activeDropdown === customer.id && (
                                   <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg border border-gray-200 z-10 dark:bg-gray-800 dark:border-gray-700">
-                                    <Button onClick={() => handleViewProfile(customer.id)} className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 flex items-center gap-2 dark:text-gray-200 dark:hover:bg-gray-700"><Eye className="w-4 h-4" /> View</Button>
-                                    <Button onClick={() => handleEditCustomer(customer.id)} className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 flex items-center gap-2 dark:text-gray-200 dark:hover:bg-gray-700"><Edit className="w-4 h-4" /> Edit</Button>
+                                    <Button onClick={() => handleViewProfile(customer.id)} className="w-full px-4 py-2 text-sm text-left hover:bg-gray-700 dark:hover:bg-gray-600flex items-center gap-2 dark:text-black dark:hover:bg-gray-700"><Eye className="w-4 h-4" /> View</Button>
+                                    <Button onClick={() => handleEditCustomer(customer.id)} className="w-full px-4 py-2 text-sm text-left hover:bg-gray-700  flex items-center gap-2 dark:text-black dark:hover:bg-gray-700"><Edit className="w-4 h-4" /> Edit</Button>
                                     <Button onClick={() => handleDeleteCustomer(customer.id)} className="w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-red-100 flex items-center gap-2 dark:hover:bg-red-900/50"><UserMinus className="w-4 h-4" /> Delete</Button>
                                   </div>
                                 )}

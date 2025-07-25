@@ -1,204 +1,192 @@
 "use client";
 
-import { MapPin, Plus, Edit, Trash2, Loader2 } from 'lucide-react';
-import Link from 'next/link';
-import { Button } from '../../../../components/Button';
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import LoadingSpinner from "../../../../components/loadingSpinner";
+import { MapPin, Phone, Save } from 'lucide-react'; // Relevant icons
 
-// --- NEW: Interface for an address coming from the API ---
-interface Address {
+// Define the shape of the user data (can be simplified if only address is needed)
+interface UserFromAPI {
   _id: string;
-  title: string;
-  address: string;
-  isDefault?: boolean;
+  address?: string;
+  phoneNumber?: string;
 }
 
-export default function MyAddresses() {
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const [addresses, setAddresses] = useState<Address[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+const API_BASE_URL = process.env.NEXT_PUBLIC_API;
+
+export default function AddressSettingsPage() {
+  const router = useRouter();
+  
+  // Component state, focused on address details
+  const [user, setUser] = useState<UserFromAPI | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Effect to fetch initial user data
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const userId = localStorage.getItem('userId');
+        const token = localStorage.getItem('token');
 
-  // --- NEW: Function to fetch addresses from the API ---
-  const fetchAddresses = async () => {
+        if (!userId || !token) {
+          toast.error("Authentication required. Redirecting to login.");
+          router.push('/login');
+          return;
+        }
+
+        // Fetch only the data needed for this page
+        const response = await fetch(`${API_BASE_URL}/api/user/getOne/${userId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch your information.");
+        }
+
+        const data = await response.json();
+        setUser(data.user || data);
+        
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "An unknown error occurred.";
+        setError(message);
+        toast.error(message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [router]);
+
+  // Handler for input changes (can handle both input and textarea)
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    if (user) {
+      setUser({ ...user, [name]: value });
+    }
+  };
+
+  // Handler for form submission
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!user) return;
+
+    setSaving(true);
+    const toastId = toast.loading("Updating your address...");
+
+    // We only need to send the fields that can be updated on this page
+    const payload = {
+      address: user.address || '',
+      phoneNumber: user.phoneNumber || ''
+    };
+    
     try {
-      const storedUser = localStorage.getItem('user');
       const token = localStorage.getItem('token');
-      if (!storedUser || !token) {
-        throw new Error("Authentication required. Please log in.");
-      }
-      const user = JSON.parse(storedUser);
-      const userId = user?._id;
-      if (!userId) {
-        throw new Error("User ID not found.");
-      }
+      if (!user._id) throw new Error("User ID is missing.");
 
-      const response = await fetch(`${apiBaseUrl}/user/getOne/${userId}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
+      const response = await fetch(`${API_BASE_URL}/api/user/profile/${user._id}`, {
+        method: 'PUT',
+        headers: { 
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json' // Use JSON since we are not sending files
+        },
+        body: JSON.stringify(payload), // Send as a JSON string
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch addresses.');
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update address.");
       }
       
-      const data = await response.json();
-      console.log(data);
-      // Assuming the API returns a user object with an 'addresses' array
-      setAddresses(data.user.addresses || []);
+      toast.success("Address updated successfully!", { id: toastId });
 
     } catch (err) {
-      console.log(err);
-        setError("Order ID not found in URL.");
-
-
+      const message = err instanceof Error ? err.message : "An error occurred.";
+      toast.error(message, { id: toastId });
     } finally {
-      setIsLoading(false);
+      setSaving(false);
     }
   };
 
-  // --- NEW: Fetch addresses when the component mounts ---
-  useEffect(() => {
-    fetchAddresses();
-  }, []);
+  // --- RENDER LOGIC ---
 
-  // --- NEW: Function to handle deleting an address ---
-  const handleDelete = async (addressId: string) => {
-    if (!confirm('Are you sure you want to delete this address?')) return;
-
-    try {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`${apiBaseUrl}/user/address/${addressId}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-
-        if (!response.ok) throw new Error('Failed to delete address.');
-        
-        // Refresh the list after deleting
-        fetchAddresses(); 
-    } catch (err) {
-        console.log(err)
-    }
-  };
-
-  // --- NEW: Function to set an address as default ---
-  const handleSetDefault = async (addressId: string) => {
-    try {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`${apiBaseUrl}/user/address/default/${addressId}`, {
-            method: 'PUT',
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-
-        if (!response.ok) throw new Error('Failed to set as default.');
-        
-        // Refresh the list to show the change
-        fetchAddresses();
-    } catch (err) {
-       console.log(err)
-    }
-  };
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-40">
-        <Loader2 className="animate-spin text-blue-500" size={32} />
-        <span className="ml-2 dark:text-white">Loading addresses...</span>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center py-12 border-2 border-dashed border-red-400 bg-red-50 dark:bg-red-900/20 rounded-lg">
-        <h3 className="text-lg font-medium text-red-700 dark:text-red-300">Error</h3>
-        <p className="text-red-600 dark:text-red-400 mt-1">{error}</p>
-      </div>
-    );
+  if (loading) {
+    return <div className="flex justify-center items-center h-screen bg-gray-50 dark:bg-gray-900"><LoadingSpinner /></div>;
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">My Addresses</h1>
-        <Link 
-          href="/customer/add-address" 
-          className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
-        >
-          <Plus size={18} />
-          Add New Address
-        </Link>
-      </div>
-
-      {addresses.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {addresses.map((address) => (
-            <div 
-              key={address._id} 
-              className={`border rounded-lg p-4 flex flex-col justify-between ${
-                address.isDefault 
-                  ? 'border-blue-500 bg-blue-50 dark:bg-gray-800 dark:border-blue-500' 
-                  : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'
-              }`}
-            >
-              <div>
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-blue-100 dark:bg-blue-900/50 rounded-full mt-1">
-                    <MapPin className="text-blue-500 dark:text-blue-400" size={18} />
-                  </div>
-                  
-                  <div className="flex-1">
-                    <div className="flex justify-between items-start">
-                      <h3 className="font-medium text-gray-800 dark:text-white">{address.title}</h3>
-                      {address.isDefault && (
-                        <span className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 text-xs px-2 py-1 rounded-full">
-                          Default
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-gray-600 dark:text-gray-400 mt-1 text-sm">{address.address}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex gap-3 mt-4 pt-4 border-t dark:border-gray-700">
-                <Link
-                  href={`/customer/edit-address/${address._id}`}
-                  className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400"
-                >
-                  <Edit size={16} />
-                  Edit
-                </Link>
-
-                {!address.isDefault && (
-                  <Button onClick={() => handleDelete(address._id)} className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400">
-                    <Trash2 size={16} />
-                    Delete
-                  </Button>
-                )}
-                {!address.isDefault && (
-                  <Button onClick={() => handleSetDefault(address._id)} className="ml-auto text-sm text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
-                    Set as Default
-                  </Button>
-                )}
-              </div>
+    <div className="flex flex-col items-center justify-center max-h-screen bg-gray-50 dark:bg-gray-900 p-4">
+      <div className="w-full max-w-2xl">
+        <header className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-20 h-20 mb-4 bg-blue-100 dark:bg-blue-900/50 rounded-full">
+                <MapPin className="w-10 h-10 text-blue-600 dark:text-blue-400"/>
             </div>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-12 border-2 border-dashed dark:border-gray-700 rounded-lg">
-          <MapPin size={48} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
-          <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">No saved addresses</h3>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">Add your first address to get started</p>
-          <Link 
-            href="/customer/add-address" 
-            className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg mt-4 transition-colors"
-          >
-            <Plus size={18} />
-            Add Address
-          </Link>
-        </div>
-      )}
+            <h1 className="text-4xl font-bold text-gray-800 dark:text-white">My Address</h1>
+            <p className="text-lg text-gray-500 dark:text-gray-400 mt-2">Update your delivery and contact information.</p>
+        </header>
+
+        {error && !user ? (
+            <div className="text-center p-4 text-red-600 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                <p>Could not load your information. Please try again later.</p>
+                <p className="text-sm mt-1">({error})</p>
+            </div>
+        ) : (
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Address Input */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Delivery Address</label>
+                    <div className="relative">
+                        <MapPin className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                        <textarea
+                            title="Address"
+                            name="address"
+                            value={user?.address || ''}
+                            onChange={handleInputChange}
+                            rows={3}
+                            className="w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 transition"
+                            placeholder="e.g., 123 Flavor Street, Foodie City, 12345"
+                        />
+                    </div>
+                </div>
+
+                {/* Phone Number Input */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Contact Number</label>
+                     <div className="relative">
+                        <Phone className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                        <input
+                            title="Phone Number"
+                            type="tel"
+                            name="phoneNumber"
+                            value={user?.phoneNumber || ''}
+                            onChange={handleInputChange}
+                            className="w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 transition"
+                            placeholder="e.g., (555) 123-4567"
+                        />
+                    </div>
+                </div>
+
+                {/* Submit Button */}
+                <div className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <button
+                        type="submit"
+                        className="flex items-center justify-center w-full sm:w-auto bg-blue-600 text-white rounded-lg px-6 py-3 font-semibold hover:bg-blue-700 disabled:bg-blue-400 transition-all duration-300 ease-in-out shadow-md hover:shadow-lg disabled:cursor-not-allowed"
+                        disabled={saving || !user}
+                    >
+                        <Save className="w-5 h-5 mr-2" />
+                        {saving ? 'Saving...' : 'Save Changes'}
+                    </button>
+                </div>
+                </form>
+            </div>
+        )}
+      </div>
     </div>
   );
 }

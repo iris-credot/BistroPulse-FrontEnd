@@ -228,7 +228,7 @@ const CustomerList = () => {
                     <Button onClick={() => toggleDropdown(customer._id)} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-full"><MoreVertical className="w-5 h-5 text-gray-500 dark:text-gray-300" /></Button>
                     {activeDropdown === customer._id && (
                       <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-10">
-                        <Button onClick={() => handleViewProfile(customer._id)} className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center gap-2"><Eye className="w-4 h-4" /> View</Button>
+                        <Button onClick={() => handleViewProfile(customer._id)} className="w-full text-left px-4 py-2 text-sm text-white dark:text-black hover:bg-gray-700 dark:hover:bg-gray-600 flex items-center gap-2"><Eye className="w-4 h-4" /> View</Button>
                        
                       </div>
                     )}

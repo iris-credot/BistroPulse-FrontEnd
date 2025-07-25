@@ -227,8 +227,8 @@ console.log(ownerId)
                     </Button>
                     {activeDropdown === rest.id && (
                       <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-10">
-                        <Button onClick={() => handleView(rest.id)} className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 flex items-center gap-2 dark:text-gray-200 dark:hover:bg-gray-700"><Eye className="w-4 h-4" /> View</Button>
-                        <Button onClick={() => handleEdit(rest.id)} className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 flex items-center gap-2 dark:text-gray-200 dark:hover:bg-gray-700"><Edit className="w-4 h-4" /> Edit</Button>
+                        <Button onClick={() => handleView(rest.id)} className="w-full px-4 py-2 text-sm text-left text-white hover:bg-gray-700 flex items-center gap-2 dark:text-black dark:hover:bg-gray-700"><Eye className="w-4 h-4" /> View</Button>
+                        <Button onClick={() => handleEdit(rest.id)} className="w-full px-4 py-2 text-sm text-left  hover:bg-gray-700 flex items-center gap-2 dark:text-black text-white dark:hover:bg-gray-700"><Edit className="w-4 h-4" /> Edit</Button>
                         <Button onClick={() => handleDelete(rest.id)} className="w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-red-100 flex items-center gap-2 dark:hover:bg-red-900/40"><Trash2 className="w-4 h-4" /> Delete</Button>
                       </div>
                     )}

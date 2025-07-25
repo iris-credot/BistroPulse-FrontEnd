@@ -346,9 +346,9 @@ const OrderManagement = () => {
                         </Button>
                         {activeDropdown === order._id && (
                           <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 rounded-md shadow-lg border border-gray-200 dark:border-gray-600 z-10">
-                            <Button onClick={() => router.push(`/owner/view-order/${order._id}`)} className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center gap-2"><Eye className="w-4 h-4" /> View Details</Button>
-                            <Button onClick={() => handleUpdateStatus(order._id, 'Confirmed')} className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center gap-2"><Edit className="w-4 h-4" /> Confirm Order</Button>
-                            <Button onClick={() => handleUpdateStatus(order._id, 'Completed')} className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center gap-2">
+                            <Button onClick={() => router.push(`/owner/view-order/${order._id}`)} className="w-full px-4 py-2 text-sm text-left text-white hover:text-black dark:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2"><Eye className="w-4 h-4" /> View Details</Button>
+                            <Button onClick={() => handleUpdateStatus(order._id, 'Confirmed')} className="w-full px-4 py-2 text-sm text-left text-white hover:text-black dark:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 flex dark:hover:text-white items-center gap-2"><Edit className="w-4 h-4" /> Confirm Order</Button>
+                            <Button onClick={() => handleUpdateStatus(order._id, 'Completed')} className="w-full px-4 py-2 text-sm text-left text-white hover:text-black dark:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 flex dark:hover:text-white items-center gap-2">
                               <CheckCircle className="w-4 h-4" /> Mark as Completed
                             </Button>
                              <Button onClick={() => handleUpdateStatus(order._id, 'Cancelled')} className="w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/40 flex items-center gap-2">

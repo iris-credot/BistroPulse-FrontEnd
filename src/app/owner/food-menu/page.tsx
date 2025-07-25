@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter } from "next/navigation";
 import { Button } from '../../../../components/Button';
 import { Input } from '../../../../components/Input';
-import { Power, Search, Filter, MoreVertical, Eye, Edit, Trash2 } from 'lucide-react';
+import {  Search, Filter, MoreVertical, Eye,Plus, Edit, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import LoadingSpinner from 'components/loadingSpinner';
 
@@ -171,7 +171,7 @@ const FoodManagement = () => {
     };
     fetchMenu();
   }, [selectedRestaurantId, apiBaseUrl]);
-
+ const handleAdd = () => router.push('/owner/add-food-menu');
   // Filtering logic for food items
   const filteredItems = useMemo(() => {
     return foodItems.filter(item => {
@@ -196,21 +196,54 @@ const FoodManagement = () => {
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
 
   // Mock delete item function
-  const deleteItem = (id: string) => {
-    setFoodItems(prevItems => prevItems.filter(item => item._id !== id));
-    toast.success("Item deleted successfully (mock)");
+const deleteItem = async (id: string) => {
+  // 1. Confirm with the user before deleting
+  if (!window.confirm("Are you sure you want to delete this menu item?")) {
+    return;
+  }
+
+  // 2. Optimistic UI: Back up the current state and remove the item immediately
+  const originalItems = [...foodItems];
+  setFoodItems(prevItems => prevItems.filter(item => item._id !== id));
+
+  try {
+    // 3. Get the authentication token
+    const token = localStorage.getItem('token');
+    if (!token) {
+      toast.error("Authentication failed. Please log in again.");
+      throw new Error("No token found");
+    }
+
+    // 4. Make the API call to the delete endpoint
+    const response = await fetch(`${apiBaseUrl}/menu/${id}`, { // Assuming apiBaseUrl is defined in your component
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    // 5. Handle non-successful responses
+    if (!response.ok) {
+      // If the API call fails, the error will be caught below
+      throw new Error('Failed to delete the item from the server.');
+    }
+    
+    // 6. On successful deletion, show a success message
+    toast.success("Item deleted successfully.");
+
+  } catch (error) {
+    // 7. If any error occurs, show an error message and revert the UI change
+    toast.error("Failed to delete item. Please try again.");
+    console.error("Delete error:", error);
+    setFoodItems(originalItems); // Restore the original list
+  } finally {
+    // 8. Close the dropdown menu regardless of success or failure
     setActiveDropdown(null);
-  };
+  }
+};
 
   // Toggle item availability status
-  const toggleStatus = (id: string) => {
-    setFoodItems(prevItems => prevItems.map(item =>
-      item._id === id
-        ? { ...item, isAvailable: !item.isAvailable }
-        : item
-    ));
-    setActiveDropdown(null);
-  };
+  
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md overflow-hidden dark:bg-gray-800 min-h-screen">
@@ -264,6 +297,10 @@ const FoodManagement = () => {
                   <Filter className="w-5 h-5" />
                   <span className="hidden sm:inline">Filter</span>
                 </Button>
+                 <Button onClick={handleAdd} className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                            <Plus className="w-5 h-5" />
+                            <span className="hidden sm:inline">Add Menu</span>
+                          </Button>
               </div>
             </div>
           </div>
@@ -290,6 +327,7 @@ const FoodManagement = () => {
                 <div className="flex items-end gap-2">
                   <Button onClick={() => setFilters({ category: "", status: "" })} className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md w-full">Clear</Button>
                 </div>
+                
               </div>
             </div>
           )}
@@ -336,11 +374,9 @@ const FoodManagement = () => {
                         </Button>
                         {activeDropdown === item._id && (
                           <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 rounded-md shadow-lg border border-gray-200 dark:border-gray-600 z-10">
-                            <Button onClick={() => router.push(`/owner/view-menu/${item._id}`)} className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center gap-2"><Eye className="w-4 h-4" /> View</Button>
-                            <Button onClick={() => router.push(`/owner/edit-menu/${item._id}`)} className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center gap-2"><Edit className="w-4 h-4" /> Edit</Button>
-                            <Button onClick={() => toggleStatus(item._id)} className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center gap-2">
-                              <Power className="w-4 h-4" /> {item.isAvailable ? 'Deactivate' : 'Activate'}
-                            </Button>
+                            <Button onClick={() => router.push(`/owner/view-menu/${item._id}`)} className="w-full px-4 py-2 text-sm text-left text-white dark:text-black hover:bg-gray-700 dark:hover:bg-gray-600 flex items-center gap-2"><Eye className="w-4 h-4" /> View</Button>
+                            <Button onClick={() => router.push(`/owner/edit-menu/${item._id}`)} className="w-full px-4 py-2 text-sm text-left text-white dark:text-black hover:bg-gray-700 dark:hover:bg-gray-600 flex items-center gap-2"><Edit className="w-4 h-4" /> Edit</Button>
+                           
                             <Button onClick={() => deleteItem(item._id)} className="w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-red-100 dark:hover:bg-red-900 dark:text-red-400 flex items-center gap-2"><Trash2 className="w-4 h-4" /> Delete</Button>
                           </div>
                         )}
