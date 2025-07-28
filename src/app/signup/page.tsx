@@ -68,7 +68,7 @@ if (result?.user?._id) {
           </div>
         </div>
 
-        <h2 className="text-2xl font-bold text-center text-gray-800">Sign Up</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-800">Create new account</h2>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
