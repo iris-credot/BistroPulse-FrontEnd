@@ -109,7 +109,7 @@ export default function ResetPasswordForm() {
               type="email"
               placeholder="Enter your email"
               {...register('email')}
-              className="pl-10 pr-3 py-2 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="pl-10 pr-3 py-2 border rounded w-full text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -123,7 +123,7 @@ export default function ResetPasswordForm() {
               type="password"
               placeholder="New Password"
               {...register('password')}
-              className="pl-10 pr-3 py-2 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="pl-10 pr-3 py-2 border rounded w-full text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password.message}</p>
@@ -137,7 +137,7 @@ export default function ResetPasswordForm() {
               type="password"
               placeholder="Confirm Password"
               {...register('confirmPassword')}
-              className="pl-10 pr-3 py-2 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="pl-10 pr-3 py-2 border rounded w-full text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.confirmPassword && (
               <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>

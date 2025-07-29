@@ -4,12 +4,16 @@ import { FaKey, FaEye, FaEyeSlash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '../../../../components/loadingSpinner'; // Assuming you have a loading spinner component
 import PasswordStrengthIndicator from '../../../../components/passwordStrength'; // A new component for strength
+ // For reading the auth token from cookies
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API;
 
 export default function UpdatePasswordPage() {
+  // State to hold the values of the input fields
   const [formData, setFormData] = useState({
     current_password: '',
     new_password: '',
-    confirm_password: '',
+    confirm_password: '', // State for the confirmation field
   });
 
   const [loading, setLoading] = useState(false);
@@ -32,21 +36,50 @@ export default function UpdatePasswordPage() {
     e.preventDefault();
     setLoading(true);
 
+    // --- Validation for confirm_password ---
+    // This check happens before we call the API.
     if (formData.new_password !== formData.confirm_password) {
       toast.error('New passwords do not match.');
+      setLoading(false);
+      return; // Stop the function if passwords don't match
+    }
+
+    const token = localStorage.getItem('token'); // Retrieve the auth token from cookies
+
+    if (!token) {
+      toast.error('Authentication error. Please log in again.');
       setLoading(false);
       return;
     }
 
-    // Replace with your actual API endpoint and logic
+    // This is the data that will be sent to the backend.
+    // Notice `confirm_password` is not included.
+    const body = {
+        currentPassword: formData.current_password,
+        newPassword: formData.new_password,
+    };
+
     try {
-      // Mock API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const response = await fetch(`${API_BASE_URL}/api/user/password`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          // Send the token for authentication
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(body),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to update password.');
+      }
       
-      console.log('Password updated successfully with data:', formData);
-      toast.success('Password updated successfully!');
+      toast.success(result.message || 'Password updated successfully!');
+      toast.success("Password updated successfully!");
       
-      // Clear form data after successful submission
+      // Clear all form fields after successful submission
       setFormData({
         current_password: '',
         new_password: '',
@@ -54,7 +87,7 @@ export default function UpdatePasswordPage() {
       });
 
     } catch (error) {
-      toast.error('Failed to update password. Please try again.');
+      toast.error('An unexpected error occurred. Please try again.');
       console.error(error);
     } finally {
       setLoading(false);
@@ -64,8 +97,9 @@ export default function UpdatePasswordPage() {
   return (
     <div className="max-h-screen p-4 sm:p-6 lg:p-8 bg-gray-50 dark:bg-transparent">
       <div className="max-w-md mx-auto bg-white shadow-lg rounded-xl p-6 space-y-6 dark:bg-gray-700">
-        <h2 className="text-2xl font-bold text-center text-indigo-700 dark:text-white">Update Password</h2>
+        <h2 className="text-2xl font-bold text-center text-blue-500 dark:text-white">Update Password</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Current Password Input */}
           <div>
             <label className="block text-gray-700 dark:text-white">Current Password</label>
             <div className="relative">
@@ -89,6 +123,7 @@ export default function UpdatePasswordPage() {
             </div>
           </div>
 
+          {/* New Password Input */}
           <div>
             <label className="block text-gray-700 dark:text-white">New Password</label>
             <div className="relative">
@@ -113,6 +148,8 @@ export default function UpdatePasswordPage() {
             <PasswordStrengthIndicator password={formData.new_password} />
           </div>
 
+          {/* --- Confirm New Password Input --- */}
+          {/* This input field is already here and fully functional. */}
           <div>
             <label className="block text-gray-700 dark:text-white">Confirm New Password</label>
             <div className="relative">
@@ -139,7 +176,7 @@ export default function UpdatePasswordPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex justify-center items-center bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
+            className="w-full flex justify-center items-center bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-900 disabled:opacity-50"
           >
             {loading ? <LoadingSpinner /> : 'Update Password'}
           </button>

@@ -196,9 +196,9 @@
     },
     "charts": {
       "userStats": {
-        "title": "User Statistics",
+        "title": "Daily Statistics",
         "label": "Count",
-        "labels": ["Clients", "Restaurants", "Orders"]
+        "labels": ["Restaurants", "Users", "Managers"]
       },
       "restaurantStatus": {
         "title": "Restaurant Status",
@@ -217,7 +217,7 @@
   },
   "dashboardC": {
     "greeting": {
-      "hello": "Hello Client",
+      "hello": "Hello ",
       "morning": "Good morning",
       "afternoon": "Good afternoon",
       "evening": "Good evening"
@@ -245,7 +245,7 @@
   "good_morning": "Good morning",
   "good_afternoon": "Good afternoon",
   "good_evening": "Good evening",
-  "hello_boutique": "Hello Boutique",
+  "hello_boutique": "Hello ",
   "new_users": "Total Clients",
   "update": "Update",
   "total_clients": "Total Restaurants",

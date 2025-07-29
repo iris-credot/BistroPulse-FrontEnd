@@ -244,7 +244,7 @@ export default function SettingsPage() {
       </div>
       
       <div className="w-full max-w-4xl mt-4">
-         <button onClick={() => router.push('/admin/update-password')} type="button" className="bg-gray-600 text-white rounded-lg px-4 py-2 hover:bg-gray-700 w-full md:w-auto">
+         <button onClick={() => router.push('/customer/update-password')} type="button" className="bg-gray-600 text-white rounded-lg px-4 py-2 hover:bg-gray-700 w-full md:w-auto">
             Change Password
         </button>
       </div>

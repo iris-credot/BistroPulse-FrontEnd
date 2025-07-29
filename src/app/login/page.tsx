@@ -105,7 +105,7 @@ export default function LoginForm() {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <h2 className="text-xl font-bold text-gray-800 text-center">Sign in to your account</h2>
+          <h2 className="text-xl font-bold text-gray-800 text-center">Sign into your account</h2>
 
           <div className="relative">
             <FaEnvelope className="absolute left-3 top-3 text-blue-500" />

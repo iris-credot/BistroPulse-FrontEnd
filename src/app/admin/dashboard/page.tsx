@@ -148,9 +148,16 @@ export default function AdminDashboard() {
   const [totalManagers, setTotalManagers] = useState(0);
   const [totalRestaurants, setTotalRestaurants] = useState(0);
   const [error, setError] = useState<string | null>(null);
-   const [user, setUser] = useState<UserFromAPI | null>(null);
-      
-     
+  const [user, setUser] = useState<UserFromAPI | null>(null);
+  const [userStatsData, setUserStatsData] = useState<ChartData<'bar'>>({
+    labels: [],
+    datasets: [],
+  });
+   const [restaurantStatusData, setRestaurantStatusData] = useState<ChartData<'doughnut'>>({
+    labels: t('dashboard.charts.restaurantStatus.labels', { returnObjects: true }) as string[],
+    datasets: [],
+  });
+
 
   useEffect(() => {
     const getGreeting = () => {
@@ -165,31 +172,62 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-       const token = localStorage.getItem('token'); // Or get it from context/state
+        const token = localStorage.getItem('token'); // Or get it from context/state
 
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    };
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        };
 
-    const [clientsRes, usersRes, restaurantsRes, ownersRes] = await Promise.all([
-      fetch(`${apiBaseUrl}/user/allClients`, { headers }),
-      fetch(`${apiBaseUrl}/user/all`, { headers }),
-      fetch(`${apiBaseUrl}/restaurant`, { headers }),
-      fetch(`${apiBaseUrl}/owner`, { headers }),
-    ]);
+        const [clientsRes, usersRes, restaurantsRes, ownersRes] = await Promise.all([
+          fetch(`${apiBaseUrl}/user/allClients`, { headers }),
+          fetch(`${apiBaseUrl}/user/all`, { headers }),
+          fetch(`${apiBaseUrl}/restaurant`, { headers }),
+          fetch(`${apiBaseUrl}/owner`, { headers }),
+        ]);
 
         if (!clientsRes.ok || !usersRes.ok || !restaurantsRes.ok || !ownersRes.ok) {
           throw new Error('One or more API requests failed');
         }
-const clientsData = await clientsRes.json();
-const usersData = await usersRes.json();
-const restaurantsData = await restaurantsRes.json();
-const ownersData = await ownersRes.json();
-       setTotalClients(clientsData.clients.length);
-setTotalUsers(usersData.users.length);
-setTotalRestaurants(restaurantsData.restaurants.length);
-setTotalManagers(ownersData.owners.length);
+        const clientsData = await clientsRes.json();
+        const usersData = await usersRes.json();
+        const restaurantsData = await restaurantsRes.json();
+        const ownersData = await ownersRes.json();
+
+        const numClients = clientsData.clients.length;
+        const numUsers = usersData.users.length;
+        const numRestaurants = restaurantsData.restaurants.length;
+        const numManagers = ownersData.owners.length;
+
+        setTotalClients(numClients);
+        setTotalUsers(numUsers);
+        setTotalRestaurants(numRestaurants);
+        setTotalManagers(numManagers);
+
+        // --- MODIFIED: Update the user statistics chart data ---
+        setUserStatsData({
+          labels: t('dashboard.charts.userStats.labels', { returnObjects: true }) as string[], // Ensure your i18n file has ["Restaurants", "Users", "Managers"]
+          datasets: [
+            {
+              label: t('dashboard.charts.userStats.label'),
+              data: [numRestaurants, numUsers, numManagers], // Data now reflects Restaurants, Users, and Managers
+              backgroundColor: ['#f97316', '#2563eb', '#10b981'], // Adjusted colors to match data
+              borderRadius: 5,
+            },
+          ],
+        });
+
+        setRestaurantStatusData({
+          labels: t('dashboard.charts.restaurantStatus.labels', { returnObjects: true }) as string[],
+          datasets: [
+            {
+              data: [numRestaurants, 200, 2600, 200], // Shows total restaurants
+              backgroundColor: ['#facc15', '#60a5fa', '#34d399', '#f87171'],
+              borderWidth: 1,
+            },
+          ],
+        });
+
       } catch (err) {
         console.error(err);
         setError('Failed to load dashboard data.');
@@ -199,16 +237,16 @@ setTotalManagers(ownersData.owners.length);
     };
 
     fetchAllData();
-  }, [apiBaseUrl]);
+  }, [apiBaseUrl, t]);
    useEffect(() => {
     const fetchUserData = async () => {
       setLoading(true);
-     
+
       try {
         const userId = localStorage.getItem('userId');
         const token = localStorage.getItem('token');
 
-    
+
 
         const response = await fetch(`${API_BASE_URL}/api/user/getOne/${userId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
@@ -221,16 +259,11 @@ setTotalManagers(ownersData.owners.length);
         const data = await response.json();
         const userData = data.user || data;
         setUser(userData);
-        
-        // --- MODIFIED: Use the helper to set a safe URL ---
-      
 
       } catch (err) {
        console.log(err)
-       
-        
-        // Fallback to default avatar on error
-       
+
+
       } finally {
         setLoading(false);
       }
@@ -238,28 +271,6 @@ setTotalManagers(ownersData.owners.length);
 
     fetchUserData();
   }, [API_BASE_URL]);
-  const userStats: ChartData<'bar'> = {
-    labels: t('dashboard.charts.userStats.labels', { returnObjects: true }) as string[],
-    datasets: [
-      {
-        label: t('dashboard.charts.userStats.label'),
-        data: [1200, 85, 3300],
-        backgroundColor: ['#2563eb', '#10b981', '#f97316'],
-        borderRadius: 5,
-      },
-    ],
-  };
-
-  const orderStatusData: ChartData<'doughnut'> = {
-    labels: t('dashboard.charts.restaurantStatus.labels', { returnObjects: true }) as string[],
-    datasets: [
-      {
-        data: [300, 200, 2600, 200],
-        backgroundColor: ['#facc15', '#60a5fa', '#34d399', '#f87171'],
-        borderWidth: 1,
-      },
-    ],
-  };
 
   const recentActivities = t('dashboard.recentActivities.activities', { returnObjects: true }) as string[];
 
@@ -320,8 +331,8 @@ setTotalManagers(ownersData.owners.length);
     <motion.div className="p-6 space-y-8" variants={containerVariants} initial="hidden" animate="visible">
       <div>
         <h1 className="text-3xl font-bold text-gray-800 dark:text-white flex items-center">
-          {t('dashboard.greeting.hello')} 
-          
+          {t('dashboard.greeting.hello')}
+
                {loading ? (
     // If loading, show a skeleton placeholder
     <span className="h-8 w-48 bg-gray-300 dark:bg-gray-700 rounded animate-pulse ml-2"></span>
@@ -371,12 +382,12 @@ setTotalManagers(ownersData.owners.length);
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-xl shadow dark:bg-gray-800">
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">{t('dashboard.charts.userStats.title')}</h3>
-          <Bar data={userStats} options={barChartOptions} />
+          <Bar data={userStatsData} options={barChartOptions} />
         </div>
 
         <div className="bg-white p-6 rounded-xl shadow dark:bg-gray-800">
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">{t('dashboard.charts.restaurantStatus.title')}</h3>
-          <Doughnut data={orderStatusData} options={doughnutOptions} />
+          <Doughnut data={restaurantStatusData} options={doughnutOptions} />
         </div>
       </div>
 
